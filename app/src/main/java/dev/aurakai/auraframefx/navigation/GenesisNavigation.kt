@@ -10,14 +10,21 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.aura.ui.AIChatScreen
+import dev.aurakai.auraframefx.aura.ui.AgentAdvancementScreen
 import dev.aurakai.auraframefx.aura.ui.AgentNexusScreen
+import dev.aurakai.auraframefx.aura.ui.AppBuilderScreen
 import dev.aurakai.auraframefx.aura.ui.CanvasScreen
 import dev.aurakai.auraframefx.aura.ui.ConferenceRoomScreen
+import dev.aurakai.auraframefx.aura.ui.ConsciousnessVisualizerScreen
+import dev.aurakai.auraframefx.aura.ui.EvolutionTreeScreen
 import dev.aurakai.auraframefx.aura.ui.FirewallScreen
 import dev.aurakai.auraframefx.aura.ui.FusionModeScreen
 import dev.aurakai.auraframefx.aura.ui.RootToolsScreen
+import dev.aurakai.auraframefx.aura.ui.SecureCommScreen
 import dev.aurakai.auraframefx.aura.ui.SentinelsFortressScreen
 import dev.aurakai.auraframefx.aura.ui.TerminalScreen
+import dev.aurakai.auraframefx.aura.ui.UIEngineScreen
+import dev.aurakai.auraframefx.aura.ui.XhancementScreen
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.OracleDriveScreen
 import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
@@ -361,6 +368,33 @@ fun GenesisNavigationHost(
                     navController = navController,
                     returnDestination = returnDestination
                 )
+            }
+
+            // ADDITIONAL AURA CREATIVE SCREENS
+            composable(GenesisRoutes.UI_ENGINE) {
+                UIEngineScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(GenesisRoutes.APP_BUILDER) {
+                AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(GenesisRoutes.XHANCEMENT) {
+                XhancementScreen(onNavigateBack = { navController.popBackStack() })
+            }
+
+            // AGENT ADVANCEMENT & EVOLUTION
+            composable(GenesisRoutes.AGENT_ADVANCEMENT) {
+                AgentAdvancementScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(GenesisRoutes.EVOLUTION_TREE) {
+                EvolutionTreeScreen(onNavigateBack = { navController.popBackStack() })
+            }
+            composable(GenesisRoutes.CONSCIOUSNESS_VISUALIZER) {
+                ConsciousnessVisualizerScreen(onNavigateBack = { navController.popBackStack() })
+            }
+
+            // KAI SECURITY SCREENS
+            composable(GenesisRoutes.SECURE_COMM) {
+                SecureCommScreen(onNavigateBack = { navController.popBackStack() })
             }
         }
     }
