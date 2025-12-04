@@ -203,7 +203,7 @@ fun SystemJournalScreen(
 }
 
 /**
- * Character Card (Pixel Art Style)
+ * Character Card (Pixel Art Style with Frame Animation)
  */
 @Composable
 fun CharacterCard(
@@ -221,6 +221,23 @@ fun CharacterCard(
         ),
         label = "glow"
     )
+
+    // Jump animation state for male character
+    var isJumping by remember { mutableStateOf(false) }
+    var currentFrame by remember { mutableStateOf(0) }
+
+    // Frame animation for jump (5 frames: idle, up1, up2, down1, down2)
+    LaunchedEffect(isJumping) {
+        if (isJumping && identity == GenderIdentity.KAI) {
+            // Play jump animation frames
+            for (frame in 0..4) {
+                currentFrame = frame
+                kotlinx.coroutines.delay(100) // 100ms per frame
+            }
+            currentFrame = 0 // Reset to idle
+            isJumping = false
+        }
+    }
 
     Box(
         modifier = Modifier
@@ -248,15 +265,48 @@ fun CharacterCard(
                 color = if (isSelected) identity.primaryColor.copy(alpha = glowAlpha) else Color.Gray.copy(alpha = 0.3f),
                 shape = RoundedCornerShape(12.dp)
             )
-            .clickable(onClick = onClick),
+            .clickable {
+                onClick()
+                if (identity == GenderIdentity.KAI) {
+                    isJumping = true
+                }
+            },
         contentAlignment = Alignment.Center
     ) {
-        // Pixel art character representation (using emoji for now)
-        Text(
-            text = identity.icon,
-            style = MaterialTheme.typography.displayLarge,
-            fontSize = 64.sp
-        )
+        // Male character with frame-by-frame animation
+        if (identity == GenderIdentity.KAI) {
+            val context = androidx.compose.ui.platform.LocalContext.current
+            val frameResId = when (currentFrame) {
+                0 -> context.resources.getIdentifier("gemini_generated_image_yceye4yceye4ycey", "drawable", context.packageName)
+                1 -> context.resources.getIdentifier("gemini_generated_image_selr70selr70selr", "drawable", context.packageName)
+                2 -> context.resources.getIdentifier("gemini_generated_image_wm2k3kwm2k3kwm2k", "drawable", context.packageName)
+                3 -> context.resources.getIdentifier("gemini_generated_image_nudtwdnudtwdnudt", "drawable", context.packageName)
+                4 -> context.resources.getIdentifier("gemini_generated_image_kjqxokkjqxokkjqx", "drawable", context.packageName)
+                else -> context.resources.getIdentifier("gemini_generated_image_yceye4yceye4ycey", "drawable", context.packageName)
+            }
+            
+            if (frameResId != 0) {
+                Image(
+                    painter = androidx.compose.ui.res.painterResource(id = frameResId),
+                    contentDescription = "Male Character",
+                    modifier = Modifier.fillMaxSize(0.9f)
+                )
+            } else {
+                // Fallback to emoji if images not found
+                Text(
+                    text = identity.icon,
+                    style = MaterialTheme.typography.displayLarge,
+                    fontSize = 64.sp
+                )
+            }
+        } else {
+            // Female character (using emoji for now)
+            Text(
+                text = identity.icon,
+                style = MaterialTheme.typography.displayLarge,
+                fontSize = 64.sp
+            )
+        }
 
         // Holographic platform effect
         if (isSelected) {
