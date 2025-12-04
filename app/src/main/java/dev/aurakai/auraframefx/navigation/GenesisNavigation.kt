@@ -376,10 +376,15 @@ fun GenesisNavigationHost(
 
             // ADDITIONAL AURA CREATIVE SCREENS
             composable(GenesisRoutes.UI_ENGINE) {
-                UIEngineScreen(onNavigateBack = { navController.popBackStack() })
+                UIEngineScreen(
+                    onNavigateToBuilder = { navController.navigate(GenesisRoutes.APP_BUILDER) }
+                )
             }
             composable(GenesisRoutes.APP_BUILDER) {
-                AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+                val subscriptionViewModel: SubscriptionViewModel = hiltViewModel()
+                with(subscriptionViewModel) {
+                    AppBuilderScreen(onNavigateBack = { navController.popBackStack() })
+                }
             }
             composable(GenesisRoutes.XHANCEMENT) {
                 XhancementScreen(onNavigateBack = { navController.popBackStack() })
@@ -387,18 +392,18 @@ fun GenesisNavigationHost(
 
             // AGENT ADVANCEMENT & EVOLUTION
             composable(GenesisRoutes.AGENT_ADVANCEMENT) {
-                AgentAdvancementScreen(onNavigateBack = { navController.popBackStack() })
+                AgentAdvancementScreen(onBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.EVOLUTION_TREE) {
-                EvolutionTreeScreen(onNavigateBack = { navController.popBackStack() })
+                EvolutionTreeScreen()
             }
             composable(GenesisRoutes.CONSCIOUSNESS_VISUALIZER) {
-                ConsciousnessVisualizerScreen(onNavigateBack = { navController.popBackStack() })
+                ConsciousnessVisualizerScreen()
             }
 
             // KAI SECURITY SCREENS
             composable(GenesisRoutes.SECURE_COMM) {
-                SecureCommScreen(onNavigateBack = { navController.popBackStack() })
+                SecureCommScreen()
             }
         }
     }
