@@ -10,6 +10,10 @@ import dev.aurakai.auraframefx.ui.theme.CyberpunkPink
 import dev.aurakai.auraframefx.ui.theme.CyberpunkPurple
 import dev.aurakai.auraframefx.utils.GyroscopeManager
 import dev.aurakai.auraframefx.iconify.IconifyService
+import dev.aurakai.auraframefx.utils.VoiceCommandManager
+import dev.aurakai.auraframefx.utils.VoiceCommandProcessor
+import dev.aurakai.auraframefx.utils.VoiceCommand
+import dev.aurakai.auraframefx.utils.VoiceState
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -30,7 +34,9 @@ import javax.inject.Inject
 class CustomizationViewModel @Inject constructor(
     application: Application,
     private val gyroscopeManager: GyroscopeManager,
-    val iconifyService: IconifyService // Public so UI can access it
+    val iconifyService: IconifyService, // Public so UI can access it
+    private val voiceCommandManager: VoiceCommandManager,
+    private val voiceCommandProcessor: VoiceCommandProcessor
 ) : AndroidViewModel(application) {
 
     private val _customizationState = MutableStateFlow(CustomizationState())
@@ -41,6 +47,9 @@ class CustomizationViewModel @Inject constructor(
 
     private val _aiResponse = MutableStateFlow<String?>(null)
     val aiResponse: StateFlow<String?> = _aiResponse.asStateFlow()
+
+    // Voice command state
+    val voiceState: StateFlow<VoiceState> = voiceCommandManager.voiceState
 
     /**
      * Start gyroscope sensor
@@ -343,6 +352,133 @@ class CustomizationViewModel @Inject constructor(
             else -> "Cyberpunk theme"
         }
         processAIPrompt(prompt)
+    }
+
+    // ============================================================================
+    // Voice Command Methods
+    // ============================================================================
+
+    /**
+     * Start listening for voice commands
+     */
+    fun startVoiceListening() {
+        Timber.d("Starting voice listening")
+        voiceCommandManager.startListening()
+    }
+
+    /**
+     * Stop listening for voice commands
+     */
+    fun stopVoiceListening() {
+        Timber.d("Stopping voice listening")
+        voiceCommandManager.stopListening()
+    }
+
+    /**
+     * Process voice command result
+     */
+    fun processVoiceCommand(text: String) {
+        viewModelScope.launch {
+            try {
+                Timber.d("Processing voice command: $text")
+                val command = voiceCommandProcessor.processCommand(text)
+                
+                when (command) {
+                    is VoiceCommand.ChangeTheme -> {
+                        _aiResponse.value = "Applying ${command.themeName} theme"
+                        processAIPrompt(command.themeName)
+                    }
+                    
+                    is VoiceCommand.MoveComponent -> {
+                        _aiResponse.value = "Moving ${command.componentName} ${command.direction}"
+                        moveComponentByVoice(command.componentName, command.direction, command.amount)
+                    }
+                    
+                    is VoiceCommand.RotateComponent -> {
+                        _aiResponse.value = "Rotating ${command.componentName} ${command.degrees}°"
+                        rotateComponentByVoice(command.componentName, command.degrees)
+                    }
+                    
+                    is VoiceCommand.ChangeColor -> {
+                        _aiResponse.value = "Changing ${command.componentName} color"
+                        changeComponentColorByVoice(command.componentName, command.color)
+                    }
+                    
+                    is VoiceCommand.ChangeOpacity -> {
+                        _aiResponse.value = "Adjusting ${command.componentName} opacity"
+                        changeComponentOpacityByVoice(command.componentName, command.opacity)
+                    }
+                    
+                    is VoiceCommand.ChangeVisibility -> {
+                        val action = if (command.visible) "Showing" else "Hiding"
+                        _aiResponse.value = "$action ${command.componentName}"
+                        changeComponentVisibilityByVoice(command.componentName, command.visible)
+                    }
+                    
+                    is VoiceCommand.ScaleComponent -> {
+                        _aiResponse.value = "Scaling ${command.componentName}"
+                        scaleComponentByVoice(command.componentName, command.scale)
+                    }
+                    
+                    is VoiceCommand.ResetComponent -> {
+                        _aiResponse.value = "Resetting ${command.componentName}"
+                        resetComponentByVoice(command.componentName)
+                    }
+                    
+                    is VoiceCommand.Invalid -> {
+                        _aiResponse.value = "Sorry, ${command.reason}"
+                        Timber.w("Invalid voice command: ${command.reason}")
+                    }
+                }
+            } catch (e: Exception) {
+                Timber.e(e, "Failed to process voice command")
+                _aiResponse.value = "Sorry, I couldn't process that command"
+            }
+        }
+    }
+
+    private fun moveComponentByVoice(componentName: String, direction: String, amount: Float) {
+        val component = _components.value.find { it.name == componentName } ?: return
+        val updated = when (direction) {
+            "up" -> component.copy(position = component.position.copy(y = component.position.y - amount))
+            "down" -> component.copy(position = component.position.copy(y = component.position.y + amount))
+            "left" -> component.copy(position = component.position.copy(x = component.position.x - amount))
+            "right" -> component.copy(position = component.position.copy(x = component.position.x + amount))
+            else -> component
+        }
+        updateComponent(updated)
+    }
+
+    private fun rotateComponentByVoice(componentName: String, degrees: Float) {
+        val component = _components.value.find { it.name == componentName } ?: return
+        updateComponent(component.copy(rotation = degrees))
+    }
+
+    private fun changeComponentColorByVoice(componentName: String, color: Color) {
+        val component = _components.value.find { it.name == componentName } ?: return
+        updateComponent(component.copy(backgroundColor = color))
+    }
+
+    private fun changeComponentOpacityByVoice(componentName: String, opacity: Float) {
+        val component = _components.value.find { it.name == componentName } ?: return
+        val newOpacity = (component.opacity + opacity).coerceIn(0f, 1f)
+        updateComponent(component.copy(opacity = newOpacity))
+    }
+
+    private fun changeComponentVisibilityByVoice(componentName: String, visible: Boolean) {
+        val component = _components.value.find { it.name == componentName } ?: return
+        updateComponent(component.copy(isVisible = visible))
+    }
+
+    private fun scaleComponentByVoice(componentName: String, scale: Float) {
+        val component = _components.value.find { it.name == componentName } ?: return
+        updateComponent(component.copy(scale = scale))
+    }
+
+    private fun resetComponentByVoice(componentName: String) {
+        // Find the original component from default list and reset to it
+        val defaultComponent = getDefaultComponents().find { it.name == componentName } ?: return
+        updateComponent(defaultComponent)
     }
 }
 

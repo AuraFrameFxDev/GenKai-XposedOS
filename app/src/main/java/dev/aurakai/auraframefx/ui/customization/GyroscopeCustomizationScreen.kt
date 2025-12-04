@@ -36,6 +36,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import dev.aurakai.auraframefx.ui.theme.CyberpunkCyan
 import dev.aurakai.auraframefx.ui.theme.CyberpunkPink
 import dev.aurakai.auraframefx.ui.theme.CyberpunkPurple
+import dev.aurakai.auraframefx.utils.VoiceState
 import kotlin.math.*
 
 /**
@@ -45,6 +46,7 @@ import kotlin.math.*
  * - 3D phone model rotates with gyroscope
  * - Granular Component Editor for UI elements
  * - AI prompt interface for customizations
+ * - Voice control ("Hey Aura, move the status bar down")
  * - Real-time visual preview
  *
  * Tilt your phone to rotate the 3D preview!
@@ -61,6 +63,7 @@ fun GyroscopeCustomizationScreen(
     val aiResponse by viewModel.aiResponse.collectAsState()
     val components by viewModel.components.collectAsState()
     val selectedComponent by viewModel.selectedComponent.collectAsState()
+    val voiceState by viewModel.voiceState.collectAsState()
 
     var promptText by remember { mutableStateOf("") }
     var showPromptBar by remember { mutableStateOf(true) }
@@ -75,6 +78,22 @@ fun GyroscopeCustomizationScreen(
     DisposableEffect(Unit) {
         onDispose {
             viewModel.stopGyroscope()
+            viewModel.stopVoiceListening()
+        }
+    }
+
+    // Handle voice command results
+    LaunchedEffect(voiceState) {
+        when (val state = voiceState) {
+            is VoiceState.Result -> {
+                viewModel.processVoiceCommand(state.text)
+                viewModel.stopVoiceListening()
+            }
+            is VoiceState.Error -> {
+                // Auto-stop on error
+                viewModel.stopVoiceListening()
+            }
+            else -> {}
         }
     }
 
@@ -111,6 +130,26 @@ fun GyroscopeCustomizationScreen(
                     }
                 },
                 actions = {
+                    // Voice Control Button
+                    IconButton(
+                        onClick = {
+                            when (voiceState) {
+                                is VoiceState.Listening -> viewModel.stopVoiceListening()
+                                else -> viewModel.startVoiceListening()
+                            }
+                        }
+                    ) {
+                        Icon(
+                            imageVector = if (voiceState is VoiceState.Listening) Icons.Default.MicOff else Icons.Default.Mic,
+                            contentDescription = "Voice Control",
+                            tint = when (voiceState) {
+                                is VoiceState.Listening -> Color.Red
+                                is VoiceState.Processing -> Color.Yellow
+                                else -> Color.White
+                            }
+                        )
+                    }
+                    
                     // Toggle Component List
                     IconButton(onClick = { showComponentList = !showComponentList }) {
                         Icon(
@@ -204,20 +243,51 @@ fun GyroscopeCustomizationScreen(
                     )
                 }
             } else if (showPromptBar) {
-                // Show AI Prompt Bar
-                AIPromptBar(
-                    promptText = promptText,
-                    onPromptChange = { promptText = it },
-                    onSubmit = {
-                        if (promptText.isNotBlank()) {
-                            viewModel.processAIPrompt(promptText)
-                            promptText = ""
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    // Voice Status Indicator
+                    when (val state = voiceState) {
+                        is VoiceState.Listening -> {
+                            VoiceStatusCard(
+                                message = "🎤 Listening... Say 'Hey Aura' followed by your command",
+                                color = Color.Red
+                            )
                         }
-                    },
-                    aiResponse = aiResponse,
-                    isLoading = customizationState.isProcessing,
-                    modifier = Modifier.fillMaxWidth()
-                )
+                        is VoiceState.Processing -> {
+                            VoiceStatusCard(
+                                message = "⚙️ Processing your command...",
+                                color = Color.Yellow
+                            )
+                        }
+                        is VoiceState.PartialResult -> {
+                            VoiceStatusCard(
+                                message = "📝 ${state.text}",
+                                color = CyberpunkCyan
+                            )
+                        }
+                        is VoiceState.Error -> {
+                            VoiceStatusCard(
+                                message = "❌ ${state.message}",
+                                color = Color.Red.copy(alpha = 0.7f)
+                            )
+                        }
+                        else -> {}
+                    }
+                    
+                    // Show AI Prompt Bar
+                    AIPromptBar(
+                        promptText = promptText,
+                        onPromptChange = { promptText = it },
+                        onSubmit = {
+                            if (promptText.isNotBlank()) {
+                                viewModel.processAIPrompt(promptText)
+                                promptText = ""
+                            }
+                        },
+                        aiResponse = aiResponse,
+                        isLoading = customizationState.isProcessing,
+                        modifier = Modifier.fillMaxWidth()
+                    )
+                }
             }
         }
     }
@@ -773,3 +843,38 @@ data class Star(
     val size: Float,
     val twinkleSpeed: Float
 )
+
+/**
+ * Voice Status Card
+ */
+@Composable
+fun VoiceStatusCard(
+    message: String,
+    color: Color,
+    modifier: Modifier = Modifier
+) {
+    Card(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp, vertical = 8.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = color.copy(alpha = 0.2f)
+        ),
+        border = androidx.compose.foundation.BorderStroke(1.dp, color)
+    ) {
+        Row(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = message,
+                style = MaterialTheme.typography.bodyMedium,
+                color = Color.White,
+                modifier = Modifier.weight(1f)
+            )
+        }
+    }
+}
+
