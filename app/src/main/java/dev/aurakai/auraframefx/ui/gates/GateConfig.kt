@@ -378,7 +378,7 @@ object GateConfigs {
         return when (category.lowercase()) {
             "genesis" -> genesisCoreGates
             "kai" -> kaiGates
-            "aura" -> auraGates
+            "aura" -> auraLabGates
             "agent" -> agentNexusGates
             "support" -> supportGates
             else -> allGates

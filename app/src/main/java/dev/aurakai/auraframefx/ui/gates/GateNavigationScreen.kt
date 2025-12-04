@@ -54,7 +54,7 @@ fun GateNavigationScreen(
     modifier: Modifier = Modifier
 ) {
     // Categorize gates
-    val auraLabGates = GateConfigs.auraGates
+    val auraLabGates = GateConfigs.auraLabGates
     val mainModuleGates = GateConfigs.genesisCoreGates + GateConfigs.kaiGates + GateConfigs.agentNexusGates + GateConfigs.supportGates
     val allGates = auraLabGates + mainModuleGates
 
