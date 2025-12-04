@@ -310,18 +310,18 @@ object GateConfigs {
         route = "uiux_design_studio"
     )
 
-    // User Preferences - Settings & Configuration
-    val userPreferences = GateConfig(
-        moduleId = "user-preferences",
-        title = "Preferences",
+    // System Journal - User Profile & Menu
+    val systemJournal = GateConfig(
+        moduleId = "system-journal",
+        title = "System Journal",
         titleStyle = UNIFIED_TITLE_STYLE,
         borderColor = UNIFIED_BORDER_COLOR,
         glowColor = UNIFIED_GLOW_COLOR,
         secondaryGlowColor = UNIFIED_SECONDARY_GLOW,
         pixelArtUrl = "gate_settings_final",
-        description = "Manage account settings, app behavior, security preferences, UI customization, and feature flags.",
+        description = "User profile selection and quick menu access. Choose your AI companion identity and navigate to key features.",
         backgroundColor = Color.Black,
-        route = "user_preferences"
+        route = "system_journal"
     )
 
     /** Aura Lab - UI/UX & Creativity */
@@ -355,7 +355,7 @@ object GateConfigs {
     val supportGates = listOf(
         helpDesk,
         terminal,
-        userPreferences,
+        systemJournal,
         lsposedGate
     )
 

@@ -55,6 +55,7 @@ import dev.aurakai.auraframefx.ui.gates.UIUXGateSubmenuScreen
 import dev.aurakai.auraframefx.ui.gates.UserPreferencesScreen
 import dev.aurakai.auraframefx.ui.customization.GyroscopeCustomizationScreen
 import dev.aurakai.auraframefx.ui.onboarding.GenderSelectionScreen
+import dev.aurakai.auraframefx.ui.gates.SystemJournalScreen
 import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -160,6 +161,7 @@ object GenesisRoutes {
     
     // Onboarding
     const val GENDER_SELECTION = "gender_selection"
+    const val SYSTEM_JOURNAL = "system_journal"
 }
 
 /**
@@ -374,7 +376,10 @@ fun GenesisNavigationHost(
 
             // USER PREFERENCES AND AUTHENTICATION
             composable("user_preferences") {
-                UserPreferencesScreen(navController = navController)
+                SystemJournalScreen(navController = navController)
+            }
+            composable(GenesisRoutes.SYSTEM_JOURNAL) {
+                SystemJournalScreen(navController = navController)
             }
             composable("login") {
                 val returnDestination = it.arguments?.getString("returnTo")
