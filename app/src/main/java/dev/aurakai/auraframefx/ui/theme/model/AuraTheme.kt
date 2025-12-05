@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.aura.themes
+package dev.aurakai.auraframefx.ui.theme.model
 
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.runtime.Composable

@@ -13,9 +13,8 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.models
 
-import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -32,11 +31,11 @@ data class OrchestrationRequest(
 
     /* The instruction or query for the orchestrator to manage. */
     @SerialName(value = "instruction")
-    val instruction: kotlin.String,
+    val instruction: String,
 
     /* Specific agents to involve in the orchestration (optional). */
     @SerialName(value = "targetAgents")
-    val targetAgents: kotlin.collections.List<@Contextual AgentType>? = null,
+    val targetAgents: List<@Contextual AgentType>? = null,
 
     )
 

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ai.capabilities
+package dev.aurakai.auraframefx.config
 
 /**
  * Defines the capabilities and permissions for an AI agent when interacting with Firebase services.

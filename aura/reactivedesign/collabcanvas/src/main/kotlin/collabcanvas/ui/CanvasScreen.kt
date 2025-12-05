@@ -25,7 +25,6 @@ import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.Highlight
 import androidx.compose.material.icons.filled.Palette
 import androidx.compose.material.icons.filled.Rectangle
-import androidx.compose.material.icons.filled.Redo
 import androidx.compose.material.icons.filled.Straighten
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -126,7 +125,7 @@ fun CanvasScreen(
         collaborationEvents?.collectLatest { operation -> paths.add(operation) }
     }
 
-    val backgroundColor = MaterialTheme.colorScheme.background
+    val backgroundColor = colorScheme.background
 
     Box(modifier = modifier.fillMaxSize()) {
         // --- Drawing elements are now placed in Composable scopes (Canvas) ---
@@ -455,7 +454,7 @@ fun CanvasScreen(
 
 // Extension functions
 private fun Offset.toSize() = Size(x, y)
-private fun Size.toOffset() = Offset(width, height)
+private fun Size.toOffset(): Offset = Offset(width, height)
 
 @Preview(showBackground = true)
 @Composable

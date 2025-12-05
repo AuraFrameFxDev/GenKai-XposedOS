@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.theme
+package dev.aurakai.auraframefx.ui.theme.model
 
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.darkColorScheme
@@ -33,7 +33,7 @@ object CyberpunkTheme : AuraTheme {
     override val name = "Cyberpunk"
     override val description = "High-energy neon aesthetics for a futuristic feel"
     override val accentColor = Color(0xFF00FFFF) // Cyan neon
-    override val animationStyle = AuraTheme.AnimationStyle.ENERGETIC
+    override val animationStyle: ENERGETIC = AnimationStyle.ENERGETIC
 
     override val lightColorScheme = lightColorScheme(
         primary = Color(0xFF00FFFF),
@@ -82,7 +82,7 @@ object SolarFlareTheme : AuraTheme {
     override val name = "Solar Flare"
     override val description = "Warm, energizing colors to brighten your day"
     override val accentColor = Color(0xFFFFB000) // Golden orange
-    override val animationStyle = AuraTheme.AnimationStyle.PULSING
+    override val animationStyle = AnimationStyle.PULSING
 
     override val lightColorScheme = lightColorScheme(
         primary = Color(0xFFFFB000),
@@ -131,7 +131,7 @@ object ForestTheme : AuraTheme {
     override val name = "Forest"
     override val description = "Natural, calming colors for peace and focus"
     override val accentColor = Color(0xFF4CAF50) // Forest green
-    override val animationStyle = AuraTheme.AnimationStyle.FLOWING
+    override val animationStyle = AnimationStyle.FLOWING
 
     override val lightColorScheme = lightColorScheme(
         primary = Color(0xFF4CAF50),
@@ -180,5 +180,5 @@ object ForestTheme : AuraTheme {
  */
 @Composable
 fun AuraTheme.getColorScheme(isDarkTheme: Boolean): ColorScheme {
-    return if (isDarkTheme) darkColorScheme else lightColorScheme
+    return if (isDarkTheme) AuraTheme.darkColorScheme else AuraTheme.lightColorScheme
 }

@@ -13,7 +13,7 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.aura.animations
 
 
 import kotlinx.serialization.SerialName
@@ -30,13 +30,13 @@ import kotlinx.serialization.Serializable
 data class LockScreenConfigAnimation(
 
     @SerialName(value = "enabled")
-    val enabled: kotlin.Boolean? = null,
+    val enabled: Boolean? = null,
 
     /* Type of animation effect to apply */
     @SerialName(value = "animationType")
-    val animationType: LockScreenConfigAnimation.AnimationType? = null,
+    val animationType: AnimationType? = null,
 
-    ) : kotlin.collections.HashMap<String, kotlin.Any>() {
+    ) : HashMap<String, Any>() {
 
     /**
      * Type of animation effect to apply
@@ -44,7 +44,7 @@ data class LockScreenConfigAnimation(
      * Values: Fade,Slide,Zoom
      */
     @Serializable
-    enum class AnimationType(val value: kotlin.String) {
+    enum class AnimationType(val value: String) {
         @SerialName(value = "Fade")
         Fade("Fade"),
 

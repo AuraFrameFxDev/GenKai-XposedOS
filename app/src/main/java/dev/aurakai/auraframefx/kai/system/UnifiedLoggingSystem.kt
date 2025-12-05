@@ -514,19 +514,16 @@ class UnifiedLoggingSystem @Inject constructor(
 
             synchronized(errorPatterns) {
                 val existing = errorPatterns[errorKey]
-                val newPattern = if (existing == null) {
-                    ErrorPattern(
+                val newPattern = existing?.copy(
+                    count = existing.count + 1,
+                    lastOccurrence = currentTime
+                )
+                    ?: ErrorPattern(
                         message = logEntry.message,
                         count = 1,
                         firstOccurrence = currentTime,
                         lastOccurrence = currentTime
                     )
-                } else {
-                    existing.copy(
-                        count = existing.count + 1,
-                        lastOccurrence = currentTime
-                    )
-                }
 
                 errorPatterns[errorKey] = newPattern
 

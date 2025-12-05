@@ -2,8 +2,8 @@ package collabcanvas.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import collabcanvas.network.CanvasWebSocketEvent
-import collabcanvas.network.CanvasWebSocketService
+import collabcanvas.CanvasWebSocketEvent
+import collabcanvas.CanvasWebSocketService
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.asSharedFlow
@@ -22,7 +22,7 @@ class CanvasViewModel @Inject constructor(
 ) : ViewModel() {
 
     private val _connectionStatus = MutableSharedFlow<String>()
-    val connectionStatus = _connectionStatus.asSharedFlow()
+    fun getConnectionStatus() = _connectionStatus.asSharedFlow()
 
     val webSocketEvents = webSocketService.events
 
@@ -34,7 +34,8 @@ class CanvasViewModel @Inject constructor(
      * @param canvasId Unique identifier for the canvas session
      */
     fun connect(canvasId: String = "default-canvas") {
-        if (isConnected) {
+        if (this.isConnected
+        ) {
             Timber.d("Already connected to canvas $canvasId")
             return
         }

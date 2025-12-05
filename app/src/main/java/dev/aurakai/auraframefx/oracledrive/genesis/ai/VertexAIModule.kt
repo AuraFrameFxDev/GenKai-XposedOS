@@ -7,7 +7,7 @@ import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.BuildConfig
-import dev.aurakai.auraframefx.ai.VertexAIConfig
+import dev.aurakai.auraframefx.config.VertexAIConfig
 import dev.aurakai.auraframefx.ai.clients.RealVertexAIClientImpl
 import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.ai.clients.VertexAIClientImpl

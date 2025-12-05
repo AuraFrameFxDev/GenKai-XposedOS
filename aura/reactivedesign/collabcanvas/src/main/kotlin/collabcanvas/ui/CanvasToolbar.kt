@@ -115,8 +115,8 @@ fun CanvasToolbar(
     onClear: () -> Unit,
     modifier: Modifier = Modifier
 ) {
-    var showColorPicker by remember { mutableStateOf(false) }
-    var showStrokeSelector by remember { mutableStateOf(false) }
+    var showColorPicker: Boolean by remember { mutableStateOf(false) }
+    var showStrokeSelector: Boolean by remember { mutableStateOf(false) }
 
     Column(
         modifier = modifier

@@ -39,6 +39,7 @@ import androidx.compose.ui.unit.sp
  * @param onLaunchSphereGrid Callback invoked when the "Launch Sphere Grid" button is clicked.
  * Use this to navigate to the full 3D sphere grid visualization screen.
  */
+@JvmOverloads
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun SimpleDataVeinScreen(

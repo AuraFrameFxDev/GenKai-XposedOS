@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system.homescreen
+package dev.aurakai.auraframefx.aura.animations
 
 enum class HomeScreenTransitionType {
     GLOBE_ROTATE,

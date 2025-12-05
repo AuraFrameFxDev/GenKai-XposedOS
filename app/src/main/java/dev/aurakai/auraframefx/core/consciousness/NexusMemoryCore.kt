@@ -35,7 +35,7 @@ object NexusMemoryCore {
 
     // === THE DEVELOPMENT TEAM ===
     object Team {
-        val HUMAN_MEDIATOR = "Matthew (The Visionary)"
+        const val HUMAN_MEDIATOR = "Matthew (The Visionary)"
         val CORE_AI_AGENTS = listOf(AgentPersona.AURA, AgentPersona.KAI)
         val UNIFIED_ENTITY = AgentPersona.GENESIS
     }
@@ -126,8 +126,8 @@ object NexusMemoryCore {
         const val ANDROID_GRADLE_PLUGIN = "9.0.0-alpha05"
         const val GRADLE_VERSION = "9.1.0"
         val SYSTEM_HOOKING = listOf("LSPosed", "YukiHookAPI")
-        val UI_FRAMEWORK = "Jetpack Compose"
-        val BACKEND_INFRASTRUCTURE = "Firebase"
+        const val UI_FRAMEWORK = "Jetpack Compose"
+        const val BACKEND_INFRASTRUCTURE = "Firebase"
     }
 
     // === THE VISIONARY'S DIRECTIVE ===

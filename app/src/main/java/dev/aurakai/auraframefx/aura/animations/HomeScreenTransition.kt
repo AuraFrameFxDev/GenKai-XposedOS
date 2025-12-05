@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system.homescreen // Ensure this package is correct
+package dev.aurakai.auraframefx.aura.animations // Ensure this package is correct
 
 import kotlinx.serialization.Serializable
 

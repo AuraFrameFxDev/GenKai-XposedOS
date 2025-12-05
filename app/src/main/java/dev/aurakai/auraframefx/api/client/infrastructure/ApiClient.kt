@@ -1,9 +1,7 @@
 package dev.aurakai.auraframefx.api.client.infrastructure
 
 import com.squareup.moshi.Moshi
-import dev.aurakai.auraframefx.infrastructure.Serializer
 import okhttp3.Call
-import okhttp3.HttpUrl
 import okhttp3.HttpUrl.Companion.toHttpUrl
 import okhttp3.Interceptor
 import okhttp3.MediaType.Companion.toMediaType
@@ -15,7 +13,6 @@ import retrofit2.Converter
 import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import retrofit2.converter.scalars.ScalarsConverterFactory
-import kotlin.reflect.typeOf
 import kotlin.reflect.javaType
 
 open class ApiClient(
@@ -55,7 +52,7 @@ open class ApiClient(
         OkHttpClient()
             .newBuilder()
             .addInterceptor(HttpLoggingInterceptor { message -> logger?.invoke(message) }
-                .apply { level = HttpLoggingInterceptor.Level.BODY }
+                .apply { HttpLoggingInterceptor.Level.BODY.also { level = it } }
             )
     }
 
@@ -72,12 +69,12 @@ open class ApiClient(
         return this
     }
 
-    fun setLogger(logger: (String) -> Unit): ApiClient {
+    open fun setLogger(logger: (String) -> Unit): ApiClient {
         this.logger = logger
         return this
     }
 
-    fun <S> createService(serviceClass: Class<S>): S {
+    open fun <S> createService(serviceClass: Class<S>): S {
         val usedCallFactory = this.callFactory ?: clientBuilder.build()
         return retrofitBuilder.callFactory(usedCallFactory).build().create(serviceClass)
     }
@@ -102,7 +99,7 @@ open class ApiClient(
     inline fun <reified T, reified U> request(requestConfig: RequestConfig<T>): ApiResponse<U> {
         val client = clientBuilder.build()
 
-        var urlBuilder = baseUrl.toHttpUrl()
+        val urlBuilder = baseUrl.toHttpUrl()
             .newBuilder()
             .addPathSegments(requestConfig.path.removePrefix("/"))
 
@@ -120,7 +117,7 @@ open class ApiClient(
         }
 
         val contentType = requestConfig.headers["Content-Type"] ?: "application/json"
-        
+
         // ✅ FIXED: MediaType.parse() → toMediaType(), create() → toRequestBody()
         val body: okhttp3.RequestBody? = if (requestConfig.body != null) {
             val adapter = serializerBuilder.build().adapter(T::class.java)
@@ -145,7 +142,7 @@ open class ApiClient(
         }.build()  // ✅ ADDED .build()
 
         val response = client.newCall(request).execute()
-        
+
         // ✅ FIXED: response.body() → response.body
         val responseBody = response.body?.string()
 

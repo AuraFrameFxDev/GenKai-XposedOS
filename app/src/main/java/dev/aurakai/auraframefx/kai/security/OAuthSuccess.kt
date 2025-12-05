@@ -13,7 +13,7 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.kai.security
 
 
 import kotlinx.serialization.SerialName
@@ -33,19 +33,19 @@ data class OAuthSuccess(
 
     /* The access token for API calls. */
     @SerialName(value = "accessToken")
-    val accessToken: kotlin.String,
+    val accessToken: String,
 
     /* Type of the token (e.g., \"Bearer\"). */
     @SerialName(value = "tokenType")
-    val tokenType: kotlin.String,
+    val tokenType: String,
 
     /* Time in seconds until the access token expires. */
     @SerialName(value = "expiresIn")
-    val expiresIn: kotlin.Int,
+    val expiresIn: Int,
 
     /* Token to refresh the access token (if applicable). */
     @SerialName(value = "refreshToken")
-    val refreshToken: kotlin.String? = null,
+    val refreshToken: String? = null,
 
     )
 

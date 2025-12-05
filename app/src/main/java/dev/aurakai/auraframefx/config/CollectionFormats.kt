@@ -1,4 +1,4 @@
-package org.openapitools.client.infrastructure
+package dev.aurakai.auraframefx.config
 
 class CollectionFormats {
 

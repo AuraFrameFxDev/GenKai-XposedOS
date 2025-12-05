@@ -22,5 +22,5 @@ object RepositoryModule {
     @Singleton
     fun provideTrinityRepository(
         apiService: AuraApiServiceWrapper
-    ): TrinityRepository = TrinityRepository(apiService,)
+    ): TrinityRepository = TrinityRepository(apiService)
 }

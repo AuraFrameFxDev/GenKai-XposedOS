@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system.overlay.model
+package dev.aurakai.auraframefx.aura.animations
 
 // Basic placeholder
 data class OverlayAnimation(

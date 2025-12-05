@@ -52,7 +52,7 @@ fun ColorBlendrPickerPreview() {
                     modifier = Modifier.padding(bottom = 8.dp)
                 )
 
-                // The actual ColorBlendr picker
+                // The actual ChromaCore picker
                 ColorBlendrPicker(
                     initialColor = selectedColor,
                     onColorSelected = { selectedColor = it },

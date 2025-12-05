@@ -6,13 +6,12 @@ import dev.aurakai.auraframefx.models.InteractionResponse
 import dev.aurakai.auraframefx.models.agent_states.ActiveThreat
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.utils.toJsonObject
-import java.io.Serializable
 
 /**
  * Base Agent class for AI agents in the AuraFrameFX system.
  * Provides common functionality and lifecycle management for all agents.
  */
-abstract class BaseAgent(agentName: String) {
+abstract class BaseAgent internal constructor(agentName: String) {
 
     abstract val agentName: String
     abstract val agentType: String
@@ -62,7 +61,8 @@ abstract class BaseAgent(agentName: String) {
     /**
      * Handles errors in a consistent way
      */
-    protected fun handleError(error: Throwable, context: String = ""): AgentResponse {
+    context(context: String) @JvmOverloads
+    open fun handleError(error: Throwable): AgentResponse {
         val errorMessage = when (error) {
             is IllegalArgumentException -> "Invalid input: ${error.message}"
             is SecurityException -> "Security error: Access denied"

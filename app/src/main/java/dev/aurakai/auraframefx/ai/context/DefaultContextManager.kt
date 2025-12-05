@@ -106,7 +106,7 @@ class DefaultContextManager(
 
         // Create a contextual insight
         val insight = "Request complexity: $complexity. Key patterns: ${
-            extractKeywords(request + " " + response).take(3)
+            extractKeywords("$request $response").take(3)
         }"
         val timestamp = System.currentTimeMillis()
 

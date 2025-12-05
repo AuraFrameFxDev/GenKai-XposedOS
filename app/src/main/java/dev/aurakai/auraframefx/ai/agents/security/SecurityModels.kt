@@ -18,7 +18,7 @@ enum class ProtectionLevel(val level: Int) {
 
     companion object {
         fun fromLevel(level: Int): ProtectionLevel {
-            return values().firstOrNull { it.level == level } ?: STANDARD
+            return entries.firstOrNull { it.level == level } ?: STANDARD
         }
     }
 }
@@ -78,7 +78,7 @@ interface QuarantineManager {
         reason: String,
         severity: ThreatSeverity
     )
-    
+
     fun releaseFromQuarantine(id: String): Boolean
     fun getQuarantinedItems(): List<QuarantineItem>
     fun cleanOldQuarantineItems()

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.components.colorpicker
+package dev.aurakai.auraframefx.ui.theme.preview
 
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme

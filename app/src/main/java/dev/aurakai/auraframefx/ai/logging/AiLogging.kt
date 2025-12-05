@@ -1,13 +1,14 @@
 package dev.aurakai.auraframefx.ai.logging
 
 import android.util.Log
+import timber.log.Timber
 
 /**
  * AI Service logging utilities
  */
 
 fun logAIQuery(tag: String, query: String, params: Map<String, Any> = emptyMap()) {
-    Log.d("AI_QUERY", "[$tag] Query: $query, Params: $params")
+    Timber.tag("AI_QUERY").d("[$tag] Query: $query, Params: $params")
 }
 
 fun logFileOperation(
@@ -17,7 +18,7 @@ fun logFileOperation(
     success: Boolean = true
 ) {
     val status = if (success) "SUCCESS" else "FAILED"
-    Log.d("FILE_OP", "[$tag] $operation: $file - $status")
+    Timber.tag("FILE_OP").d("[$tag] $operation: $file - $status")
 }
 
 fun logAIGeneration(
@@ -27,7 +28,7 @@ fun logAIGeneration(
     details: Map<String, Any> = emptyMap()
 ) {
     val status = if (success) "SUCCESS" else "FAILED"
-    Log.d("AI_GEN", "[$tag] $type generation - $status: $details")
+    Timber.tag("AI_GEN").d("[$tag] $type generation - $status: $details")
 }
 
 fun logAIInteraction(
@@ -37,17 +38,17 @@ fun logAIInteraction(
     success: Boolean = true
 ) {
     val status = if (success) "SUCCESS" else "FAILED"
-    Log.d("AI_INTERACT", "[$tag] $interaction - $status: $result")
+    Timber.tag("AI_INTERACT").d("[$tag] $interaction - $status: $result")
 }
 
 fun logMemoryAccess(tag: String, operation: String, key: String? = null, success: Boolean = true) {
     val status = if (success) "SUCCESS" else "FAILED"
-    Log.d("MEMORY", "[$tag] $operation: $key - $status")
+    Timber.tag("MEMORY").d("[$tag] $operation: $key - $status")
 }
 
 fun logPubSubEvent(tag: String, topic: String, message: String, success: Boolean = true) {
     val status = if (success) "SUCCESS" else "FAILED"
-    Log.d("PUBSUB", "[$tag] Topic: $topic, Message: $message - $status")
+    Timber.tag("PUBSUB").d("[$tag] Topic: $topic, Message: $message - $status")
 }
 
 /**
@@ -66,11 +67,11 @@ private val memoryStorage = mutableMapOf<String, Any>()
  * @param value The value to store
  */
 fun saveToMemory(key: String, value: Any) {
-    Log.d("MEMORY", "Saving to memory: $key = $value")
+    Timber.tag("MEMORY").d("Saving to memory: $key = $value")
     synchronized(memoryStorage) {
         memoryStorage[key] = value
     }
-    Log.d("MEMORY", "Memory storage size: ${memoryStorage.size}")
+    Timber.tag("MEMORY").d("Memory storage size: ${memoryStorage.size}")
 }
 
 /**
@@ -96,7 +97,7 @@ fun getFromMemory(key: String): Any? {
  * @return true if cloud services are reachable, false otherwise
  */
 fun isCloudConnected(): Boolean {
-    Log.d("CLOUD", "Checking cloud connectivity")
+    Timber.tag("CLOUD").d("Checking cloud connectivity")
     // Safe default: assume offline until proven otherwise
     // Production implementation would check:
     // - NetworkCapabilities.NET_CAPABILITY_INTERNET

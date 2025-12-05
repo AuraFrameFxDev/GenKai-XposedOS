@@ -6,7 +6,7 @@ import androidx.test.ext.junit.runners.AndroidJUnit4
 import dagger.hilt.android.testing.HiltAndroidRule
 import dagger.hilt.android.testing.HiltAndroidTest
 import dev.aurakai.auraframefx.genesis.security.CryptographyManager
-import dev.aurakai.auraframefx.genesis.storage.SecureStorage
+import dev.aurakai.auraframefx.navigation.SecureStorage
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisSecureFileService
 import dev.aurakai.auraframefx.oracledrive.service.FileOperationResult
 import kotlinx.coroutines.ExperimentalCoroutinesApi

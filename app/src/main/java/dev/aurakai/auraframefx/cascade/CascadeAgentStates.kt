@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.model.agent_states
+package dev.aurakai.auraframefx.cascade
 
 /**
  * Data models for CascadeAgent vision and processing states.

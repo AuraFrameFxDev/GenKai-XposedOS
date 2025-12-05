@@ -67,7 +67,7 @@ AgentSidebarMenu(
 ### 2. Collab Canvas WebSocket Connection
 **Problem:** Canvas screen exists but WebSocket not connected (blank screen)
 **Location:** `aura/reactivedesign/collabcanvas/src/main/kotlin/collabcanvas/ui/CanvasScreen.kt`
-**WebSocket:** `aura/reactivedesign/collabcanvas/src/main/kotlin/collabcanvas/CanvasWebSocketService.kt`
+**WebSocket:** `aura/reactivedesign/collabcanvas/src/main/kotlin/collabcanvas/ElementAddedMessage.kt`
 
 **What Needs to Happen:**
 ```kotlin

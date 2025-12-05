@@ -91,7 +91,39 @@
             </intent-filter>
         </activity>
 
-        <!-- Services -->
+        <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
+
+    <!-- Services -->
+        <service
+            android:name="dev.aurakai.auraframefx.services.GenesisAccessibilityService"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
+            </intent-filter>
+            <meta-data
+                android:name="android.accessibilityservice"
+                android:resource="@xml/accessibility_service_config" />
+        </service>
+
+        <service
+            android:name="dev.aurakai.auraframefx.services.GenesisAssistantService"
+            android:label="@string/genesis_assistant_label"
+            android:permission="android.permission.BIND_VOICE_INTERACTION"
+            android:exported="true">
+            <meta-data
+                android:name="android.voice_interaction"
+                android:resource="@xml/assistant_service_config" />
+            <intent-filter>
+                <action android:name="android.service.voice.VoiceInteractionService" />
+            </intent-filter>
+        </service>
+
+        <service
+            android:name="dev.aurakai.auraframefx.services.GenesisVoiceInteractionSessionService"
+            android:permission="android.permission.BIND_VOICE_INTERACTION"
+            android:exported="true" />
+
         <service
             android:name="dev.aurakai.auraframefx.app.VertexSyncService"
             android:exported="false" />

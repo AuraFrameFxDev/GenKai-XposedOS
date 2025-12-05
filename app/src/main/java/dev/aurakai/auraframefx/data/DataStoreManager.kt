@@ -11,16 +11,13 @@ import androidx.datastore.preferences.core.longPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
 import dagger.hilt.android.qualifiers.ApplicationContext
-
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.firstOrNull
 import kotlinx.coroutines.flow.map
-import kotlinx.serialization.encodeToString
-import kotlinx.serialization.decodeFromString
 import kotlinx.serialization.json.Json
+import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
-import timber.log.Timber
 
 private val Context.dataStore: DataStore<Preferences> by preferencesDataStore(name = "genesis_preferences")
 
@@ -246,7 +243,7 @@ class DataStoreManager @Inject constructor(
     }
 
     suspend fun getAgentConfigurations(): Map<String, AgentConfiguration> {
-        return getObject(PreferenceKeys.AGENT_CONFIGURATIONS.name, emptyMap<String, AgentConfiguration>())
+        return getObject(PreferenceKeys.AGENT_CONFIGURATIONS.name, emptyMap())
     }
 
     suspend fun getAgentConfiguration(agentId: String): AgentConfiguration? {
@@ -254,7 +251,7 @@ class DataStoreManager @Inject constructor(
     }
 
     fun getAgentConfigurationsFlow(): Flow<Map<String, AgentConfiguration>> {
-        return getObjectFlow(PreferenceKeys.AGENT_CONFIGURATIONS.name, emptyMap<String, AgentConfiguration>())
+        return getObjectFlow(PreferenceKeys.AGENT_CONFIGURATIONS.name, emptyMap())
     }
 
     /**

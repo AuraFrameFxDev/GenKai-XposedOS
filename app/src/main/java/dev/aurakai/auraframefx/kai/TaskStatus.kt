@@ -13,7 +13,7 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.kai
 
 
 import kotlinx.serialization.SerialName
@@ -34,22 +34,22 @@ data class TaskStatus(
 
     /* Unique identifier for the task. */
     @SerialName(value = "taskId")
-    val taskId: kotlin.String,
+    val taskId: String,
 
     @SerialName(value = "status")
-    val status: TaskStatus.Status,
+    val status: Status,
 
     /* Percentage completion of the task (0-100). */
     @SerialName(value = "progress")
-    val progress: kotlin.Int? = null,
+    val progress: Int? = null,
 
     /* The outcome or output of the task (structure varies by taskType). */
     @SerialName(value = "result")
-    val result: kotlin.collections.Map<kotlin.String, kotlin.String>? = null,
+    val result: Map<String, String>? = null,
 
     /* Error message if the task failed. */
     @SerialName(value = "errorMessage")
-    val errorMessage: kotlin.String? = null,
+    val errorMessage: String? = null,
 
     ) {
 
@@ -59,7 +59,7 @@ data class TaskStatus(
      * Values: PENDING,IN_PROGRESS,COMPLETED,FAILED,CANCELLED
      */
     @Serializable
-    enum class Status(val value: kotlin.String) {
+    enum class Status(val value: String) {
         @SerialName(value = "PENDING")
         PENDING("PENDING"),
 

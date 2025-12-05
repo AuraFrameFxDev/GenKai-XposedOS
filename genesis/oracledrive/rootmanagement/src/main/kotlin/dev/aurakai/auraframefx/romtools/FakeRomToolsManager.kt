@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.romtools
 
+import android.annotation.SuppressLint
 import dev.aurakai.auraframefx.romtools.bootloader.BootloaderManager
 import dev.aurakai.auraframefx.romtools.retention.AurakaiRetentionManager
 import dev.aurakai.auraframefx.romtools.retention.RetentionStatus
@@ -94,6 +95,7 @@ class FakeRomVerificationManager : RomVerificationManager {
 class FakeBackupManager : BackupManager {
     override suspend fun createFullBackup(): Result<Unit> = Result.success(Unit)
 
+    @SuppressLint("SdCardPath")
     override suspend fun createNandroidBackup(
         name: String,
         progressCallback: (Float) -> Unit

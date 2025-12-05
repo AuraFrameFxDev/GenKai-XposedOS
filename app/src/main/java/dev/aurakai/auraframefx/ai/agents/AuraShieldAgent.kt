@@ -134,7 +134,9 @@ class AuraShieldAgent @Inject constructor(
             }
         } catch (e: Exception) {
             // Assumes handleError returns the correct AgentResponse type
-            handleError(e, "AuraShield security processing")
+            with("AuraShield security processing") {
+                handleError(e)
+            }
         }
     }
 

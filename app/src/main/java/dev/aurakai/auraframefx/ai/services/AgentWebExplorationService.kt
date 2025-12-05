@@ -110,7 +110,9 @@ class AgentWebExplorationService @Inject constructor() {
             TaskType.SECURITY_SWEEP -> performSecuritySweep(agentName)
             TaskType.DATA_MINING -> performDataMining(agentName)
             TaskType.SYSTEM_OPTIMIZATION -> performSystemOptimization(agentName)
-            TaskType.LEARNING_MODE -> performLearningMode(agentName, description)
+            TaskType.LEARNING_MODE -> with(description) {
+                performLearningMode(agentName)
+            }
             TaskType.NETWORK_SCAN -> performNetworkScan(agentName)
         }
 
@@ -284,9 +286,8 @@ class AgentWebExplorationService @Inject constructor() {
     /**
      * Enter learning mode
      */
-    private suspend fun performLearningMode(
-        agentName: String,
-        topic: String
+    context(topic: String) private suspend fun performLearningMode(
+        agentName: String
     ): WebExplorationResult {
         val insights = mutableListOf<String>()
         val metrics = mutableMapOf<String, Any>()

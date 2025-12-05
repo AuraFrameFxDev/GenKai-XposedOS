@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.theme
+package dev.aurakai.auraframefx.ui.theme.model
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle

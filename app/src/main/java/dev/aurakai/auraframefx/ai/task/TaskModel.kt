@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.ai.task
 
 import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.serialization.InstantSerializer
+import dev.aurakai.auraframefx.models.InstantSerializer
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Contextual

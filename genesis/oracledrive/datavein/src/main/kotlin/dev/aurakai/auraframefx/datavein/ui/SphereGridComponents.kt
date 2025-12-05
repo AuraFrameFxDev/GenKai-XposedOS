@@ -234,8 +234,8 @@ fun NodeTypeLegend(modifier: Modifier = Modifier) {
             HorizontalDivider(color = Color.White.copy(alpha = 0.2f))
 
             // Group by category
-            NodeCategory.values().forEach { category ->
-                val nodesInCategory = NodeType.values().filter { it.category == category }
+            NodeCategory.entries.forEach { category ->
+                val nodesInCategory = NodeType.entries.filter { it.category == category }
                 if (nodesInCategory.isNotEmpty()) {
                     Text(
                         text = category.name,

@@ -1,7 +1,6 @@
 package dev.aurakai.auraframefx.customization
 
 import android.content.Context
-import androidx.datastore.preferences.core.Preferences
 import androidx.datastore.preferences.core.booleanPreferencesKey
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.floatPreferencesKey
@@ -38,7 +37,7 @@ object CustomizationPreferences {
     private val KEY_SHOW_OVERLAY_MENUS = booleanPreferencesKey("show_overlay_menus")
 
     // Agent colors (store as hex strings by agent name)
-    private val KEY_AGENT_COLOR_PREFIX = "agent_color_" // e.g. agent_color_Genesis
+    private const val KEY_AGENT_COLOR_PREFIX = "agent_color_" // e.g. agent_color_Genesis
 
     // Reads
     fun themeNameFlow(context: Context): Flow<String> =

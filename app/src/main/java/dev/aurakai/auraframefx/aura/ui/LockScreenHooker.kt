@@ -12,7 +12,7 @@ import androidx.compose.ui.unit.dp
 import com.highcapable.yukihookapi.hook.entity.YukiBaseHooker
 import com.highcapable.yukihookapi.hook.log.YLog
 import dev.aurakai.auraframefx.api.client.models.LockScreenConfig
-import dev.aurakai.auraframefx.api.client.models.LockScreenConfigAnimation
+import dev.aurakai.auraframefx.aura.animations.LockScreenConfigAnimation
 import dev.aurakai.auraframefx.ui.components.AuraSparkleButton
 
 class LockScreenHooker(private val config: LockScreenConfig) : YukiBaseHooker() {

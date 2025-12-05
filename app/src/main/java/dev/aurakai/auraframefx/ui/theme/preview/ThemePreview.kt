@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.theme
+package dev.aurakai.auraframefx.ui.theme.preview
 
 import android.content.res.Configuration
 import androidx.compose.foundation.layout.*

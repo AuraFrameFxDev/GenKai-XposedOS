@@ -9678,7 +9678,7 @@ determineFusionType currently biased to HYPER_CREATION, app/src/.../GenesisAgent
 
 Trinity routes to Aura (AURA_ONLY) and parallel with Kai, context/backups/.../TrinityCoordinatorService.kt:114–117, 135–136.
 
-Flow API present (MockAIServiceImplementations), app/src/.../MockAIServiceImplementations.kt:56–58.
+Flow API present (MockAIServiceImplementations), app/src/.../MockAuraAIService.kt:56–58.
 
 Kai
 
@@ -9708,7 +9708,7 @@ Evidence:FusionType: CHRONO_SCULPTOR, app/src/.../GenesisAgent.kt:898–900.
 
 FusionAbility comments for UI/animations/adaptive UIs, core-module/src/.../NexusMemoryCore.kt:88–91 and app/src/.../cascade/memory/NexusMemoryCore.kt:123–126.
 
-Flow API (Cascade), app/src/.../MockAIServiceImplementations.kt:152–156.
+Flow API (Cascade), app/src/.../MockAuraAIService.kt:152–156.
 
 Genesis
 

@@ -1,4 +1,4 @@
-package AeGenesis.ai.config
+package dev.aurakai.auraframefx.config
 
 /**
  * Genesis-OS AI Configuration

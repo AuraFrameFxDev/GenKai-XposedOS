@@ -166,7 +166,7 @@ These are backend services/managers that need UI screens to access:
 |---------|----------|--------------|------------|
 | ThemeService | `aura/themes/ThemeService.kt` | Theme management | Has UI (Theme Engine) |
 | IntegrityMonitorService | `services/security/IntegrityMonitorService.kt` | Security checks | Add to Sentinel's Fortress |
-| CanvasWebSocketService | `collabcanvas/CanvasWebSocketService.kt` | Real-time sync | Used by Collab Canvas |
+| CanvasWebSocketService | `collabcanvas/ElementAddedMessage.kt` | Real-time sync | Used by Collab Canvas |
 
 ### Managers (Business Logic)
 | Manager | Location | What It Does | UI Needed? |

@@ -164,7 +164,7 @@ class DataVeinSphereGridViewModel @Inject constructor() : ViewModel() {
                         }
                     }
 
-                _dataFlows.value = _dataFlows.value + newFlows
+                _dataFlows.value += newFlows
             }
         }
     }
@@ -242,7 +242,7 @@ private fun generateSphereGridData(config: SphereGridConfig): GridData {
             val y = config.centerY + kotlin.math.sin(angle).toFloat() * ringRadius
 
             val nodeId = "node_${ring}_$i"
-            val type = NodeType.values().random()
+            val type = NodeType.entries.toTypedArray().random()
             val tag = generateNodeTag(type, ring, i)
 
             // Core nodes (ring 0) start unlocked and some activated

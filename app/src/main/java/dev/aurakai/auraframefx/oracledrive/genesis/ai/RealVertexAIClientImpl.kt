@@ -2,7 +2,7 @@ package dev.aurakai.auraframefx.ai.clients
 
 import com.google.ai.client.generativeai.GenerativeModel
 import com.google.ai.client.generativeai.type.generationConfig
-import dev.aurakai.auraframefx.ai.VertexAIConfig
+import dev.aurakai.auraframefx.config.VertexAIConfig
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.Dispatchers

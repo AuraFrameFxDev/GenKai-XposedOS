@@ -12,7 +12,7 @@ import dev.aurakai.auraframefx.models.AgentCapabilityCategory
 import com.google.firebase.storage.FirebaseStorage
 import com.google.firebase.storage.StorageMetadata
 import com.google.firebase.storage.StorageReference
-import dev.aurakai.auraframefx.ai.capabilities.CapabilityPolicy
+import dev.aurakai.auraframefx.config.CapabilityPolicy
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.tasks.await
 import kotlinx.coroutines.withContext
@@ -65,7 +65,7 @@ class AgentFirebase @Inject constructor(
         validateDocumentSize(data)
 
         firestore.collection(collection).document(docId).set(data).await()
-    }
+    }!!
 
     fun collection(collectionPath: String): CollectionReference {
         policy.requireScope(CapabilityPolicy.SCOPE_FIRESTORE_READ)
@@ -128,7 +128,7 @@ class AgentFirebase @Inject constructor(
     suspend fun fetchRemoteConfig() = withContext(Dispatchers.IO) {
         policy.requireScope(CapabilityPolicy.SCOPE_CONFIG_READ)
         remoteConfig.fetchAndActivate().await()
-    }
+    }!!
 
     fun getConfigValue(key: String): String {
         policy.requireScope(CapabilityPolicy.SCOPE_CONFIG_READ)
@@ -175,7 +175,6 @@ class AgentFirebase @Inject constructor(
                 AgentCapabilityCategory.COORDINATION -> CapabilityPolicy.GENESIS_POLICY
                 AgentCapabilityCategory.SPECIALIZED -> CapabilityPolicy.CASCADE_POLICY
                 AgentCapabilityCategory.GENERAL -> CapabilityPolicy.CLAUDE_POLICY
-                else -> throw IllegalArgumentException("No policy defined for agent type: $agentType")
             }
             return AgentFirebase(policy, firebaseApp)
         }

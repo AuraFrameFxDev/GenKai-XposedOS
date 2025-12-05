@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.theme
+package dev.aurakai.auraframefx.ui.theme.preview
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background

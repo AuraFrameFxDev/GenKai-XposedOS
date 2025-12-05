@@ -31,8 +31,8 @@ open class RomToolsManager @Inject constructor(
     private val retentionManager: AurakaiRetentionManager
 ) {
 
-    private val _romToolsState = MutableStateFlow(RomToolsState())
-    protected val romToolsState: StateFlow<RomToolsState> = _romToolsState
+    val _romToolsState = MutableStateFlow(RomToolsState())
+    val romToolsState: StateFlow<RomToolsState> = _romToolsState
 
     private val _operationProgress = MutableStateFlow<OperationProgress?>(null)
     val operationProgress: StateFlow<OperationProgress?> = _operationProgress
@@ -231,7 +231,7 @@ open class RomToolsManager @Inject constructor(
      *
      * @return A `Result` containing the list of compatible `AvailableRom` on success, or a failure with the underlying exception.
      */
-    suspend fun getAvailableRoms(): Result<List<AvailableRom>> {
+    fun getAvailableRoms(): Result<List<AvailableRom>> {
         return try {
             val deviceModel = romToolsState.value.capabilities?.deviceModel ?: "unknown"
             val roms = romRepository.getCompatibleRoms(deviceModel)

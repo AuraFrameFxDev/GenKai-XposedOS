@@ -1,9 +1,9 @@
 package dev.aurakai.auraframefx.theme
 
 import dev.aurakai.auraframefx.ai.services.AuraAIService
-import dev.aurakai.auraframefx.ui.theme.CyberpunkTheme
-import dev.aurakai.auraframefx.ui.theme.ForestTheme
-import dev.aurakai.auraframefx.ui.theme.SolarFlareTheme
+import dev.aurakai.auraframefx.aura.themes.CyberpunkTheme
+import dev.aurakai.auraframefx.aura.themes.ForestTheme
+import dev.aurakai.auraframefx.aura.themes.SolarFlareTheme
 import io.mockk.*
 import kotlinx.coroutines.test.runTest
 import org.junit.jupiter.api.BeforeEach

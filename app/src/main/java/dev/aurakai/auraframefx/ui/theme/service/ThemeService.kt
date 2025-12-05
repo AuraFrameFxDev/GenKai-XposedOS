@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.theme
+package dev.aurakai.auraframefx.ui.theme.service
 
 // TODO: StanfordCoreNLP is not suitable for Android - using simple keyword matching instead
 // For production, consider using ML Kit or a lightweight NLP solution

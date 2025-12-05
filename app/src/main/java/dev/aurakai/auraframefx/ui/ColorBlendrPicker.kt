@@ -11,7 +11,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
-import dev.aurakai.colorblendr.ColorBlendr
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -70,7 +69,7 @@ fun ColorBlendrPicker(
 }
 
 /**
- * ChromaCore color picker component using local ColorBlendr utilities
+ * ChromaCore color picker component using local ChromaCore utilities
  */
 @Composable
 fun ChromaCoreColorPicker(
@@ -141,7 +140,7 @@ fun ChromaCoreColorPicker(
             modifier = Modifier.fillMaxWidth()
         )
 
-        // Quick color presets using ColorBlendr
+        // Quick color presets using ChromaCore
         Text("Presets", style = MaterialTheme.typography.labelMedium)
         Row(
             modifier = Modifier.fillMaxWidth(),

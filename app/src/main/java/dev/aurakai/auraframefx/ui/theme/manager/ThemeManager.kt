@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.lsposed
+package dev.aurakai.auraframefx.ui.theme.manager
 
 import android.graphics.Color
 import androidx.compose.ui.graphics.Color as ComposeColor

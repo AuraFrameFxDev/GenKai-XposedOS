@@ -1,10 +1,9 @@
-package dev.aurakai.auraframefx.system.homescreen
+package dev.aurakai.auraframefx.aura.animations
 
 import dev.aurakai.auraframefx.system.quicksettings.YukiHookModulePrefs
 import dev.aurakai.auraframefx.services.YukiHookServiceManager
 import dev.aurakai.auraframefx.system.common.ImageResourceManager
 import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionType
-import dev.aurakai.auraframefx.system.homescreen.model.HomeScreenTransitionConfig
 import dev.aurakai.auraframefx.system.ui.ShapeManager
 import dev.aurakai.auraframefx.system.ui.SystemOverlayManager
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,10 +22,10 @@ class HomeScreenTransitionManager @Inject constructor(
     private val prefs: YukiHookModulePrefs,
     private val overlayService: YukiHookServiceManager,
 ) {
-    private val _currentConfig =
+    private val currentConfigState =
         MutableStateFlow(HomeScreenTransitionConfig()) // Initialize with default
     val currentConfig: StateFlow<HomeScreenTransitionConfig?> =
-        _currentConfig // Kept nullable for safety
+        currentConfigState // Kept nullable for safety
 
     private val defaultConfig = HomeScreenTransitionConfig(
         type = HomeScreenTransitionType.GLOBE_ROTATE,
@@ -64,19 +63,19 @@ class HomeScreenTransitionManager @Inject constructor(
                 val parsedConfig = parseConfigFromJson(savedConfigJson)
 
                 if (parsedConfig != null) {
-                    _currentConfig.value = parsedConfig
+                    currentConfigState.value = parsedConfig
                     Timber.i("HomeScreenTransitionManager: Config loaded successfully - type: ${parsedConfig.type}")
                 } else {
                     Timber.w("HomeScreenTransitionManager: Failed to parse config, using default")
-                    _currentConfig.value = defaultConfig
+                    currentConfigState.value = defaultConfig
                 }
             } else {
                 Timber.d("HomeScreenTransitionManager: No saved config found, using default")
-                _currentConfig.value = defaultConfig
+                currentConfigState.value = defaultConfig
             }
         } catch (e: Exception) {
             Timber.e(e, "HomeScreenTransitionManager: Error loading config, using default")
-            _currentConfig.value = defaultConfig
+            currentConfigState.value = defaultConfig
         }
     }
 
@@ -153,8 +152,7 @@ class HomeScreenTransitionManager @Inject constructor(
 
                 else -> {
                     // Try numeric types first
-                    val rawValue = jsonObject.get(key)
-                    when (rawValue) {
+                    when (val rawValue = jsonObject.get(key)) {
                         is Number -> rawValue.toFloat()
                         is Boolean -> rawValue
                         is String -> rawValue
@@ -176,7 +174,7 @@ class HomeScreenTransitionManager @Inject constructor(
      */
     fun saveConfig() {
         try {
-            val config = _currentConfig.value ?: return
+            val config = currentConfigState.value
             val json = configToJson(config)
 
             prefs.putString("home_screen_transition_config", json)
@@ -215,7 +213,7 @@ class HomeScreenTransitionManager @Inject constructor(
      * @param config The new transition configuration to apply.
      */
     fun applyConfig(config: HomeScreenTransitionConfig) {
-        _currentConfig.value = config
+        currentConfigState.value = config
         // TODO: Implement Xposed hooking for beta
         // overlayService.hook {
         //     // TODO: Implement transition hooking
@@ -230,7 +228,7 @@ class HomeScreenTransitionManager @Inject constructor(
     }
 
     fun updateTransitionType(type: HomeScreenTransitionType) {
-        val current = _currentConfig.value ?: return
+        val current = currentConfigState.value
         val newConfig = current.copy(
             type = type
         )
@@ -238,7 +236,7 @@ class HomeScreenTransitionManager @Inject constructor(
     }
 
     fun updateTransitionDuration(duration: Int) {
-        val current = _currentConfig.value ?: return
+        val current = currentConfigState.value
         val newConfig = current.copy(
             duration = duration
         )
@@ -246,7 +244,7 @@ class HomeScreenTransitionManager @Inject constructor(
     }
 
     fun updateTransitionProperties(properties: Map<String, Any>) {
-        val current = _currentConfig.value ?: return
+        val current = currentConfigState.value
         val newConfig = current.copy(
             properties = properties
         )

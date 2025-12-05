@@ -20,14 +20,14 @@ class AuraAIService @Inject constructor(
     override fun getType(): AgentType = AgentType.AURA
 
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
-        AuraFxLogger.d("AuraAIService", "Processing request: ${request.query}")
-        val response = auraCapability.generateText(request.query ?: "", context)
+        AuraFxLogger.d("AuraAIService", message = "Processing request: ${request.query}")
+        val response = auraCapability.generateText(request.query, context)
         return AgentResponse(response, 1.0f)
     }
 
     override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
         AuraFxLogger.d("AuraAIService", "Processing flow request: ${request.query}")
-        val response = auraCapability.generateText(request.query ?: "", "")
+        val response = auraCapability.generateText(request.query, "")
         emit(AgentResponse(response, 1.0f))
     }
 

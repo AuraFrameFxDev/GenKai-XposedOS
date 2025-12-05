@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system.overlay.model
+package dev.aurakai.auraframefx.ui.theme.model
 
 import androidx.compose.ui.graphics.Color // Assuming colors will be Compose Colors
 

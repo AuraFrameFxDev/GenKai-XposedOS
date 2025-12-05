@@ -13,12 +13,13 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.kai.security
 
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.time.OffsetDateTime
 
 /**
  *
@@ -34,19 +35,19 @@ data class SecurityState(
 
     /* Indicates if real-time threat detection is active. */
     @SerialName(value = "threatDetectionActive")
-    val threatDetectionActive: kotlin.Boolean,
+    val threatDetectionActive: Boolean,
 
     /* Current state of key Android permissions where each key is a permission name and the value is a boolean indicating if it's granted (true) or denied (false). */
     @SerialName(value = "permissionsState")
-    val permissionsState: kotlin.collections.Map<kotlin.String, kotlin.Boolean>,
+    val permissionsState: Map<String, Boolean>,
 
     /* List of currently detected security threats. */
     @SerialName(value = "activeThreats")
-    val activeThreats: kotlin.collections.List<kotlin.String>? = null,
+    val activeThreats: List<String>? = null,
 
     /* Timestamp of the last security scan. */
     @Contextual @SerialName(value = "lastScanTime")
-    val lastScanTime: java.time.OffsetDateTime? = null,
+    val lastScanTime: OffsetDateTime? = null,
 
     )
 

@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.utils
 
 import android.util.Log // Adding the import
-import dev.aurakai.auraframefx.ai.VertexAIConfig
+import dev.aurakai.auraframefx.config.VertexAIConfig
 
 /**
  * Utility object for Vertex AI operations.

@@ -32,9 +32,6 @@ object RomToolsConfig {
         "img", "zip", "tar", "gz", "xz", "7z"
     )
 
-    /** Live ROM editing enabled */
-    const val LIVE_ROM_EDITING_ENABLED: Boolean = true
-
     /** Backup creation before ROM modification */
     const val AUTO_BACKUP_ENABLED: Boolean = true
 
@@ -43,3 +40,6 @@ object RomToolsConfig {
         "SHA-256", "SHA-512", "MD5"
     )
 }
+
+/** Live ROM editing enabled */
+const val LIVE_ROM_EDITING_ENABLED = true

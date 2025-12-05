@@ -1,8 +1,8 @@
-package dev.aurakai.auraframefx.ai.task.execution
+package dev.aurakai.auraframefx.kai
 
 import dev.aurakai.auraframefx.ai.task.TaskPriority
 import dev.aurakai.auraframefx.models.AgentCapabilityCategory
-import dev.aurakai.auraframefx.serialization.InstantSerializer // Added import
+import dev.aurakai.auraframefx.models.InstantSerializer // Added import
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable

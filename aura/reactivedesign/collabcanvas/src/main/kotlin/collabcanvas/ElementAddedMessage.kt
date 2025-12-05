@@ -1,4 +1,4 @@
-package collabcanvas.network
+package collabcanvas
 
 import collabcanvas.model.CanvasElement
 import com.google.gson.Gson
@@ -93,7 +93,7 @@ class CanvasWebSocketService @Inject constructor(
             .url(url)
             .build()
 
-        webSocket = okHttpClient.newWebSocket(request, webSocketListener)
+        okHttpClient.newWebSocket(request, webSocketListener).also { webSocket = it }
     }
 
     /**
@@ -122,9 +122,9 @@ class CanvasWebSocketService @Inject constructor(
         return try {
             val json = gson.toJson(message)
             webSocket?.send(json) ?: run {
-                Timber.e("WebSocket is not connected") // Changed to Timber
-                false
-            }
+                    Timber.e("WebSocket is not connected") // Changed to Timber
+                    false
+                } // Changed to Timber
         } catch (e: Exception) {
             Timber.e(
                 e,

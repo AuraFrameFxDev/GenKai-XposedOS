@@ -13,7 +13,7 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.kai
 
 import dev.aurakai.auraframefx.models.AgentCapabilityCategory
 import kotlinx.serialization.Contextual
@@ -34,7 +34,7 @@ data class TaskScheduleRequest(
 
     /* The type of task (e.g., \"CONTENT_GENERATION\", \"SYSTEM_OPTIMIZATION\", \"SECURITY_SCAN\"). */
     @SerialName(value = "taskType")
-    val taskType: kotlin.String,
+    val taskType: String,
 
     /* The AI agent responsible for the task. */
     @Contextual @SerialName(value = "agentType")
@@ -42,10 +42,10 @@ data class TaskScheduleRequest(
 
     /* Specific parameters for the task, varying by taskType. */
     @SerialName(value = "details")
-    val details: kotlin.collections.Map<kotlin.String, kotlin.String>,
+    val details: Map<String, String>,
 
     @SerialName(value = "priority")
-    val priority: TaskScheduleRequest.Priority? = Priority.NORMAL,
+    val priority: Priority? = Priority.NORMAL,
 
     ) {
 
@@ -55,7 +55,7 @@ data class TaskScheduleRequest(
      * Values: HIGH,NORMAL,LOW
      */
     @Serializable
-    enum class Priority(val value: kotlin.String) {
+    enum class Priority(val value: String) {
         @SerialName(value = "HIGH")
         HIGH("HIGH"),
 

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.data.offline
+package dev.aurakai.auraframefx.models.data.offline
 
 import kotlinx.serialization.Serializable
 

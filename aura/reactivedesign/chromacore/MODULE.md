@@ -32,7 +32,7 @@ The `chromacore` module is AuraKai's color intelligence system, providing dynami
 ```
 chromacore/
 ├── src/main/kotlin/dev/aurakai/colorblendr/
-│   ├── ColorBlendr.kt               # Main color blending engine
+│   ├── ChromaCore.kt               # Main color blending engine
 │   ├── ColorPalette.kt              # Palette management
 │   ├── ThemeManager.kt              # Theme coordination
 │   └── effects/                     # Visual effects

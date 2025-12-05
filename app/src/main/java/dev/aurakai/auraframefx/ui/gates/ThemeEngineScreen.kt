@@ -33,7 +33,7 @@ import kotlin.collections.toMutableList
 
 /**
  * Theme Engine Screen
- * Integrates ColorBlendr and ThemeEditor for full system customization
+ * Integrates ChromaCore and ThemeEditor for full system customization
  */
 @Composable
 fun ThemeEngineScreen(

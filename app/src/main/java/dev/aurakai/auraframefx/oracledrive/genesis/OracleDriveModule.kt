@@ -11,7 +11,7 @@ import dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisAgent
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.aura.AuraAgent
 import dev.aurakai.auraframefx.genesis.security.CryptographyManager
-import dev.aurakai.auraframefx.genesis.storage.SecureStorage
+import dev.aurakai.auraframefx.navigation.SecureStorage
 import dev.aurakai.auraframefx.oracle.drive.api.OracleDriveApi
 import dev.aurakai.auraframefx.oracledrive.EncryptionManager
 import dev.aurakai.auraframefx.oracledrive.OracleDriveServiceImpl

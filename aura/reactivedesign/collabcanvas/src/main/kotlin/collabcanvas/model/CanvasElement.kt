@@ -26,46 +26,7 @@ data class CanvasElement(
     val createdBy: String,
     val createdAt: Long = System.currentTimeMillis(),
     val updatedAt: Long = System.currentTimeMillis(),
-) {
-    fun withPath(newPath: PathData): CanvasElement {
-        return copy(path = newPath, updatedAt = System.currentTimeMillis())
-    }
-
-    fun withSelected(selected: Boolean): CanvasElement {
-        return copy(isSelected = selected)
-    }
-
-    fun withZIndex(index: Int): CanvasElement {
-        return copy(zIndex = index, updatedAt = System.currentTimeMillis())
-    }
-
-    fun withColor(newColor: Color): CanvasElement {
-        return copy(color = newColor, updatedAt = System.currentTimeMillis())
-    }
-
-    fun withStrokeWidth(width: Float): CanvasElement {
-        return copy(strokeWidth = width, updatedAt = System.currentTimeMillis())
-    }
-
-    companion object {
-        fun createDefault(
-            id: String,
-            createdBy: String,
-            path: PathData = PathData(),
-            color: Color = Color.Black,
-            strokeWidth: Float = 5f,
-        ): CanvasElement {
-            return CanvasElement(
-                id = id,
-                type = ElementType.PATH,
-                path = path,
-                color = color,
-                strokeWidth = strokeWidth,
-                createdBy = createdBy
-            )
-        }
-    }
-}
+)
 
 enum class ElementType {
     PATH, LINE, RECTANGLE, OVAL, TEXT, IMAGE
@@ -83,17 +44,6 @@ data class PathData(
         return copy(isComplete = true)
     }
 
-    fun toPath(): Path {
-        return Path().apply {
-            if (points.isNotEmpty()) {
-                val first = points.first()
-                moveTo(first.x, first.y)
-                points.drop(1).forEach { point ->
-                    lineTo(point.x, point.y)
-                }
-            }
-        }
-    }
 }
 
 class PathTypeAdapter : JsonSerializer<Path>, JsonDeserializer<Path> {
@@ -137,4 +87,53 @@ class ColorTypeAdapter : JsonSerializer<Color>, JsonDeserializer<Color> {
     ): Color {
         return Color(json.asLong.toULong())
     }
+}
+
+fun toPath(pathDefinition: PathData): Path {
+    return Path().apply {
+        if (pathDefinition.points.isNotEmpty()) {
+            val first = pathDefinition.points.first()
+            moveTo(first.x, first.y)
+            pathDefinition.points.drop(1).forEach { point ->
+                lineTo(point.x, point.y)
+            }
+        }
+    }
+}
+
+fun withPath(originalCanvasElement: CanvasElement, newPath: PathData): CanvasElement {
+    return originalCanvasElement.copy(path = newPath, updatedAt = System.currentTimeMillis())
+}
+
+fun withSelected(targetElement: CanvasElement, selected: Boolean): CanvasElement {
+    return targetElement.copy(isSelected = selected)
+}
+
+context(targetElement: CanvasElement) fun withZIndex(index: Int): CanvasElement {
+    return targetElement.copy(zIndex = index, updatedAt = System.currentTimeMillis())
+}
+
+fun withColor(elementToRecolor: CanvasElement, newColor: Color): CanvasElement {
+    return elementToRecolor.copy(color = newColor, updatedAt = System.currentTimeMillis())
+}
+
+fun withStrokeWidth(elementWithOptions: CanvasElement, width: Float): CanvasElement {
+    return elementWithOptions.copy(strokeWidth = width, updatedAt = System.currentTimeMillis())
+}
+
+fun createDefault(
+    id: String,
+    createdBy: String,
+    path: PathData = PathData(),
+    color: Color = Color.Black,
+    strokeWidth: Float = 5f,
+): CanvasElement {
+    return CanvasElement(
+        id = id,
+        type = ElementType.PATH,
+        path = path,
+        color = color,
+        strokeWidth = strokeWidth,
+        createdBy = createdBy
+    )
 }

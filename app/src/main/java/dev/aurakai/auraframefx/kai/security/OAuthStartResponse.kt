@@ -13,7 +13,7 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.kai.security
 
 
 import kotlinx.serialization.SerialName
@@ -30,7 +30,7 @@ data class OAuthStartResponse(
 
     /* The URL the user should be redirected to for authentication. */
     @SerialName(value = "authUrl")
-    val authUrl: kotlin.String,
+    val authUrl: String,
 
     )
 

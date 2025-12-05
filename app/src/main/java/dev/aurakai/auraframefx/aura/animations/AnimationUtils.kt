@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system.utils
+package dev.aurakai.auraframefx.aura.animations
 
 import android.animation.Animator
 import android.animation.AnimatorListenerAdapter
@@ -16,6 +16,7 @@ import androidx.core.animation.addListener
 import androidx.core.graphics.drawable.toDrawable
 import androidx.core.view.ViewCompat
 import androidx.core.view.isVisible
+import dev.aurakai.auraframefx.system.utils.ColorUtils
 import kotlin.math.hypot
 import kotlin.math.max
 

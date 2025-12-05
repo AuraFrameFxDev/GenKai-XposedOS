@@ -1,7 +1,5 @@
-package dev.aurakai.auraframefx.ai.error
+package dev.aurakai.auraframefx.models
 
-import dev.aurakai.auraframefx.models.AgentCapabilityCategory
-import dev.aurakai.auraframefx.serialization.InstantSerializer
 import kotlinx.datetime.Clock
 import kotlinx.datetime.Instant
 import kotlinx.serialization.Serializable

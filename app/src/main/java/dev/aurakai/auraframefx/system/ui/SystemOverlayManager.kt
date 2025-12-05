@@ -1,11 +1,11 @@
 package dev.aurakai.auraframefx.system.ui
 
 // These will be actual imports once model files are created in dev.aurakai.auraframefx.system.overlay.model
-import dev.aurakai.auraframefx.system.overlay.model.OverlayAnimation
+import dev.aurakai.auraframefx.aura.animations.OverlayAnimation
 import dev.aurakai.auraframefx.system.overlay.model.OverlayElement
 import dev.aurakai.auraframefx.system.overlay.model.OverlayShape
 import dev.aurakai.auraframefx.system.overlay.model.OverlayTheme
-import dev.aurakai.auraframefx.system.overlay.model.OverlayTransition
+import dev.aurakai.auraframefx.aura.animations.OverlayTransition
 import dev.aurakai.auraframefx.system.overlay.model.SystemOverlayConfig
 
 

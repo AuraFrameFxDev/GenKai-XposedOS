@@ -1,13 +1,12 @@
-package dev.aurakai.auraframefx.serialization
+package dev.aurakai.auraframefx.models
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.modules.SerializersModule
-import kotlinx.serialization.modules.contextual
 
 val AeGenesisSerializersModule = SerializersModule {
     // Core type serializers - fixed syntax for Kotlin 2.2+
-    contextual(Any::class, dev.aurakai.auraframefx.serialization.AnySerializer)
-    contextual(Instant::class, dev.aurakai.auraframefx.serialization.InstantSerializer)
+    contextual(Any::class, AnySerializer)
+    contextual(Instant::class, InstantSerializer)
 }
 
 val AuraFrameSerializersModule = AeGenesisSerializersModule

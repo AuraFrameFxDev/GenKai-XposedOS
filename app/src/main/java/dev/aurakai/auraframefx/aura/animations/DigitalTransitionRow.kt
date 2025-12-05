@@ -13,9 +13,10 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionType
+import dev.aurakai.auraframefx.aura.animations.HomeScreenTransitionType
 import dev.aurakai.auraframefx.ui.theme.NeonPurple
 import dev.aurakai.auraframefx.ui.theme.NeonTeal
+import timber.log.Timber
 
 /**
  * Row component for selecting home screen digital transition types.
@@ -44,7 +45,7 @@ fun DigitalTransitionRow(
             FilterChip(
                 selected = currentType == transitionType,
                 onClick = {
-                    timber.log.Timber.d("DigitalTransitionRow: Transition type selected - $transitionType")
+                    Timber.d("DigitalTransitionRow: Transition type selected - $transitionType")
                     onTypeSelected(transitionType)
                 },
                 label = {

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.theme
+package dev.aurakai.auraframefx.ui.theme.picker
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState

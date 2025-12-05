@@ -13,12 +13,13 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.kai.security
 
 
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.net.URI
 
 /**
  *
@@ -32,11 +33,11 @@ data class OAuthStartRequest(
 
     /* The OAuth provider (e.g., \"Google\", \"Firebase\", \"CustomAuth\"). */
     @SerialName(value = "provider")
-    val provider: kotlin.String,
+    val provider: String,
 
     /* The URI to redirect to after successful authentication. */
     @Contextual @SerialName(value = "redirectUri")
-    val redirectUri: java.net.URI,
+    val redirectUri: URI,
 
     )
 

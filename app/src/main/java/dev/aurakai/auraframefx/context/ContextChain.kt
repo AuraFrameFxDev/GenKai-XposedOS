@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ai.context
+package dev.aurakai.auraframefx.context
 
 import dev.aurakai.auraframefx.models.CanonicalMemoryItem
 import dev.aurakai.auraframefx.models.AgentCapabilityCategory

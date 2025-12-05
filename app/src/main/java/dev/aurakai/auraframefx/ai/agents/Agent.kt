@@ -8,7 +8,7 @@ import kotlinx.coroutines.flow.Flow
 /**
  * Top-level value declaration for versioning or identification.
  */
-const val TOPL_VL: String = "1.0.0"
+const val TOPL_VL = "1.0.0"
 
 /**
  * Interface representing an AI agent.

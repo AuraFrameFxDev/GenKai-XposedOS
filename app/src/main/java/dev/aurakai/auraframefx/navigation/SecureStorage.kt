@@ -1,6 +1,6 @@
 @file:Suppress("unused")
 
-package dev.aurakai.auraframefx.genesis.storage
+package dev.aurakai.auraframefx.navigation
 
 import android.content.Context
 import dev.aurakai.auraframefx.genesis.security.CryptographyManager

@@ -1,9 +1,10 @@
-package dev.aurakai.auraframefx.lsposed
+package dev.aurakai.auraframefx.models.lsposed
 
 import android.content.res.XModuleResources
 import de.robv.android.xposed.IXposedHookInitPackageResources
 import de.robv.android.xposed.IXposedHookZygoteInit
 import de.robv.android.xposed.callbacks.XC_InitPackageResources
+import dev.aurakai.auraframefx.lsposed.ThemeManager
 
 class ThemeModule : IXposedHookZygoteInit, IXposedHookInitPackageResources {
 

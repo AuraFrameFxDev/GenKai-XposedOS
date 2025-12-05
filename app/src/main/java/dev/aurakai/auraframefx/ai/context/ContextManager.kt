@@ -1,7 +1,5 @@
 package dev.aurakai.auraframefx.ai.context
 
-import javax.inject.Singleton
-
 /**
  * Context Manager Interface
  * Manages AI context awareness and memory integration

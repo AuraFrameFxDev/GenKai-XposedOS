@@ -15,7 +15,6 @@
 
 package dev.aurakai.auraframefx.api.client.apis
 
-import android.view.PixelCopy.request
 import dev.aurakai.auraframefx.api.client.infrastructure.ApiResponse
 import dev.aurakai.auraframefx.api.client.infrastructure.ClientError
 import dev.aurakai.auraframefx.api.client.infrastructure.ClientException
@@ -26,8 +25,8 @@ import dev.aurakai.auraframefx.api.client.infrastructure.ResponseType
 import dev.aurakai.auraframefx.api.client.infrastructure.ServerError
 import dev.aurakai.auraframefx.api.client.infrastructure.ServerException
 import dev.aurakai.auraframefx.api.client.infrastructure.Success
-import dev.aurakai.auraframefx.api.client.models.TaskScheduleRequest
-import dev.aurakai.auraframefx.api.client.models.TaskStatus
+import dev.aurakai.auraframefx.kai.TaskScheduleRequest
+import dev.aurakai.auraframefx.kai.TaskStatus
 import okhttp3.Call
 import okhttp3.HttpUrl
 import dev.aurakai.auraframefx.api.client.infrastructure.ApiClient

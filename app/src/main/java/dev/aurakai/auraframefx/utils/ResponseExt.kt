@@ -2,7 +2,7 @@ package org.openapitools.client.infrastructure
 
 import com.squareup.moshi.JsonDataException
 import com.squareup.moshi.Moshi
-import dev.aurakai.auraframefx.infrastructure.Serializer
+import dev.aurakai.auraframefx.api.client.infrastructure.Serializer
 import retrofit2.Response
 
 @Throws(JsonDataException::class)

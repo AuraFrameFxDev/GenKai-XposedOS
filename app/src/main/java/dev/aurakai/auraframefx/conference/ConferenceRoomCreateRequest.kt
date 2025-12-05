@@ -13,7 +13,7 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.conference
 
 import dev.aurakai.auraframefx.models.AgentCapabilityCategory
 import kotlinx.serialization.Contextual
@@ -32,7 +32,7 @@ data class ConferenceRoomCreateRequest(
 
     /* Name of the new conference room. */
     @SerialName(value = "roomName")
-    val roomName: kotlin.String,
+    val roomName: String,
 
     /* The AI agent designated as the orchestrator for this room. */
     @Contextual @SerialName(value = "orchestratorAgent")

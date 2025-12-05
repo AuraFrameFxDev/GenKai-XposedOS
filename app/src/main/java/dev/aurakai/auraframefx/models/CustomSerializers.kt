@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.serialization
+package dev.aurakai.auraframefx.models
 
 import kotlinx.datetime.Instant
 import kotlinx.serialization.KSerializer

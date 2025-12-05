@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ai
+package dev.aurakai.auraframefx.config
 
 /**
  * Configuration for Vertex AI client with comprehensive settings.
@@ -68,11 +68,11 @@ data class VertexAIConfig(
         if (maxRetries < 0) errors.add("Max retries cannot be negative")
         if (maxConcurrentRequests <= 0) errors.add("Max concurrent requests must be positive")
 
-        if (defaultTemperature < 0.0 || defaultTemperature > 1.0) {
+        if (defaultTemperature !in 0.0..1.0) {
             errors.add("Temperature must be between 0.0 and 1.0")
         }
 
-        if (defaultTopP < 0.0 || defaultTopP > 1.0) {
+        if (defaultTopP !in 0.0..1.0) {
             errors.add("TopP must be between 0.0 and 1.0")
         }
 

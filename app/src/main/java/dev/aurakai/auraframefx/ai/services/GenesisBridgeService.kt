@@ -9,7 +9,7 @@ enum class GenesisBridgeService {
         return
     }
 
-    suspend fun sendToGenesis(request: GenesisBridgeService.GenesisRequest) {
+    open suspend fun sendToGenesis(request: GenesisBridgeService.GenesisRequest) {
         return
     }
 

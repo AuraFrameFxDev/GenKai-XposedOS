@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.state
+package dev.aurakai.auraframefx.models
 
 /**
  * Represents the state of an AI text response operation.

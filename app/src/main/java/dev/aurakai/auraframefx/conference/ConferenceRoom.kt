@@ -13,12 +13,13 @@
     "UnusedImport"
 )
 
-package dev.aurakai.auraframefx.api.client.models
+package dev.aurakai.auraframefx.conference
 
 import dev.aurakai.auraframefx.models.AgentCapabilityCategory
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
+import java.util.UUID
 
 /**
  *
@@ -34,11 +35,11 @@ data class ConferenceRoom(
 
     /* Unique identifier for the conference room. */
     @Contextual @SerialName(value = "id")
-    val id: java.util.UUID,
+    val id: UUID,
 
     /* Name of the conference room. */
     @SerialName(value = "name")
-    val name: kotlin.String,
+    val name: String,
 
     /* The AI agent acting as the orchestrator. */
     @Contextual @SerialName(value = "orchestrator")
@@ -46,7 +47,7 @@ data class ConferenceRoom(
 
     /* List of AI agents currently in the room. */
     @SerialName(value = "activeAgents")
-    val activeAgents: kotlin.collections.List<@Contextual AgentCapabilityCategory>,
+    val activeAgents: List<@Contextual AgentCapabilityCategory>,
 
     )
 

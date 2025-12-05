@@ -1,8 +1,9 @@
-package dev.aurakai.auraframefx.core.logging
+package dev.aurakai.auraframefx.core.initialization
 
 import android.app.Application
 import android.util.Log
 import com.google.ai.client.generativeai.BuildConfig
+import dev.aurakai.auraframefx.core.logging.DebugTreeWithClassAndMethod
 import timber.log.Timber
 import javax.inject.Inject
 
