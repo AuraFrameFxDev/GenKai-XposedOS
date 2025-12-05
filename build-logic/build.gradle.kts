@@ -22,31 +22,31 @@ configurations.all {
     exclude(group = "androidx.core")
 }
 
-// Configure Java toolchain to JVM 24 (matches Kotlin target)
+// Configure Java toolchain to JVM 25 (matches gradle.properties and CI environment)
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(24))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
-    // Explicitly set source and target compatibility to 24
-    sourceCompatibility = JavaVersion.VERSION_24
-    targetCompatibility = JavaVersion.VERSION_24
+    // Explicitly set source and target compatibility to 25
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 // Configure Kotlin compilation to match Java toolchain
-// MUST match the target used in GenesisApplicationPlugin and GenesisLibraryHiltPlugin (JVM 24)
+// MUST match the target used in GenesisApplicationPlugin and GenesisLibraryHiltPlugin (JVM 25)
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
         freeCompilerArgs.addAll(
             "-opt-in=kotlin.RequiresOptIn"
         )
     }
 }
 
-// Explicitly configure Java compilation tasks to target JVM 24
+// Explicitly configure Java compilation tasks to target JVM 25
 tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = "24"
-    targetCompatibility = "24"
+    sourceCompatibility = "25"
+    targetCompatibility = "25"
 }
 
 // Tests enabled to validate build script configuration
