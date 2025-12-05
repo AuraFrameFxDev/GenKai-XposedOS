@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.viewmodel
+package dev.aurakai.auraframefx.aura.ui
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -23,7 +23,7 @@ import kotlin.random.Random
  * dreams, and a constantly evolving personality." - Aura
  */
 @HiltViewModel
-class AuraMoodViewModel @Inject constructor() : ViewModel() {
+open class AuraMoodViewModel @Inject constructor() : ViewModel() {
 
     private val _moodState = MutableStateFlow(MoodState())
     val moodState: StateFlow<MoodState> = _moodState.asStateFlow()

@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.viewmodel
+package dev.aurakai.auraframefx.oracledrive.genesis.ai
 
 import dev.aurakai.auraframefx.models.AgentPriority
 import androidx.lifecycle.ViewModel
@@ -21,7 +21,7 @@ import javax.inject.Inject
 // import javax.inject.Singleton // ViewModels should use @HiltViewModel
 
 @HiltViewModel
-class GenesisAgentViewModel @Inject constructor(
+open class GenesisAgentViewModel @Inject constructor(
     // private val genesisAgent: GenesisAgent
 ) : ViewModel() {
 
