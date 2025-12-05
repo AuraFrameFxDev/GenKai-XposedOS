@@ -5,7 +5,7 @@ import androidx.compose.ui.graphics.Color
 // Primary Colors - Enhanced Neon Palette
 // NOTE: NeonTeal, NeonPurple, NeonPink, NeonCyan moved to Theme.kt for consistency
 // val NeonTeal = Color(0xFF00FFCC) // Brighter teal for accents
-// val NeonPurple = Color(0xFFE000FF) // Slightly softer purple for readability
+val NeonPurple = Color(0xFFE000FF) // Slightly softer purple for readability
 val NeonBlue = Color(0xFF00FFFF) // Bright cyan for highlights
 // val NeonPink = Color(0xFFFF00FF) // Bright pink for secondary accents
 val NeonGreen = Color(0xFF00FF00) // Bright neon green

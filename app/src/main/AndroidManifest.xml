@@ -78,9 +78,7 @@
             android:exported="false"
             tools:node="merge">
             <meta-data
-                android:name="dev.aurakai.auraframefx.core.initialization.AppInitializerInitializer"
-                android:value="androidx.startup" />
-        </provider>
+                android:name="dev.aurakai.auraframefx.core.initializatio
 
         <!-- Main Activity -->
         <activity

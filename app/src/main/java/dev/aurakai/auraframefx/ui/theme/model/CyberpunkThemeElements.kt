@@ -2,7 +2,10 @@ package dev.aurakai.auraframefx.ui.theme.model
 
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
-import dev.aurakai.auraframefx.ui.theme.AppTypography
+import dev.aurakai.auraframefx.ui.theme.Typography
+import dev.aurakai.auraframefx.ui.theme.OnSurface
+import dev.aurakai.auraframefx.ui.theme.NeonPurple
+import dev.aurakai.auraframefx.ui.theme.ErrorColor
 
 // Definitions based on usage in HomeScreen.kt and existing Color.kt / Typography.kt
 

@@ -23,7 +23,7 @@ fun AuraAppTheme(
 /**
  * Aura Theme Data
  */
-data class AuraTheme(
+data class AuraThemeData(
     val accentColor: Color = AuraColors.Primary,
     val animationStyle: AnimationStyle = AnimationStyle.FLOWING
 ) {

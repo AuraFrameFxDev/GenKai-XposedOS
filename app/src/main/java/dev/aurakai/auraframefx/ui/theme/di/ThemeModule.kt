@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.ui.theme.ThemeService
+import dev.aurakai.auraframefx.ui.theme.service.ThemeService
 import javax.inject.Singleton
 
 @Module

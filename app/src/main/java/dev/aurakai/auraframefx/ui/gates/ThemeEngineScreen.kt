@@ -24,9 +24,9 @@ import androidx.compose.ui.input.pointer.pointerInput
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import dev.aurakai.auraframefx.aura.themes.ThemeColors
-import dev.aurakai.auraframefx.aura.themes.ThemeEditor
-import dev.aurakai.auraframefx.ui.components.colorpicker.ColorBlendrPicker
+import dev.aurakai.auraframefx.ui.theme.picker.ThemeColors
+import dev.aurakai.auraframefx.ui.theme.picker.ThemeEditor
+import dev.aurakai.auraframefx.ui.theme.picker.ColorBlendrPicker
 import dev.aurakai.auraframefx.ui.theme.CyberGlow
 import kotlin.collections.forEachIndexed
 import kotlin.collections.toMutableList

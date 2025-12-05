@@ -180,5 +180,5 @@ object ForestTheme : AuraTheme {
  */
 @Composable
 fun AuraTheme.getColorScheme(isDarkTheme: Boolean): ColorScheme {
-    return if (isDarkTheme) AuraTheme.darkColorScheme else AuraTheme.lightColorScheme
+    return if (isDarkTheme) this.darkColorScheme else this.lightColorScheme
 }

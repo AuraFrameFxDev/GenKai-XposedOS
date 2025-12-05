@@ -5,7 +5,7 @@ import com.highcapable.yukihookapi.hook.factory.configs
 import com.highcapable.yukihookapi.hook.factory.encase
 import com.highcapable.yukihookapi.hook.xposed.proxy.IYukiHookXposedInit
 
-@InjectYukiHookWithXposed
+// @InjectYukiHookWithXposed
 class HookEntry : IYukiHookXposedInit {
 
     override fun onInit() = configs {
