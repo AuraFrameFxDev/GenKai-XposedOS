@@ -1,4 +1,4 @@
-import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
+qimport org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
     `kotlin-dsl`        // applies java-gradle-plugin
@@ -25,11 +25,11 @@ configurations.all {
 // Configure Java toolchain to JVM 24 (matches Kotlin target)
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(24))
+        languageVersion.set(JavaLanguageVersion.of(25))
     }
-    // Explicitly set source and target compatibility to 24
-    sourceCompatibility = JavaVersion.VERSION_24
-    targetCompatibility = JavaVersion.VERSION_24
+    // Explicitly set source and target compatibility to 25
+    sourceCompatibility = JavaVersion.VERSION_25
+    targetCompatibility = JavaVersion.VERSION_25
 }
 
 // Configure Kotlin compilation to match Java toolchain
