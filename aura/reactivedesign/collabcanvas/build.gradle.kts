@@ -22,6 +22,7 @@ android {
 
     buildFeatures {
         compose = true
+        buildConfig = true
     }
     // Java 24 compileOptions and Compose are set by genesis.android.base
 }
