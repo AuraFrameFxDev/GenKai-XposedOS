@@ -3,7 +3,7 @@ package dev.aurakai.auraframefx.aura.animations // Ensure this package is correc
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class HomeScreenTransitionConfig(
+data class HomeScreenTransitionEffectsConfig(
     val defaultOutgoingEffect: HomeScreenTransitionEffect? = null,
     val defaultIncomingEffect: HomeScreenTransitionEffect? = null,
 )

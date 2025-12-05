@@ -8,6 +8,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
 
 /**
  * A composable that shows a preview of the theme with common UI elements.

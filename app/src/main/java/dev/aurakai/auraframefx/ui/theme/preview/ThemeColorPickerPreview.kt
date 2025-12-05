@@ -17,6 +17,8 @@ import androidx.compose.ui.unit.dp
 import androidx.core.graphics.toColorInt
 import dev.aurakai.auraframefx.network.model.Theme
 import dev.aurakai.auraframefx.network.model.ThemeColors
+import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
+import dev.aurakai.auraframefx.ui.theme.picker.SpectraCodeReGen
 
 @Preview(showBackground = true, widthDp = 412, heightDp = 800)
 @Composable
