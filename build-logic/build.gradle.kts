@@ -36,7 +36,7 @@ java {
 // MUST match the target used in GenesisApplicationPlugin and GenesisLibraryHiltPlugin (JVM 24)
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_24)
+        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
         freeCompilerArgs.addAll(
             "-opt-in=kotlin.RequiresOptIn"
         )
@@ -45,8 +45,8 @@ tasks.withType<KotlinCompile>().configureEach {
 
 // Explicitly configure Java compilation tasks to target JVM 24
 tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = "24"
-    targetCompatibility = "24"
+    sourceCompatibility = "25"
+    targetCompatibility = "25"
 }
 
 // Tests enabled to validate build script configuration
