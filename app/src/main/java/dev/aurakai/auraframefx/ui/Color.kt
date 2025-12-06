@@ -6,7 +6,11 @@ import androidx.compose.ui.graphics.Color
 // NOTE: NeonTeal, NeonPurple, NeonPink, NeonCyan moved to Theme.kt for consistency
 // val NeonTeal = Color(0xFF00FFCC) // Brighter teal for accents
 val NeonPurple = Color(0xFFE000FF) // Slightly softer purple for readability
-val NeonBlue = Color(0xFF00FFFF) // Bright cyan for highlights
+
+// Legacy NeonBlue in root `ui` package. Prefer `dev.aurakai.auraframefx.ui.theme.NeonBlue`.
+@Deprecated("Use dev.aurakai.auraframefx.ui.theme.NeonBlue instead", level = DeprecationLevel.WARNING)
+val NeonBlueLegacy = Color(0xFF00FFFF) // Bright cyan for highlights
+
 // val NeonPink = Color(0xFFFF00FF) // Bright pink for secondary accents
 val NeonGreen = Color(0xFF00FF00) // Bright neon green
 val NeonRed = Color(0xFFFF0000)   // Bright neon red
