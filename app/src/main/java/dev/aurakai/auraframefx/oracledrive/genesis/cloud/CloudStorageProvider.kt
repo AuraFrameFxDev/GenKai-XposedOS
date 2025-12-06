@@ -1,11 +1,5 @@
 package dev.aurakai.auraframefx.oracledrive.genesis.cloud
 
-import dev.aurakai.auraframefx.oracledrive.DriveFile
-import dev.aurakai.auraframefx.oracledrive.FileMetadata
-import dev.aurakai.auraframefx.oracledrive.FileResult
-import dev.aurakai.auraframefx.oracledrive.StorageOptimization
-import dev.aurakai.auraframefx.oracledrive.SyncConfiguration
-
 /**
  * Cloud storage provider interface for Oracle Drive
  * Handles AI-optimized storage operations with consciousness integration
@@ -54,4 +48,11 @@ interface CloudStorageProvider {
      * @return The result of the synchronization operation, including status and details.
      */
     suspend fun intelligentSync(config: SyncConfiguration): FileResult
+    fun StorageOptimization(
+        bytesFreed: Long,
+        filesOptimized: Int,
+        compressionRatio: Float,
+        success: Boolean,
+        message: String
+    ): StorageOptimization
 }

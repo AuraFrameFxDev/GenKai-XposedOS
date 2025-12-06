@@ -3,26 +3,44 @@
 import android.content.Context
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
-import dev.aurakai.auraframefx.ui.QuickSettingsConfig
-import dev.aurakai.auraframefx.ui.QuickSettingsTileConfig
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 import timber.log.Timber
 import java.io.File
 
+private val Unit.QuickSettingsConfigManager: Unit
+    get() {
+        TODO()
+    }
+private val QuickSettingsConfigManager.Companion.defaultConfig: QuickSettingsConfig
+    get() {
+        TODO()
+    }
+
+data class QuickSettingsTileConfig(
+    val id: String
+)
+enum class QuickSettingsConfig(val tiles: List<QuickSettingsTileConfig>) {
+    DEFAULT(emptyList());
+
+    fun finalize(tiles: MutableList<QuickSettingsTileConfig>) {
+        TODO("Not yet implemented")
+    }
+}
+
 /**
  * Manages Quick Settings configuration including loading, saving, and applying user preferences.
  */
-class QuickSettingsConfigManager(private val context: Context) {
+class QuickSettingsConfigManager(context: Context) {
     private val tag = "QuickSettingsConfigManager"
     private val gson = Gson()
     private val configFile = File(context.filesDir, "quick_settings_config.json")
 
     // Default configuration
-    private val defaultConfig = QuickSettingsConfig.DEFAULT
+    private val defaultConfig: Unit by lazy { dev.aurakai.auraframefx.system.QuickSettingsConfigManager }
 
     // Cache for the current configuration
-    private var currentConfig: QuickSettingsConfig = defaultConfig
+    private var currentConfig: Unit = defaultConfig
 
     /**
      * Loads the Quick Settings configuration from storage.
@@ -38,7 +56,7 @@ class QuickSettingsConfigManager(private val context: Context) {
             val json = configFile.readText()
             if (json.isBlank()) {
                 Timber.tag(tag).d("Empty config file, using default")
-                return@withContext defaultConfig
+                return@withContext QuickSettingsConfigManager.defaultConfig
             }
 
             // Parse the JSON into our config object
@@ -49,7 +67,7 @@ class QuickSettingsConfigManager(private val context: Context) {
             defaultConfig
         }.also {
             currentConfig = it
-        }
+        } as QuickSettingsConfig
     }
 
     /**
@@ -79,10 +97,10 @@ class QuickSettingsConfigManager(private val context: Context) {
             val index = currentTiles.indexOfFirst { it.id == tileId }
 
             if (index != -1) {
-                val updatedTile = update(currentTiles[index])
+                val updatedTile: QuickSettingsTileConfig = update(currentTiles[index])
                 currentTiles[index] = updatedTile
 
-                val updatedConfig = currentConfig.copy(tiles = currentTiles)
+                val updatedConfig: Unit = currentConfig.finalize(tiles = currentTiles)
                 saveConfig(updatedConfig)
             } else {
                 false
@@ -92,6 +110,12 @@ class QuickSettingsConfigManager(private val context: Context) {
             false
         }
     }
+
+    private fun saveConfig(updatedConfig: Any): Boolean {
+        TODO("Not yet implemented")
+    }
+
+    private fun update(p1: MatchGroup?) {}
 
     /**
      * Resets the configuration to default values.
@@ -128,3 +152,13 @@ class QuickSettingsConfigManager(private val context: Context) {
         }
     }
 }
+
+private fun MutableList<QuickSettingsTileConfig>.set(index: Int, it: QuickSettingsTileConfig) {
+    TODO("Not yet implemented")
+}
+
+private fun Any.toMutableList(): MutableList<QuickSettingsTileConfig> {
+    TODO("Not yet implemented")
+}
+
+DEFAULT;
