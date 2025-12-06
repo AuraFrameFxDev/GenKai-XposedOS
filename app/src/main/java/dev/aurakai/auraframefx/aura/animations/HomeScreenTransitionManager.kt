@@ -24,7 +24,7 @@ open class HomeScreenTransitionManager(
 
     private val currentConfigState =
         MutableStateFlow(HomeScreenTransitionConfig()) // Initialize with default
-    val currentConfig: StateFlow<HomeScreenTransitionConfig?> =
+    open val currentConfig: StateFlow<HomeScreenTransitionConfig?> =
         currentConfigState // Kept nullable for safety
 
     private val defaultConfig = HomeScreenTransitionConfig(
