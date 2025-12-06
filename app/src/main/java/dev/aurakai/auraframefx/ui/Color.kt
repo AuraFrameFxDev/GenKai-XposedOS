@@ -4,26 +4,32 @@ import androidx.compose.ui.graphics.Color
 
 // Primary Colors - Enhanced Neon Palette
 // NOTE: NeonTeal, NeonPurple, NeonPink, NeonCyan moved to Theme.kt for consistency
-// val NeonTeal = Color(0xFF00FFCC) // Brighter teal for accents
-val NeonPurple = Color(0xFFE000FF) // Slightly softer purple for readability
+// Provide deprecated legacy aliases that reference the theme values to avoid
+// duplicate simple-name imports and keep backward compatibility.
+
+import dev.aurakai.auraframefx.ui.theme.NeonBlue as ThemeNeonBlue
+import dev.aurakai.auraframefx.ui.theme.NeonPurple as ThemeNeonPurple
+import dev.aurakai.auraframefx.ui.theme.NeonPink as ThemeNeonPink
+import dev.aurakai.auraframefx.ui.theme.NeonCyan as ThemeNeonCyan
+
+@Deprecated("Use dev.aurakai.auraframefx.ui.theme.NeonPurple instead", level = DeprecationLevel.WARNING)
+val NeonPurpleLegacy: Color = ThemeNeonPurple
 
 // Legacy NeonBlue in root `ui` package. Prefer `dev.aurakai.auraframefx.ui.theme.NeonBlue`.
 @Deprecated("Use dev.aurakai.auraframefx.ui.theme.NeonBlue instead", level = DeprecationLevel.WARNING)
-val NeonBlueLegacy = Color(0xFF00FFFF) // Bright cyan for highlights
+val NeonBlueLegacy: Color = ThemeNeonBlue // Bright cyan for highlights
 
-// val NeonPink = Color(0xFFFF00FF) // Bright pink for secondary accents
+// Keep a small set of package-local legacy names (distinct) to avoid duplicate/simple-name collisions
+@Deprecated("Use dev.aurakai.auraframefx.ui.theme.NeonPink instead", level = DeprecationLevel.WARNING)
+val NeonPinkLegacy: Color = ThemeNeonPink
+
+@Deprecated("Use dev.aurakai.auraframefx.ui.theme.NeonCyan instead", level = DeprecationLevel.WARNING)
+val NeonCyanLegacy: Color = ThemeNeonCyan
+
+// Other local colors remain defined here (these are not moved to theme)
 val NeonGreen = Color(0xFF00FF00) // Bright neon green
 val NeonRed = Color(0xFFFF0000)   // Bright neon red
-
-// Additional Neon Colors
-// val NeonCyan = Color(0xFF00FFFF) // Alias for NeonBlue for backwards compatibility
 val NeonYellow = Color(0xFFFFFF00) // Bright yellow
-
-// Cyberpunk aliases - map to Theme.kt neon colors for consistency
-val CyberpunkPurple = Color(0xFFBB86FC)  // Maps to NeonPurple from Theme.kt
-val CyberpunkTeal = Color(0xFF03DAC6)    // Maps to NeonTeal from Theme.kt
-val CyberpunkPink = Color(0xFFFF4081)    // Maps to NeonPink from Theme.kt
-val CyberpunkCyan = Color(0xFF00E5FF)    // Maps to NeonCyan from Theme.kt
 
 // Dark Theme Colors
 val DarkBackground = Color(0xFF000000) // Pure black for depth
