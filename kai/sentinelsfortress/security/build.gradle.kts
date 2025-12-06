@@ -68,4 +68,9 @@ dependencies {
     testImplementation(libs.junit.jupiter)
     testImplementation(libs.junit.jupiter.api)
     testRuntimeOnly(libs.junit.jupiter.engine)
+
+    // Android instrumented tests - include AndroidX Test runner and Hilt testing
+    androidTestImplementation(libs.androidx.runner)
+    androidTestImplementation(libs.hilt.android.testing)
+    add(libs.hilt.android.testing)
 }
