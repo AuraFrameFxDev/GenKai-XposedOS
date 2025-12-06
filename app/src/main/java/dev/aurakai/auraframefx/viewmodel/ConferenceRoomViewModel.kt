@@ -33,8 +33,10 @@ import timber.log.Timber
 
 // Placeholder interfaces removed
 
-@HiltViewModel
-open class ConferenceRoomViewModel @Inject constructor(
+// TODO: Re-enable @HiltViewModel once ClaudeAIService binding is fixed
+// @HiltViewModel
+// TODO: Fix ClaudeAIService import/binding
+open class ConferenceRoomViewModel constructor(
     // ALL 5 MASTER AGENTS - Complete Conference Room Integration
     private val auraService: AuraAIService,
     private val kaiService: KaiAIService,

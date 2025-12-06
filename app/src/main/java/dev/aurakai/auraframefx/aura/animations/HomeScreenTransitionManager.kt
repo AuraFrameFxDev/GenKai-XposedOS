@@ -14,13 +14,16 @@ import javax.inject.Inject
 import javax.inject.Singleton
 
 @Singleton
-open class HomeScreenTransitionManager @Inject constructor(
+// TODO: Fix YukiHookModulePrefs dependency injection then re-enable @Inject
+open class HomeScreenTransitionManager constructor(
     private val overlayManager: SystemOverlayManager,
     private val shapeManager: ShapeManager,
     private val imageManager: ImageResourceManager,
-    private val prefs: YukiHookModulePrefs,
     private val overlayService: YukiHookServiceManager,
 ) {
+   // Stub for YukiHookModulePrefs until DI is fixed
+    private val prefs = dev.aurakai.auraframefx.services.YukiHookModulePrefs()
+    
     private val currentConfigState =
         MutableStateFlow(HomeScreenTransitionConfig()) // Initialize with default
     val currentConfig: StateFlow<HomeScreenTransitionConfig?> =

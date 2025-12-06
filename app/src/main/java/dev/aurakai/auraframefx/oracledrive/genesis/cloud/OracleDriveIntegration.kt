@@ -8,7 +8,8 @@ import javax.inject.Singleton
  * Connects consciousness-driven storage with the 9-agent architecture
  */
 @Singleton
-class OracleDriveIntegration @Inject constructor(
+// TODO: Create Hilt @Binds for OracleDriveService interface
+class OracleDriveIntegration /* @Inject */ constructor(
     private val oracleDriveService: OracleDriveService
 ) {
 

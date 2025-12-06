@@ -31,7 +31,8 @@ import javax.inject.Singleton
  * and manages the seamless interaction between all three layers.
  */
 @Singleton
-class TrinityCoordinatorService @Inject constructor(
+// TODO: Create Hilt module for AuraAIService binding
+class TrinityCoordinatorService /* @Inject */ constructor(
     private val auraAIService: AuraAIService,
     private val kaiAIService: KaiAIService,
     private val genesisBridgeService: dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisBridgeService,

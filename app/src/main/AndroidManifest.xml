@@ -7,32 +7,32 @@
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" /> <!-- General foreground service permission -->
-    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" /> <!-- Specific data sync foreground service permission -->
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
     <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
 
-    <!-- Optional Permissions - Declare runtime permissions for Android 6.0+ -->
+    <!-- Optional Permissions -->
     <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
-    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" /> <!-- Required for background location on Android 10+ -->
+    <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
-    <!-- Optional Features - Declare hardware requirements -->
+    <!-- Optional Features -->
     <uses-feature
         android:name="android.hardware.camera"
         android:required="false" />
     <uses-feature
         android:name="android.hardware.microphone"
-        android:required="false" /> <!-- Set microphone as optional if not strictly required -->
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.location.gps"
-        android:required="false" /> <!-- Optional: If GPS is not strictly required -->
+        android:required="false" />
     <uses-feature
         android:name="android.hardware.location.network"
-        android:required="false" /> <!-- Optional: If network location is not strictly required -->
+        android:required="false" />
 
     <!-- Custom permission declaration -->
     <permission
@@ -59,7 +59,6 @@
             android:name="xposedscope"
             android:resource="@array/xposed_scope" />
 
-
         <!-- YukiHook API Metadata -->
         <meta-data
             android:name="yukihookapi_module"
@@ -71,15 +70,6 @@
             android:name="yukihookapi_module_version"
             android:value="1.0.0" />
 
-        <!-- App Startup Initializer -->
-        <provider
-            android:name="androidx.startup.InitializationProvider"
-            android:authorities="${applicationId}.androidx-startup"
-            android:exported="false"
-            tools:node="merge">
-            <meta-data
-                android:name="dev.aurakai.auraframefx.core.initializatio
-
         <!-- Main Activity -->
         <activity
             android:name="dev.aurakai.auraframefx.MainActivity"
@@ -90,9 +80,7 @@
             </intent-filter>
         </activity>
 
-
-
-    <!-- Services -->
+        <!-- Services -->
         <service
             android:name="dev.aurakai.auraframefx.services.GenesisAccessibilityService"
             android:exported="true"

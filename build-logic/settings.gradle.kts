@@ -5,6 +5,7 @@ dependencyResolutionManagement {
         google()
         mavenCentral()
         gradlePluginPortal()
+        maven("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/eap")
     }
     versionCatalogs {
         create("libs") {

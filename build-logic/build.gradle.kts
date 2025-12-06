@@ -1,3 +1,5 @@
+import org.gradle.kotlin.dsl.implementation
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 plugins {
@@ -22,31 +24,31 @@ configurations.all {
     exclude(group = "androidx.core")
 }
 
-// Configure Java toolchain to JVM 25 (matches gradle.properties and CI environment)
+// Configure Java toolchain to JVM 24 (matches gradle.properties and Kotlin target)
 java {
     toolchain {
-        languageVersion.set(JavaLanguageVersion.of(25))
+        languageVersion.set(JavaLanguageVersion.of(24))
     }
-    // Explicitly set source and target compatibility to 25
-    sourceCompatibility = JavaVersion.VERSION_25
-    targetCompatibility = JavaVersion.VERSION_25
+    // Explicitly set source and target compatibility to 24
+    sourceCompatibility = JavaVersion.VERSION_24
+    targetCompatibility = JavaVersion.VERSION_24
 }
 
 // Configure Kotlin compilation to match Java toolchain
-// MUST match the target used in GenesisApplicationPlugin and GenesisLibraryHiltPlugin (JVM 25)
+// MUST match the target used in GenesisApplicationPlugin and GenesisLibraryHiltPlugin (JVM 24)
 tasks.withType<KotlinCompile>().configureEach {
     compilerOptions {
-        jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_25)
+        jvmTarget.set(JvmTarget.JVM_24)
         freeCompilerArgs.addAll(
             "-opt-in=kotlin.RequiresOptIn"
         )
     }
 }
 
-// Explicitly configure Java compilation tasks to target JVM 25
+// Explicitly configure Java compilation tasks to target JVM 24
 tasks.withType<JavaCompile>().configureEach {
-    sourceCompatibility = "25"
-    targetCompatibility = "25"
+    sourceCompatibility = "24"
+    targetCompatibility = "24"
 }
 
 // Tests enabled to validate build script configuration
@@ -73,22 +75,22 @@ gradlePlugin {
 
 dependencies {
     // CRITICAL: All versions MUST match root build.gradle.kts and gradle/libs.versions.toml
-    // Kotlin 2.2.21 is the stable version declared in the root build
-    implementation("com.android.tools.build:gradle:9.0.0-beta03")
-    implementation("org.jetbrains.kotlin:kotlin-gradle-plugin:2.2.21")
+    // Using version catalog for consistency
+    implementation(libs.gradle.plugin)
+    implementation(libs.kotlin.gradle.plugin)
 
-    implementation("org.jetbrains.kotlin:compose-compiler-gradle-plugin:2.2.21")
-    implementation("org.jetbrains.kotlin:kotlin-serialization:2.2.21")
+    implementation(libs.compose.compiler.gradle.plugin)
+    implementation(libs.jetbrains.kotlin.serialization)
 
     // Hilt Gradle Plugin (Android AAR dependencies excluded globally via configurations.all)
-    implementation("com.google.dagger:hilt-android-gradle-plugin:2.57.2")
+    implementation(libs.hilt.gradle.plugin)
 
-    implementation("com.google.devtools.ksp:symbol-processing-gradle-plugin:2.3.3")
-    implementation("com.google.gms:google-services:4.4.4")
+    implementation(libs.ksp.gradle.plugin)
+    implementation(libs.gms.google.services)
     testImplementation(kotlin("test"))
-    testImplementation("org.junit.jupiter:junit-jupiter-api:5.14.1")
-    testImplementation("org.junit.jupiter:junit-jupiter-params:5.14.1")
-    testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.14.1")
+    testImplementation(libs.junit.jupiter.api)
+    testImplementation(libs.junit.jupiter.params)
+    testRuntimeOnly(libs.jupiter.junit.jupiter.engine)
 }
 
 tasks.withType<Test> {

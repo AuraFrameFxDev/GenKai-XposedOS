@@ -7,8 +7,8 @@ pluginManagement {
         gradlePluginPortal()
         google()
         mavenCentral()
-        // Kotlin dev repository for beta/EAP releases
-        maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/dev") }
+        // Kotlin EAP repository for Kotlin 2.3.0 and release candidates
+        maven { url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/eap") }
         maven { url = uri("https://jitpack.io") }
         maven { url = uri("https://dl.google.com/dl/android/maven2/") }
         // Plugin versions are now managed in the root build.gradle.kts
@@ -23,6 +23,10 @@ pluginManagement {
         repositories {
             google()
             mavenCentral()
+            // Kotlin EAP repository for Kotlin 2.3.0
+            maven {
+                url = uri("https://maven.pkg.jetbrains.space/kotlin/p/kotlin/eap")
+            }
             maven {
                 url = uri("https://jitpack.io")
                 metadataSources {

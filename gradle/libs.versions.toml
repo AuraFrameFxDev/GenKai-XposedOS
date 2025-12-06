@@ -31,11 +31,11 @@ hilt-android = "2.57.2"
 hiltAndroidTestingVersion = "2.57.2"
 hiltWork = "1.3.0"
 
-# Kotlin - Latest stable: 2.2.21 (stable for Compose improvements)
+# Kotlin - Latest: 2.3.0-RC2 (from JetBrains EAP repo)
 junitJupiterApi = "6.0.1"
 junitJupiterApiVersion = "6.0.1"
 junitVintageEngine = "6.0.1"
-kotlin = "2.3.0"
+kotlin = "2.3.0-RC2"
 
 # Enable context parameters for Kotlin 2.2 features
 
@@ -243,6 +243,8 @@ kotlinxCoroutinesTest = "1.8.1"
 # Turbine for Flow testing
 turbine = "1.1.0"
 kotlin-compose = "1.82"
+junitJupiterParams = "5.14.1"
+junitJupiterEngine = "5.14.1"
 
 # Robolectric
 robolectric = "4.12.1"
@@ -294,6 +296,11 @@ ksp-gradle-plugin = { group = "com.google.devtools.ksp", name = "symbol-processi
 google-services-gradle-plugin = { group = "com.google.gms.google-services", name = "google-services", version.ref = "googleServices" }
 gradle-core = { group = "org.gradle", name = "gradle-core", version.ref = "gradleCore" }
 foojayresolver = { group = "org.gradle.toolchains", name = "foojay-resolver", version.ref = "foojayResolver" }
+compose-compiler-gradle-plugin = { group = "org.jetbrains.kotlin", name = "compose-compiler-gradle-plugin", version.ref = "kotlin" }
+jetbrains-kotlin-serialization = { group = "org.jetbrains.kotlin", name = "kotlin-serialization", version.ref = "kotlin" }
+gms-google-services = { group = "com.google.gms", name = "google-services", version.ref = "googleServices" }
+junit-jupiter-params = { group = "org.junit.jupiter", name = "junit-jupiter-params", version.ref = "junitJupiterParams" }
+jupiter-junit-jupiter-engine = { group = "org.junit.jupiter", name = "junit-jupiter-engine", version.ref = "junitJupiterEngine" }
 
 # Network & Serialization Libraries
 # Network Clients
