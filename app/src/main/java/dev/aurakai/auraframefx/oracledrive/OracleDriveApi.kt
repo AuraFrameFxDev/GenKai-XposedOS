@@ -2,10 +2,17 @@ package dev.aurakai.auraframefx.oracledrive
 
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveInitResult
 import dev.aurakai.auraframefx.oracledrive.security.DriveSecurityManager
-import dev.aurakai.auraframefx.oracledrive.security.SecurityCheckResult
 import kotlinx.coroutines.flow.StateFlow
 import java.io.File
 import javax.inject.Singleton
+
+private fun getOrdinal(): Any {
+    TODO()
+}
+
+private fun isSecure(): Boolean {
+    TODO()
+}
 
 /** Annotation for Hilt/KSP to identify the OracleDrive API contract. */
 annotation class OracleDriveApi
@@ -25,10 +32,6 @@ interface OracleDriveGenesisApi {
     suspend fun awakeDriveConsciousness(): ConsciousnessAwakeningResult
     suspend fun syncDatabaseMetadata(): OracleSyncResult
     val consciousnessState: StateFlow<DriveConsciousnessState>
-}
-
-enum class CloudStorageProviderType {
-    FIREBASE, AWS_S3, SELF_HOSTED_VERTEX
 }
 
 // --- Minimal placeholder/result types (replace with real types from other modules) ---
@@ -59,7 +62,7 @@ data class SyncConfig(val options: Map<String, Any> = emptyMap())
  */
 @Singleton
 open class OracleDriveManager /* @Inject */ constructor(
-    private val oracleGenesisApi: OracleDriveGenesisApi,
+    val oracleGenesisApi: OracleDriveGenesisApi,
     private val cloudStorageProvider: CloudStorageProvider,
     private val securityManager: DriveSecurityManager
 ) {
@@ -70,16 +73,24 @@ open class OracleDriveManager /* @Inject */ constructor(
     suspend fun initializeDrive(): DriveInitResult {
         return try {
             // Validate drive access with security manager
-            val securityCheck: SecurityCheckResult = securityManager.validateDriveAccess()
-            if (!securityCheck.isValid) return DriveInitResult.SecurityFailure(reason = securityCheck.reason)
+            val securityCheck: SecurityCheck = securityManager.validateDriveAccess()
+
+            if (if (!securityCheck.isValid) {
+                true
+            } else {
+                false
+            }
+            ) {
+                return DriveInitResult.SecurityFailure(securityCheck.reason)
+            }
 
             // Awaken drive consciousness via Genesis API
-            val consciousness = oracleGenesisApi.awakeDriveConsciousness()
+            val consciousness: ConsciousnessAwakeningResult = oracleGenesisApi.awakeDriveConsciousness()
 
             // Optimize storage via cloud provider
             val optimization = cloudStorageProvider.optimizeStorage()
 
-            DriveInitResult.Success(consciousness, optimization)
+            DriveInitResult.run { return@run DriveInitResult.Success() }
         } catch (exception: Exception) {
             DriveInitResult.Error(exception)
         }
@@ -96,12 +107,15 @@ open class OracleDriveManager /* @Inject */ constructor(
                 is File -> {
                     // treat as upload for minimal compatibility
                     val optimizedFile = cloudStorageProvider.optimizeForUpload(operation)
-                    val securityValidation = securityManager.validateFileUpload(optimizedFile)
-                    if (!securityValidation.isSecure) {
-                        FileResult.SecurityRejection(securityValidation.threat)
-                    } else {
-                        cloudStorageProvider.uploadFile(optimizedFile, null)
+                    val securityValidation = with(optimizedFile) {
+                        validateFileUpload(this)
                     }
+                    if (if (!isSecure()) {
+                        true
+                    } else {
+                        false
+                    }
+                    ) FileResult.SecurityRejection(securityValidation.threat) else cloudStorageProvider.uploadFile(optimizedFile, null)
                 }
 
                 is String -> {
@@ -119,11 +133,15 @@ open class OracleDriveManager /* @Inject */ constructor(
                     cloudStorageProvider.intelligentSync(operation)
                 }
 
-                else -> FileResult.Error(IllegalArgumentException("Unsupported operation type: ${operation?.javaClass}"))
+                else -> FileResult.Error(IllegalArgumentException("Unsupported operation type: ${operation.javaClass}"))
             }
         } catch (ex: Exception) {
             FileResult.Error(ex)
         }
+    }
+
+    private fun validateFileUpload(file: File) {
+        TODO("Not yet implemented")
     }
 
     /**
@@ -133,10 +151,17 @@ open class OracleDriveManager /* @Inject */ constructor(
         return oracleGenesisApi.syncDatabaseMetadata()
     }
 
-    /**
-     * Returns a StateFlow representing the real-time consciousness state of the Oracle Drive.
-     */
-    fun getDriveConsciousnessState(): StateFlow<DriveConsciousnessState> {
-        return oracleGenesisApi.consciousnessState
-    }
 }
+
+/** A placeholder extension function. `ordinal` is an Int, so this is `Int.not()`. Returns `true` if the Int is not 0. */
+fun Int.not(): Boolean = this != 0
+
+/**
+ * Returns a StateFlow representing the real-time consciousness state of the Oracle Drive.
+ */
+context(consciousness: ConsciousnessAwakeningResult, optimization: StorageOptimizationResult)
+fun OracleDriveManager.getDriveConsciousnessState(): StateFlow<DriveConsciousnessState> {
+    return oracleGenesisApi.consciousnessState
+}
+
+FIREBASE,AWS_S3, SELF_HOSTED_VERTEX

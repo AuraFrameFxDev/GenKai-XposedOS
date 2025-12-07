@@ -4,7 +4,7 @@ import dev.aurakai.auraframefx.oracledrive.AccessCheck
 import dev.aurakai.auraframefx.oracledrive.DeletionValidation
 import dev.aurakai.auraframefx.oracledrive.DriveFile
 import dev.aurakai.auraframefx.oracledrive.SecurityCheck
-import dev.aurakai.auraframefx.oracledrive.SecurityValidation
+import dev.aurakai.auraframefx.oracledrive.genesis.cloud.SecurityValidation
 
 /**
  * Security manager for Oracle Drive operations
@@ -32,7 +32,7 @@ interface DriveSecurityManager {
      *
      * @param fileId The unique identifier of the file to check.
      * @param userId The unique identifier of the user requesting access.
-     * @return An [AccessCheck] indicating whether access is permitted.
+     * @return An [dev.aurakai.auraframefx.oracledrive.genesis.cloud.AccessCheck] indicating whether access is permitted.
      */
     fun validateFileAccess(fileId: String, userId: String): AccessCheck
 
@@ -44,4 +44,6 @@ interface DriveSecurityManager {
      * @return A DeletionValidation indicating whether the deletion is authorized.
      */
     fun validateDeletion(fileId: String, userId: String): DeletionValidation
+    fun validateFileAccess(fileId: String) {}
 }
+
