@@ -11,8 +11,8 @@ import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
 import dev.aurakai.auraframefx.ui.theme.model.AuraTheme
+import dev.aurakai.auraframefx.ui.theme.model.AuraThemeData
 import kotlinx.coroutines.delay
-import kotlin.math.*
 
 /**
  * Kinetic Identity Animation Library
@@ -277,8 +277,8 @@ object KineticIdentityLibrary {
     }
 
     data class Particle(
-        val position: Offset,
-        val velocity: Offset,
+        val position: dev.aurakai.auraframefx.ui.components.graph.Offset,
+        val velocity: dev.aurakai.auraframefx.ui.components.graph.Offset,
         val life: Float,
         val maxLife: Float,
         val size: Float,
@@ -328,16 +328,16 @@ object KineticIdentityLibrary {
      */
     private fun updateParticle(
         particle: Particle,
-        animationStyle: AuraTheme.AnimationStyle,
+        animationStyle: AuraThemeData.AnimationStyle,
         flowDirection: FlowDirection,
         intensity: Float,
     ): Particle {
         val speedMultiplier = when (animationStyle) {
-            AuraTheme.AnimationStyle.ENERGETIC -> 2.0f
-            AuraTheme.AnimationStyle.CALMING -> 0.5f
-            AuraTheme.AnimationStyle.FLOWING -> 1.0f
-            AuraTheme.AnimationStyle.PULSING -> 1.5f
-            AuraTheme.AnimationStyle.SUBTLE -> 0.3f
+            AuraThemeData.AnimationStyle.ENERGETIC -> 2.0f
+            AuraThemeData.AnimationStyle.CALMING -> 0.5f
+            AuraThemeData.AnimationStyle.FLOWING -> 1.0f
+            AuraThemeData.AnimationStyle.PULSING -> 1.5f
+            AuraThemeData.AnimationStyle.SUBTLE -> 0.3f
         } * intensity
 
         val newVelocity = when (flowDirection) {

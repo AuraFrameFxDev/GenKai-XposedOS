@@ -125,13 +125,13 @@ sealed class FileResult {
     data class Success(val message: String) : FileResult()
     data class Error(val exception: Exception) : FileResult()
     companion object {
-        val Companion: Any
+        val Companion: Any = TODO()
     }
 }
 
 sealed class DriveInitResult {
     data class Success(
-        val consciousness: ConsciousnessAwakeningResult,
+        val consciousness: DriveConsciousness,
         val optimization: StorageOptimization
     ) : DriveInitResult()
 
@@ -142,7 +142,10 @@ sealed class DriveInitResult {
             TODO("Not yet implemented")
         }
 
-        fun Success(): Success {
+        fun Success(
+            consciousness: ConsciousnessAwakeningResult,
+            optimization: StorageOptimizationResult
+        ): Success {
             TODO("Not yet implemented")
         }
     }
