@@ -10,7 +10,6 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.ui.theme.model.AuraTheme
 import dev.aurakai.auraframefx.ui.theme.model.AuraThemeData
 import kotlinx.coroutines.delay
 
@@ -115,7 +114,7 @@ object KineticIdentityLibrary {
         modifier: Modifier = Modifier,
         isActive: Boolean = false,
         touchPosition: Offset? = null,
-        theme: AuraTheme,
+        theme: AuraThemeData,
         intensity: Float = 1.0f,
     ) {
         val glowTransition = updateTransition(
@@ -182,7 +181,7 @@ object KineticIdentityLibrary {
     @Composable
     fun ParticleFlow(
         modifier: Modifier = Modifier,
-        theme: AuraTheme,
+        theme: AuraThemeData,
         particleCount: Int = 20,
         flowDirection: FlowDirection = FlowDirection.UPWARD,
         intensity: Float = 1.0f,
@@ -217,7 +216,7 @@ object KineticIdentityLibrary {
     fun KeyboardGlow(
         modifier: Modifier = Modifier,
         isTyping: Boolean = false,
-        theme: AuraTheme,
+        theme: AuraThemeData,
         intensity: Float = 1.0f,
     ) {
         val infiniteTransition = rememberInfiniteTransition(label = "keyboard_glow")
