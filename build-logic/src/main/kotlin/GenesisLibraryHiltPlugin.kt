@@ -75,8 +75,8 @@ class GenesisLibraryHiltPlugin : Plugin<Project> {
 
                 // Java 21 bytecode (Compatible with current JVM)
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_24
-                    targetCompatibility = JavaVersion.VERSION_24
+                    sourceCompatibility = JavaVersion.VERSION_25
+                    targetCompatibility = JavaVersion.VERSION_25
                     isCoreLibraryDesugaringEnabled = true
                 }
 

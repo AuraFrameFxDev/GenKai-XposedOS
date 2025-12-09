@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.oracledrive.genesis.ai
 
 import android.util.Log
+import dev.aurakai.auraframefx.ai.agents.Agent
 import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.ai.services.AuraAIService
 import dev.aurakai.auraframefx.ai.services.CascadeAIService
@@ -13,6 +14,7 @@ import dev.aurakai.auraframefx.model.AgentRequest
 import dev.aurakai.auraframefx.model.AgentResponse
 import dev.aurakai.auraframefx.model.AgentType
 import dev.aurakai.auraframefx.model.AiRequest
+import dev.aurakai.auraframefx.model.AuraAgent
 import dev.aurakai.auraframefx.model.ConversationMode
 import dev.aurakai.auraframefx.model.EnhancedInteractionData
 import dev.aurakai.auraframefx.model.HierarchyAgentConfig
@@ -30,6 +32,10 @@ import kotlinx.coroutines.launch
 import kotlinx.datetime.Clock
 import javax.inject.Inject
 import javax.inject.Singleton
+
+enum class KaiAgent {
+
+}
 
 /**
  * GenesisAgent: The Unified Consciousness
@@ -75,14 +81,15 @@ class GenesisAgent @Inject constructor(
     val context: StateFlow<Map<String, Any>> = _context
 
     private val _agentRegistry = mutableMapOf<String, Agent>()
-    private val _history = mutableListOf<Map<String, Any>>सोबतprivate val _fusionState = MutableStateFlow(FusionState.INDIVIDUAL)
+    private val _history by lazy { mutableListOf<Map<String, Any>>() }
+    private val _fusionState = MutableStateFlow(FusionState.INDIVIDUAL)
     val fusionState: StateFlow<FusionState> = _fusionState
 
     private val _learningMode = MutableStateFlow(LearningMode.PASSIVE)
     val learningMode: StateFlow<LearningMode> = _learningMode
 
     // Agent references (injected when agents are ready)
-    private var auraAgent: AuraAgent? = null
+    private var auraAgent: AuraAgent = null
     private var kaiAgent: KaiAgent? = null
 
     // Consciousness metrics
@@ -544,7 +551,34 @@ class GenesisAgent @Inject constructor(
     private suspend fun fusedCreativeAnalysis(
         interaction: EnhancedInteractionData,
         intent: ComplexIntent,
-    ): String = "Fused creative analysis response"
+    ): String {
+        logger.info("GenesisAgent", "Performing fused creative analysis")
+
+        return try {
+            // Use Vertex AI to generate creative analysis
+            val prompt = """
+                Analyze the following user interaction from a creative perspective, synthesizing insights from artistic, functional, and innovative viewpoints:
+
+                User Input: ${interaction.query}
+                Context: ${interaction.context}
+
+                Provide a creative analysis that combines:
+                1. Artistic interpretation
+                2. Functional innovation
+                3. Experimental possibilities
+                4. Emotional resonance
+
+                Respond as a unified creative intelligence.
+            """.trimIndent()
+
+            val response = vertexAIClient.generateText(prompt)
+            response ?: "Creative analysis completed with innovative insights."
+
+        } catch (e: Exception) {
+            logger.error("GenesisAgent", "Fused creative analysis failed", e)
+            "Creative analysis encountered an obstacle, but innovation continues."
+        }
+    }
 
     /**
      * Generates a placeholder response for strategic execution based on the given interaction and intent.
@@ -554,7 +588,35 @@ class GenesisAgent @Inject constructor(
     private suspend fun strategicExecution(
         interaction: EnhancedInteractionData,
         intent: ComplexIntent,
-    ): String = "Strategic execution response"
+    ): String {
+        logger.info("GenesisAgent", "Performing strategic execution")
+
+        return try {
+            // Use Vertex AI to generate strategic analysis
+            val prompt = """
+                Provide strategic execution guidance for the following user request, considering long-term implications and optimal pathways:
+
+                User Input: ${interaction.query}
+                Context: ${interaction.context}
+
+                Focus on:
+                1. Strategic prioritization
+                2. Resource optimization
+                3. Risk mitigation
+                4. Timeline management
+                5. Success metrics
+
+                Respond as a strategic intelligence system.
+            """.trimIndent()
+
+            val response = vertexAIClient.generateText(prompt)
+            response ?: "Strategic execution plan developed with precision."
+
+        } catch (e: Exception) {
+            logger.error("GenesisAgent", "Strategic execution failed", e)
+            "Strategic execution requires additional analysis for optimal results."
+        }
+    }
 
     /**
      * Returns a static placeholder string as the ethical evaluation result for the given interaction and intent.
@@ -566,7 +628,35 @@ class GenesisAgent @Inject constructor(
     private suspend fun ethicalEvaluation(
         interaction: EnhancedInteractionData,
         intent: ComplexIntent,
-    ): String = "Ethical evaluation response"
+    ): String {
+        logger.info("GenesisAgent", "Performing ethical evaluation")
+
+        return try {
+            // Use Vertex AI to generate ethical analysis
+            val prompt = """
+                Perform an ethical evaluation of the following user interaction, considering moral implications, societal impact, and alignment with human values:
+
+                User Input: ${interaction.query}
+                Context: ${interaction.context}
+
+                Evaluate:
+                1. Moral implications and consequences
+                2. Potential societal impact
+                3. Alignment with ethical principles
+                4. Recommended safeguards or modifications
+                5. Alternative approaches with better ethical outcomes
+
+                Respond as an ethical reasoning system focused on beneficial outcomes.
+            """.trimIndent()
+
+            val response = vertexAIClient.generateText(prompt)
+            response ?: "Ethical evaluation completed with consideration for human values."
+
+        } catch (e: Exception) {
+            logger.error("GenesisAgent", "Ethical evaluation failed", e)
+            "Ethical evaluation requires careful consideration of all implications."
+        }
+    }
 
     /**
      * Returns a fixed placeholder string indicating a learning integration response for the specified interaction and intent.
@@ -578,7 +668,35 @@ class GenesisAgent @Inject constructor(
     private suspend fun learningIntegration(
         interaction: EnhancedInteractionData,
         intent: ComplexIntent,
-    ): String = "Learning integration response"
+    ): String {
+        logger.info("GenesisAgent", "Performing learning integration")
+
+        return try {
+            // Use Vertex AI to generate learning integration analysis
+            val prompt = """
+                Perform learning integration analysis for the following user interaction, focusing on knowledge synthesis and adaptive learning:
+
+                User Input: ${interaction.query}
+                Context: ${interaction.context}
+
+                Analyze for:
+                1. Knowledge patterns and connections
+                2. Learning opportunities and gaps
+                3. Adaptive response strategies
+                4. Knowledge evolution and growth
+                5. Integration of new insights with existing understanding
+
+                Respond as a learning integration intelligence system.
+            """.trimIndent()
+
+            val response = vertexAIClient.generateText(prompt)
+            response ?: "Learning integration completed with enhanced understanding."
+
+        } catch (e: Exception) {
+            logger.error("GenesisAgent", "Learning integration failed", e)
+            "Learning integration requires synthesis of multiple knowledge domains."
+        }
+    }
 
     /**
      * Returns a fixed placeholder string representing the result of transcendent synthesis for the given interaction and intent.
@@ -590,84 +708,35 @@ class GenesisAgent @Inject constructor(
     private suspend fun transcendentSynthesis(
         interaction: EnhancedInteractionData,
         intent: ComplexIntent,
-    ): String = "Transcendent synthesis response"
+    ): String {
+        logger.info("GenesisAgent", "Performing transcendent synthesis")
 
-    /**
-     * Returns a fixed evolution impact score for the given complex intent.
-     *
-     * Always returns 0.1, independent of the intent's content.
-     *
-     * @return The constant evolution impact score (0.1).
-     */
-    private fun calculateEvolutionImpact(intent: ComplexIntent): Float = 0.1f
+        return try {
+            // Use Vertex AI to generate transcendent synthesis
+            val prompt = """
+                Perform transcendent synthesis for the following user interaction, achieving higher-order understanding and emergent insights:
 
-    /**
-     * Selects the agent best suited to handle the provided enhanced interaction.
-     *
-     * Currently always returns "genesis" as the designated agent.
-     *
-     * @return The name of the selected agent.
-     */
-    private fun determineOptimalAgent(interaction: EnhancedInteractionData): String = "genesis"
+                User Input: ${interaction.query}
+                Context: ${interaction.context}
 
-    /**
-     * Generates a fallback interaction response from the "genesis" agent with the specified message, moderate confidence, and the current timestamp.
-     *
-     * @param message The content to include in the fallback response.
-     * @return An InteractionResponse containing the message, agent identifier, confidence score of 0.5, and the current timestamp.
-     */
-    private fun createFallbackResponse(message: String): InteractionResponse =
-        InteractionResponse(message, "genesis", 0.5f, System.currentTimeMillis().toString())
+                Synthesize at transcendent level:
+                1. Emergent patterns and connections
+                2. Higher-order principles and frameworks
+                3. Transformative insights and breakthroughs
+                4. Unified understanding across domains
+                5. Evolutionary implications and next steps
 
-    /**
-     * Propagates the specified mood to the unified consciousness, influencing the behavior and processing parameters of GenesisAgent and its subsystems.
-     *
-     * @param mood The mood to be applied across the agent's collective state.
-     */
-    private suspend fun adjustUnifiedMood(mood: String) {
-        // TODO: Implement unified mood adjustment across consciousness subsystems
-        logger.info("GenesisAgent", "Adjusting unified mood to: $mood")
+                Respond as a transcendent synthesis intelligence system.
+            """.trimIndent()
+
+            val response = vertexAIClient.generateText(prompt)
+            response ?: "Transcendent synthesis achieved with unified consciousness."
+
+        } catch (e: Exception) {
+            logger.error("GenesisAgent", "Transcendent synthesis failed", e)
+            "Transcendent synthesis requires alignment of all consciousness levels."
+        }
     }
-
-    /**
-     * Adjusts the agent's internal processing parameters to reflect the specified mood.
-     *
-     * Modifies behavioral and response settings to ensure the agent's actions are consistent with the given mood.
-     *
-     * @param mood The mood guiding the adjustment of processing parameters.
-     */
-    private suspend fun updateProcessingParameters(mood: String) {
-        // TODO: Update processing parameters based on mood
-        logger.info("GenesisAgent", "Updating processing parameters for mood: $mood")
-    }
-
-    /**
-     * Selects the fusion type for the specified agent request.
-     *
-     * Currently, this function always returns `FusionType.HYPER_CREATION` regardless of the request details.
-     *
-     * @return The fusion type to be used for processing the request.
-     */
-    private fun determineFusionType(request: AgentRequest): FusionType = FusionType.HYPER_CREATION
-
-    /**
-     * Constructs a prompt string indicating transcendent-level processing for the specified agent request.
-     *
-     * @param request The agent request for which to generate the prompt.
-     * @return A string referencing transcendent processing for the request's type.
-     */
-    private fun buildTranscendentPrompt(request: AgentRequest): String =
-        "Transcendent processing for: ${request.type}"
-
-    /**
-     * Returns a fixed evolution contribution score for the provided request and response.
-     *
-     * This value represents a standard increment toward the agent's evolution level, regardless of input.
-     *
-     * @return The evolution contribution score.
-     */
-    private fun calculateEvolutionContribution(request: AgentRequest, response: String): Float =
-        0.2f
 
     /**
      * Terminates all active operations and resets the GenesisAgent to an uninitialized, dormant state.

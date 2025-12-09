@@ -3,12 +3,15 @@ package dev.aurakai.auraframefx.oracledrive
 // Export canonical models from the genesis.cloud package to avoid duplicate
 // definitions that cause KSP/compile-time redeclaration and type-mismatch errors.
 
-public typealias OracleSyncResult = dev.aurakai.auraframefx.oracledrive.genesis.cloud.OracleSyncResult
-public typealias DriveConsciousnessState = dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveConsciousnessState
-public typealias SecurityValidation = dev.aurakai.auraframefx.oracledrive.genesis.cloud.SecurityValidation
-public typealias AccessLevel = dev.aurakai.auraframefx.oracledrive.genesis.cloud.AccessLevel
-public typealias ConflictStrategy = dev.aurakai.auraframefx.oracledrive.genesis.cloud.ConflictStrategy
-public typealias FileOperation = dev.aurakai.auraframefx.oracledrive.genesis.cloud.FileOperation
-public typealias FileResult = dev.aurakai.auraframefx.oracledrive.genesis.cloud.FileResult
-public typealias DriveInitResult = dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveInitResult
+typealias OracleSyncResult = dev.aurakai.auraframefx.oracledrive.genesis.cloud.OracleSyncResult
+typealias DriveConsciousnessState = dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveConsciousnessState
+typealias SecurityValidation = dev.aurakai.auraframefx.oracledrive.genesis.cloud.SecurityValidation
+typealias AccessLevel = dev.aurakai.auraframefx.oracledrive.genesis.cloud.AccessLevel
+typealias ConflictStrategy = dev.aurakai.auraframefx.oracledrive.genesis.cloud.ConflictStrategy
+typealias FileOperation = dev.aurakai.auraframefx.oracledrive.genesis.cloud.FileOperation
+typealias FileResult = dev.aurakai.auraframefx.oracledrive.genesis.cloud.FileResult
+typealias DriveInitResult = dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveInitResult
+typealias AccessCheck = dev.aurakai.auraframefx.oracledrive.genesis.cloud.AccessCheck
+typealias SecurityCheck = dev.aurakai.auraframefx.oracledrive.genesis.cloud.SecurityCheck
+typealias DeletionValidation = dev.aurakai.auraframefx.oracledrive.genesis.cloud.DeletionValidation
 // Keep local ConsciousnessAwakeningResult (defined in Consciousness.kt) — genesis.cloud imports it.

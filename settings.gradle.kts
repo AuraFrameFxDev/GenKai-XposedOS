@@ -79,42 +79,45 @@ pluginManagement {
 // --- Application ---
     include(":app")
 
+// --- Core Modules ---
+    include(":core")
+    include(":core-module")
+    include(":list")
+    include(":utilities")
+
 // --- Aura → ReactiveDesign (Creative UI & Collaboration) ---
+    include(":aura")
     include(":aura:reactivedesign:auraslab")
     include(":aura:reactivedesign:collabcanvas")
     include(":aura:reactivedesign:chromacore")
     include(":aura:reactivedesign:customization")
 
 // --- Kai → SentinelsFortress (Security & Threat Monitoring) ---
+    include(":kai")
     include(":kai:sentinelsfortress:security")
     include(":kai:sentinelsfortress:systemintegrity")
     include(":kai:sentinelsfortress:threatmonitor")
 
 // --- Genesis → OracleDrive (System & Root Management) ---
+    include(":genesis")
     include(":genesis:oracledrive")
     include(":genesis:oracledrive:rootmanagement")
     include(":genesis:oracledrive:datavein")
 
 // --- Cascade → DataStream (Data Routing & Delivery) ---
+    include(":cascade")
     include(":cascade:datastream:routing")
     include(":cascade:datastream:delivery")
     include(":cascade:datastream:taskmanager")
 
 // --- Agents → GrowthMetrics (AI Agent Evolution) ---
+    include(":agents")
     include(":agents:growthmetrics:metareflection")
     include(":agents:growthmetrics:nexusmemory")
     include(":agents:growthmetrics:spheregrid")
     include(":agents:growthmetrics:identity")
     include(":agents:growthmetrics:progression")
     include(":agents:growthmetrics:tasker")
-
-// --- Core Modules ---
-    include(":core:domain")
-    include(":core:data")
-    include(":core:ui")
-    include(":core:common")
-    include(":core-module")
-    include(":list")
 
 // --- Extension Modules ---
     include(":extendsysa")

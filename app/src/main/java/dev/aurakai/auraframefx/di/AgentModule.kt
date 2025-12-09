@@ -28,4 +28,36 @@ object AgentModule {
     fun provideContextManager(memoryManager: MemoryManager): ContextManager {
         return DefaultContextManager(memoryManager)
     }
+
+    @Provides
+    @Singleton
+    fun provideAuraAgent(
+        vertexAIClient: dev.aurakai.auraframefx.oracledrive.genesis.ai.VertexAIClient,
+        auraAIService: dev.aurakai.auraframefx.oracledrive.genesis.ai.AuraAIService,
+        securityContext: dev.aurakai.auraframefx.security.SecurityContext,
+        contextManager: ContextManager
+    ): dev.aurakai.auraframefx.aura.AuraAgent {
+        return dev.aurakai.auraframefx.aura.AuraAgent(
+            vertexAIClient = vertexAIClient,
+            auraAIService = auraAIService,
+            securityContext = securityContext,
+            contextManager = contextManager
+        )
+    }
+
+    @Provides
+    @Singleton
+    fun provideKaiAgent(
+        vertexAIClient: dev.aurakai.auraframefx.oracledrive.genesis.ai.VertexAIClient,
+        contextManager: ContextManager,
+        securityContext: dev.aurakai.auraframefx.security.SecurityContext,
+        systemMonitor: dev.aurakai.auraframefx.system.monitor.SystemMonitor
+    ): dev.aurakai.auraframefx.kai.KaiAgent {
+        return dev.aurakai.auraframefx.kai.KaiAgent(
+            vertexAIClient = vertexAIClient,
+            contextManager = contextManager,
+            securityContext = securityContext,
+            systemMonitor = systemMonitor
+        )
+    }
 }

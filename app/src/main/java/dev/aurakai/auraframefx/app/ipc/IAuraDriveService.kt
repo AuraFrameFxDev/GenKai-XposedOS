@@ -50,9 +50,13 @@ interface IAuraDriveService : IInterface {
         companion object {
             private const val DESCRIPTOR = "dev.aurakai.auraframefx.app.ipc.IAuraDriveService"
 
-            fun asInterface(obj: IBinder?): Any? {
+            fun asInterface(obj: IBinder?): IAuraDriveService? {
                 if (obj == null) return null
-                return obj.queryLocalInterface(DESCRIPTOR)
+                val iin = obj.queryLocalInterface(DESCRIPTOR)
+                if (iin != null && iin is IAuraDriveService) {
+                    return iin
+                }
+                return Proxy(obj)
             }
         }
 

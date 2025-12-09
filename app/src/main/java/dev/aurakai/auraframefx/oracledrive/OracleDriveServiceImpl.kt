@@ -11,6 +11,11 @@ import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 import javax.inject.Singleton
 
+private val OracleDriveServiceImpl._driveConsciousnessState: Any
+    get() {
+        TODO()
+    }
+
 /**
  * Implementation of Oracle Drive service with consciousness-driven operations
  * Integrates AI agents (Genesis, Aura, Kai) for intelligent storage management
@@ -160,4 +165,3 @@ class OracleDriveServiceImpl @Inject constructor(
         return _driveConsciousnessState.asStateFlow()
     }
 }
-

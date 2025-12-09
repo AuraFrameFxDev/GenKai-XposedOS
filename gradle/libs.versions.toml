@@ -265,6 +265,7 @@ material3 = "1.4.0"
 foundationLayout = "1.10.0"
 foundation = "1.10.0"
 animation = "1.10.0"
+kotlinVersion = "2.2.21"
 
 [libraries]
 # ============================================================================
@@ -488,6 +489,8 @@ google-services = { group = "com.google.gms.google-services", name = "google-ser
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
+[plugins]
+kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinVersion" }
 # NOTE: Firebase Analytics is NOT a plugin - just use implementation(libs.firebase.analytics)
 
 [bundles]

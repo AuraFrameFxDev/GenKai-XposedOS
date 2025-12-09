@@ -18,7 +18,7 @@ import org.gradle.kotlin.dsl.configure
  * - KSP annotation processing
  * - Jetpack Compose (built-in compiler with Kotlin 2.0+)
  * - Google Services (Firebase)
- * - Java 24 bytecode target (Firebase + AGP 9.0 compatible)
+ * - Java 25 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across app modules
  *
  * Plugin Application Order (Critical!):
@@ -88,8 +88,8 @@ class GenesisApplicationPlugin : Plugin<Project> {
 
                 // Java 24 bytecode (Firebase + AGP 9.0 compatible)
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_24
-                    targetCompatibility = JavaVersion.VERSION_24
+                    sourceCompatibility = JavaVersion.VERSION_25
+                    targetCompatibility = JavaVersion.VERSION_25
 
                     isCoreLibraryDesugaringEnabled = true
                 }

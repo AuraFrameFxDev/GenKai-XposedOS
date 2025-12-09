@@ -22,12 +22,12 @@ object GenesisJvmConfig {
     /**
      * The JVM version used throughout the Genesis project.
      *
-     * Java 24 bytecode is:
+     * Java 25 bytecode is:
      * - Firebase compatible
      * - Maximum target supported by Kotlin 2.2.x/2.3.x
      * - Enables modern Java features with backward compatibility via desugaring
      */
-    const val JVM_VERSION = 24
+    const val JVM_VERSION = 25
 
     /**
      * Configure the Kotlin JVM toolchain and Kotlin compilation options for the given Gradle project.
@@ -62,7 +62,7 @@ object GenesisJvmConfig {
             tasks.withType<KotlinJvmCompile>().configureEach {
                 compilerOptions {
                     // Note: jvmTarget is automatically set by jvmToolchain() above
-                    // Manual jvmTarget.set(JvmTarget.JVM_24) is redundant
+                    // Manual jvmTarget.set(JvmTarget.JVM_25) is redundant
                     freeCompilerArgs.addAll(
                         "-Xcontext-parameters",  // Enable Kotlin 2.2 context parameters (preview)
                         "-opt-in=kotlin.RequiresOptIn",

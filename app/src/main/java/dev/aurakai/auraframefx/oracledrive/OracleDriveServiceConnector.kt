@@ -29,7 +29,7 @@ class OracleDriveServiceConnector(private val context: Context) {
          * @param service The binder interface to the connected service.
          */
         override fun onServiceConnected(name: ComponentName?, service: IBinder?) {
-            auraDriveService = IAuraDriveService.Stub.asInterface(service) as IAuraDriveService?
+            auraDriveService = IAuraDriveService.Stub.asInterface(service)
             _isServiceConnected.value = true
         }
 
@@ -58,7 +58,7 @@ class OracleDriveServiceConnector(private val context: Context) {
         }
         try {
             context.bindService(intent, serviceConnection, Context.BIND_AUTO_CREATE)
-        } catch (e: SecurityException) {
+        } catch (_: SecurityException) {
             _isServiceConnected.value = false
         }
     }
@@ -85,7 +85,7 @@ class OracleDriveServiceConnector(private val context: Context) {
     suspend fun getStatusFromOracleDrive(): String? = withContext(Dispatchers.IO) {
         try {
             auraDriveService?.getOracleDriveStatus()
-        } catch (e: RemoteException) {
+        } catch (_: RemoteException) {
             null
         }
     }
@@ -102,7 +102,7 @@ class OracleDriveServiceConnector(private val context: Context) {
             try {
                 val result = auraDriveService?.toggleLSPosedModule(packageName, enable)
                 result ?: "Failed"
-            } catch (e: RemoteException) {
+            } catch (_: RemoteException) {
                 null
             }
         }
@@ -115,7 +115,7 @@ class OracleDriveServiceConnector(private val context: Context) {
     suspend fun getDetailedInternalStatus(): String? = withContext(Dispatchers.IO) {
         try {
             auraDriveService?.getDetailedInternalStatus()
-        } catch (e: RemoteException) {
+        } catch (_: RemoteException) {
             null
         }
     }
@@ -131,7 +131,7 @@ class OracleDriveServiceConnector(private val context: Context) {
         try {
             val logs = auraDriveService?.getInternalDiagnosticsLog()
             logs?.joinToString("\n")
-        } catch (e: RemoteException) {
+        } catch (_: RemoteException) {
             null
         }
     }
