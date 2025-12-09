@@ -1,51 +1,29 @@
 [versions]
 # ============================================================================
-# Core Build Tools (AGP 9.0.0-beta01 + Kotlin 2.3.0-RC)
+# Core Build Tools (AGP 9.0.0-beta02 + Kotlin 2.3.0-RC2)
 # ============================================================================
-# Google Gson - Latest: 2.11.0
+agp = "9.0.0-beta03"
 billingKtx = "8.1.0"
 coilSvg = "2.7.0"
 coilVersion = "2.7.0"
 core = "1.7.0"
 gson = "2.13.2"
-# Android Gradle Plugin - Latest: 9.0.0-beta01 (requires Gradle 9.2.0+)
-agp = "9.0.0-beta02"
-# Gradle - Latest: 9.2.0
-gradle = "9.2.0"
-gradleCore = "9.2.0"
+gradle = "9.4.0-milestone-2"
+gradleCore = "9.4.0-milestone-2"
 generativeai = "0.9.0"
-# Foojay Toolchain Resolver - Required for Gradle 8.0+
 foojayResolver = "1.0.0"
-
-# Google Services Plugin - Latest: 4.4.4
 googleServices = "4.4.4"
-
-# Firebase Plugins
 firebaseCrashlyticsPlugin = "23.00"
-# NOTE: Firebase Analytics does NOT have a Gradle plugin - it's just a library dependency
-
-# Dagger Hilt - Latest: 2.57.2
 hilt = "2.57.2"
 hilt-android = "2.57.2"
-# AndroidX Hilt Work - Latest: 1.3.0 (September 10, 2025)
 hiltAndroidTestingVersion = "2.57.2"
 hiltWork = "1.3.0"
-
-# Kotlin - Latest: 2.3.0-RC2 (from JetBrains EAP repo)
 junitJupiterApi = "6.0.1"
 junitJupiterApiVersion = "6.0.1"
 junitVintageEngine = "6.0.1"
 kotlin = "2.3.0-RC2"
-
-# Enable context parameters for Kotlin 2.2 features
-
-# Kotlin DSL
 kotlinDsl = "5.1.2"
-
-# KSP2 - Decoupled from Kotlin version (requires Kotlin 2.3.0+ and AGP 9.0+)
 ksp = "2.3.3"
-
-# YukiHook and KavaRef versions
 material3WindowSizeClass = "1.4.0"
 materialIconsExtended = "1.7.8"
 robolectricVersion = "4.16"
@@ -53,219 +31,74 @@ runner = "1.7.0"
 runtimeLivedata = "1.10.0"
 truth = "1.7.0"
 yukihook = "1.3.1"
-
-# ============================================================================
-# Android SDK Versions
-# ============================================================================
 compile-sdk = "36"
 min-sdk = "34"
 multidex = "2.0.1"
 target-sdk = "36"
 android-test = "1.5.2"
-# ============================================================================
-# AndroidX & Jetpack Libraries
-# ============================================================================
-# Activity Compose - Latest stable: 1.11.0, RC: 1.12.0-rc01
 activityCompose = "1.12.1"
-
-# AndroidX BOM (if needed)
 androidxBom = "1.17.0"
-
-# AppCompat - Latest: 1.7.1 (released June 4, 2025)
 appcompat = "1.7.1"
-
-# Core KTX - Latest: 1.17.0 (released Oct 22, 2025, requires Kotlin 2.0+)
 coreKtx = "1.17.0"
-
-# DataStore - Latest: 1.1.7 (released May 20, 2025)
 datastore = "1.2.0"
-
-# Lifecycle - Latest stable: 2.9.4, Beta: 2.10.0-beta01
 lifecycle = "2.10.0"
-
-# Room - Latest: 2.8.3 (released Oct 22, 2025)
 room = "2.8.4"
-
-# Navigation Compose - Latest stable: 2.8.9 (March 12, 2025)
-# RC: 2.9.0-rc01, Navigation 3: 1.0.0-beta01
 navigationCompose = "2.9.6"
-
-# AndroidX Hilt Navigation Compose - Latest: 1.3.0 (Sept 10, 2025)
 androidxHiltNavigationCompose = "1.3.0"
-
-# Security Crypto - Latest (and final): 1.1.0 (DEPRECATED - use Android Keystore)
 securityCrypto = "1.1.0"
-
-# WorkManager - Latest: 2.11.0
 work = "2.11.0"
-
-# MultiDex - Latest: 2.0.1
-
-# ============================================================================
-# Compose
-# ============================================================================
-# Compose BOM - Latest: 2024.11.00 (Nov 2024)
 compose-bom = "2025.12.00"
-
-# Compose Material Icons
 compose-material-icons = "1.7.4"
-
-# Compose Compiler - NO LONGER NEEDED with Kotlin 2.0+
-# Starting with Kotlin 2.0, Compose compiler is built-in via:
-# org.jetbrains.kotlin.plugin.compose
-# KSP 2.3.1 added official support for built-in Kotlin compiler
-# DO NOT use composeOptions { kotlinCompilerExtensionVersion } - it's deprecated!
-# composeCompiler = "1.5.4"  # ← REMOVED (deprecated)
-
-# ============================================================================
-# Firebase (Using BOM for version management)
-# ============================================================================
-# Firebase BOM - Latest: 34.5.0
-# Note: KTX libraries removed from BOM v32.5.0+, use main modules
 firebaseBom = "34.6.0"
-
-# ============================================================================
-# Google AI & ML
-# ============================================================================
-# Google AI Client SDK (Gemini API) - Latest: 0.9.0
-
-# ============================================================================
-# Networking Libraries
-# ============================================================================
-# Retrofit - Latest: 3.0.0 (requires Java 8+, Android API 21+)
 retrofit = "3.0.0"
-
-# OkHttp - Latest: 5.3.0
 okhttp = "5.3.2"
-
-# Moshi - Latest: 1.15.2
 moshi = "1.15.2"
-
-# Ktor - Latest: 3.3.2 (Oct 2025)
-ktor = "3.3.2"
-ktor-core = { group = "io.ktor", name = "ktor-client-core", version.ref = "ktor" }
-ktor-okhttp = { group = "io.ktor", name = "ktor-client-okhttp", version.ref = "ktor" }
-ktor-cio = { group = "io.ktor", name = "ktor-client-cio", version.ref = "ktor" }
-ktor-content-negotiation = { group = "io.ktor", name = "ktor-client-content-negotiation", version.ref = "ktor" }
-ktor-serialization-kotlinx-json = { group = "io.ktor", name = "ktor-serialization-kotlinx-json", version.ref = "ktor" }
-ktor-logging = { group = "io.ktor", name = "ktor-client-logging", version.ref = "ktor" }
-
-# ============================================================================
-# Kotlin Ecosystem Libraries
-# ============================================================================
-# Kotlinx Coroutines - Latest: 1.10.2
+ktor = "3.3.3"
 coroutines = "1.10.2"
-
-# Kotlinx DateTime - Latest: 0.7.1
-# Note: 0.7.1-0.6.x-compat available for migration from 0.6.x
-# Breaking change: Instant moved to kotlin.time package
 kotlinxDatetime = "0.7.1-0.6.x-compat"
-
-# Kotlinx Serialization - Latest: 1.9.0
 kotlinxSerialization = "1.9.0"
-kotlinxSerializationJson = "1.9.0"  # Explicit version for Ktor JSON serialization
-
-# Network & Serialization
+kotlinxSerializationJson = "1.9.0"
 converterMoshi = "3.0.0"
 moshiKotlin = "1.15.2"
-
-# ============================================================================
-# Utilities
-# ============================================================================
-# Coil Image Loading - Latest: 3.3.0 (uses io.coil-kt.coil3 namespace)
-# Note: Coil 2.x uses io.coil-kt namespace
 coil = "3.0.0"
 coil-bom = "3.3.0"
-
-# Desugar JDK Libs - Latest: 2.1.5 (Feb 25, 2025)
 desugarJdkLibs = "2.1.5"
-
-# Guava - Latest: 33.5.0-jre or 33.5.0-android
 guava = "33.5.0-android"
-
-# LeakCanary - Latest: 2.14
 leakcanary = "2.14"
-
-# Lottie Compose - Latest: 6.7.1
 lottie = "6.7.1"
-
-# Material Components - Latest stable: 1.13.0, Alpha: 1.14.0-alpha06
 material = "1.13.0"
-
-# Timber Logging - Latest: 5.0.1 (Aug 13, 2021)
 timber = "5.0.1"
-
-# ============================================================================
-# System & Root Access Libraries
-# ============================================================================
-# LibSu - Latest: 6.0.0 (June 28, 2025)
 libsu = "6.0.0"
-
-# Xposed API - Latest: 82
-# Note: Original Xposed paused, LSPosed provides modern alternative
 xposed = "82"
-
-# YukiHookAPI version (uses yukihook version ref in libraries)
-
-# Xposed Bridge (if using custom builds)
 xposed-bridge = "1.3.1"
-
-# ============================================================================
-# Build Tools (NDK, CMake)
-# ============================================================================
 ndk = "29.0.14206865"
 cmake = "3.22.1"
-
-# ============================================================================
-# Testing Libraries
-# ============================================================================
-# JUnit 4 - Latest: 4.13.2
 junit = "4.13.2"
-
-# JUnit 5 (Jupiter) - Latest: 6.0.1 (Oct 31, 2025, requires Java 17, Kotlin 2.2)
 junitJupiter = "6.0.1"
-junitVintage = "6.0.1"  # For running JUnit 4 tests with JUnit 5
-
-# MockK - Latest: 1.14.6 (Oct 1, 2025)
+junitVintage = "6.0.1"
 mockk = "1.14.7"
-
-# AndroidX Test
 androidxTestCore = "1.5.0"
 androidxTestRunner = "1.5.2"
 androidxTestRules = "1.5.0"
 androidxTestExtJunit = "1.1.5"
 androidxTestExtTruth = "1.5.0"
 espressoCore = "3.5.1"
-
-# Coroutines Test
 kotlinxCoroutinesTest = "1.8.1"
-
-# Turbine for Flow testing
 turbine = "1.1.0"
 kotlin-compose = "1.82"
 junitJupiterParams = "5.14.1"
 junitJupiterEngine = "5.14.1"
-
-# Robolectric
 robolectric = "4.12.1"
-
-# Hilt Testing
 hiltAndroidTesting = { group = "com.google.dagger", name = "hilt-android-testing", version.ref = "hiltAndroidTestingVersion" }
 hiltAndroidCompiler = { group = "com.google.dagger", name = "hilt-android-compiler", version.ref = "hilt" }
-
-# AndroidX JUnit (Test Ext) - Latest: 1.2.1
 androidxJunit = "1.3.0"
-
-# Espresso - Latest: 3.7.0 (July 30, 2025)
 espresso = "3.7.0"
-
-# Benchmark - Latest: 1.4.1 (Sept 10, 2025)
 benchmark = "1.4.1"
 material3 = "1.4.0"
 foundationLayout = "1.10.0"
 foundation = "1.10.0"
 animation = "1.10.0"
-kotlinVersion = "2.2.21"
+kotlinVersion = "2.3.0-RC2"
 
 [libraries]
 # ============================================================================

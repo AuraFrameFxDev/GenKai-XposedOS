@@ -166,7 +166,9 @@ fun GateNavigationScreen(
                 currentPage = pagerState.currentPage,
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(vertical = 16.dp)
+                    .padding(vertical = 16.dp),
+                pagerState = pagerState,
+                navController = navController
             )
         }
     }
@@ -218,7 +220,7 @@ private fun TeleportingGateCard(
                     )
             )
         }
-        
+
         // Direct GateCard without cheesy transitions
         GateCard(
             config = config,
@@ -267,11 +269,14 @@ private fun MagicalParticleField() {
 private fun GatePageIndicator(
     gates: List<GateConfig>,
     currentPage: Int,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    pagerState: androidx.compose.foundation.pager.PagerState,
+    navController: NavController
 ) {
     val visibleGates = 3 // Number of gates to show in the indicator
     val startIndex = (currentPage - visibleGates / 2).coerceAtLeast(0)
     val endIndex = (startIndex + visibleGates).coerceAtMost(gates.size)
+    val scope = rememberCoroutineScope()
 
     Row(
         modifier = modifier,
@@ -302,6 +307,20 @@ private fun GatePageIndicator(
                             shape = MaterialTheme.shapes.small
                         )
                         .padding(horizontal = 12.dp, vertical = 4.dp)
+                        .clickable {
+                            // Navigate into the active gate on tap (unless it's coming soon)
+                            if (!gate.comingSoon) {
+                                try {
+                                    navController.navigate(gate.route) {
+                                        launchSingleTop = true
+                                    }
+                                } catch (e: Exception) {
+                                    android.util.Log.e("GateNav", "Failed to navigate: ${gate.route}", e)
+                                }
+                            } else {
+                                // TODO: Show a Snackbar/Toast informing user that feature is coming soon
+                            }
+                        }
                 ) {
                     Text(
                         text = gate.title.uppercase(),
@@ -313,7 +332,7 @@ private fun GatePageIndicator(
                     )
                 }
             } else {
-                // Inactive gate indicator (smaller and dimmer)
+                // Inactive gate indicator (smaller and dimmer) - scroll pager when clicked
                 Text(
                     text = "•",
                     color = gate.borderColor.copy(alpha = 0.3f),
@@ -321,7 +340,13 @@ private fun GatePageIndicator(
                     modifier = Modifier
                         .padding(horizontal = 4.dp)
                         .clickable {
-                            // TODO: Handle click to navigate to gate
+                            scope.launch {
+                                try {
+                                    pagerState.animateScrollToPage(i)
+                                } catch (e: Exception) {
+                                    android.util.Log.e("GateNav", "Failed to scroll to page $i", e)
+                                }
+                            }
                         }
                 )
             }

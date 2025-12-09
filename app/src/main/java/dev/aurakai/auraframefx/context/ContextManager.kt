@@ -199,25 +199,24 @@ class ContextManager @Inject constructor(
      *
      * Activates creative mode, allowing agents to generate more imaginative and innovative responses.
      */
-    fun enableCreativeEnhancement() {
-        logger.info("ContextManager", "Enabling creative enhancement mode")
+    suspend fun enableCreativeEnhancement() {
         _isCreativeModeEnabled.value = true
+        logger.info("ContextManager", "Creative enhancement enabled")
     }
 
     /**
      * Enables creative mode, allowing the system to perform enhanced creative processing.
      */
-    fun enableCreativeMode() {
-        logger.info("ContextManager", "Enabling creative mode")
-        _isCreativeModeEnabled.value = true
+    suspend fun enableCreativeMode() {
+        enableCreativeEnhancement()
     }
 
     /**
      * Enables unified mode, allowing all AI agents to operate within a shared context.
      */
-    fun enableUnifiedMode() {
-        logger.info("ContextManager", "Enabling unified consciousness mode")
+    suspend fun enableUnifiedMode() {
         _isUnifiedModeEnabled.value = true
+        logger.info("ContextManager", "Unified mode enabled")
     }
 
     /**
@@ -239,7 +238,6 @@ class ContextManager @Inject constructor(
      * Records a security event and its threat analysis as a memory entry for future analysis and learning.
      *
      * The memory entry includes event details, threat analysis, a relevance score based on threat level, and security-related tags.
-     *
      * @param alertDetails Description of the security event.
      * @param analysis Threat analysis information associated with the event.
      */
@@ -379,7 +377,6 @@ class ContextManager @Inject constructor(
      * Extracts simple feature descriptors from the request and response for use in learning models.
      *
      * Generates descriptors such as request length, response length, and whether the request contains a question mark.
-     *
      * @return A list of feature strings summarizing characteristics of the request and response.
      */
     private fun extractPatterns(request: String, response: String): List<String> {
@@ -449,4 +446,3 @@ data class Insight(
     val complexity: String,
     val extractedPatterns: List<String>,
 )
-

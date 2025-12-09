@@ -7,7 +7,7 @@ import androidx.work.Configuration
 import dagger.hilt.android.HiltAndroidApp
 import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.core.NativeLib
-import dev.aurakai.auraframefx.services.IntegrityMonitorService
+import dev.aurakai.auraframefx.services.security.IntegrityMonitorService
 import timber.log.Timber
 import javax.inject.Inject
 
