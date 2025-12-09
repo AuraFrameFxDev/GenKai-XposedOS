@@ -92,6 +92,7 @@ sealed class NavDestination(val route: String, val title: String, val icon: Imag
     object OracleDriveControl : NavDestination("oracle_drive_control", "Oracle Drive Control", Icons.Filled.Folder)
 
     companion object {
+        val CONFERENCE_ROOM: String
         val bottomNavItems = listOf(Home, AgentHub, Canvas, Settings)
         val gamificationScreens = listOf(AgentNexus, SphereGrid, FusionMode, Consciousness, Evolution)
     }

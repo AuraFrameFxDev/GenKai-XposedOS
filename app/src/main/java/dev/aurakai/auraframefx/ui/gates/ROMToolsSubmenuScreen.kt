@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.ui.gates
 
+import dev.aurakai.auraframefx.navigation.NavDestination
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -98,28 +99,28 @@ fun ROMToolsSubmenuScreen(navController: NavController) {
                 title = "Live ROM Editor",
                 description = "Edit system files in real-time with live preview",
                 icon = Icons.Default.Edit,
-                route = "live_rom_editor",
+                route = NavDestination.LiveROMEditor.route,
                 color = Color(0xFFFF4500)
             ),
             SubmenuItem(
                 title = "ROM Flasher",
                 description = "Flash custom ROMs, kernels, and recoveries",
                 icon = Icons.Default.FlashOn,
-                route = "rom_flasher",
+                route = NavDestination.ROMFlasher.route,
                 color = Color(0xFFFFD700)
             ),
             SubmenuItem(
                 title = "Bootloader Manager",
                 description = "Unlock/lock bootloader and manage boot states",
                 icon = Icons.Default.Lock,
-                route = "bootloader_manager",
+                route = NavDestination.BootloaderManager.route,
                 color = Color(0xFF32CD32)
             ),
             SubmenuItem(
                 title = "Recovery Tools",
                 description = "TWRP integration and backup/restore operations",
                 icon = Icons.Default.Refresh,
-                route = "recovery_tools",
+                route = NavDestination.RecoveryTools.route,
                 color = Color(0xFF00CED1)
             )
         )
@@ -151,4 +152,3 @@ fun ROMToolsSubmenuScreen(navController: NavController) {
         }
     }
 }
-

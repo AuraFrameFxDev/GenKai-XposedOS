@@ -352,6 +352,10 @@ fun GenesisNavigationHost(
             composable("module_creation") {
                 dev.aurakai.auraframefx.ui.gates.ModuleCreationScreen { navController.popBackStack() }
             }
+            composable("module_manager") {
+                // Use the existing ModuleManagerScreen implementation
+                dev.aurakai.auraframefx.ui.gates.ModuleManagerScreen()
+            }
             composable("system_overrides") {
                 dev.aurakai.auraframefx.ui.gates.SystemOverridesScreen { navController.popBackStack() }
             }
