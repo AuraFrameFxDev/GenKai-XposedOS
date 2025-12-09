@@ -1,9 +1,8 @@
 package dev.aurakai.auraframefx.oracledrive.api
 
-/**
- * Minimal placeholder for the OracleDrive API interface used by services.
- * Replace with a Retrofit interface or generated API client later.
- */
+/** Minimal OracleDrive API stub used by DI and compile-time processing. */
 interface OracleDriveApi {
-    suspend fun ping(): Boolean
+    suspend fun listFiles(path: String): List<String>
+    suspend fun upload(path: String, data: ByteArray): Boolean
 }
+

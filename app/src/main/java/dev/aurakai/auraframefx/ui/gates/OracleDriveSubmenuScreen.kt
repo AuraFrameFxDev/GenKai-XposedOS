@@ -46,7 +46,7 @@ fun OracleDriveSubmenuScreen(
             title = "Conference Room",
             description = "Multi-agent discussion and collaboration",
             icon = Icons.Default.Groups,
-            route = dev.aurakai.auraframefx.navigation.GenesisRoutes.CONFERENCE_ROOM,
+             route = dev.aurakai.auraframefx.navigation.GenesisRoutes.CONFERENCE_ROOM,
             color = Color(0xFF00CED1) // Dark Turquoise
         ),
         SubmenuItem(
