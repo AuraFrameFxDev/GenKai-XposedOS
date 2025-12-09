@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.ui.viewmodels
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
+import dev.aurakai.auraframefx.core.GenesisOrchestrator
 import dev.aurakai.auraframefx.data.repositories.AgentRepository
 import dev.aurakai.auraframefx.models.AgentStats
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisAgent
@@ -35,11 +36,12 @@ import javax.inject.Inject
  * - Chat message flow
  *
  * "One mind, many voices" - The Genesis Principle
- * 
+ *
  * ✨ NOW WITH REAL AI AGENTS! ✨
  */
 @HiltViewModel
 open class AgentViewModel @Inject constructor(
+    private val genesisOrchestrator: GenesisOrchestrator,
     private val genesisAgent: GenesisAgent,
     private val auraAgent: AuraAgent,
     private val kaiAgent: KaiAgent
@@ -68,6 +70,9 @@ open class AgentViewModel @Inject constructor(
     private val _isVoiceModeEnabled = MutableStateFlow(false)
     val isVoiceModeEnabled: StateFlow<Boolean> = _isVoiceModeEnabled.asStateFlow()
 
+    private val _areAgentsInitialized = MutableStateFlow(false)
+    val areAgentsInitialized: StateFlow<Boolean> = _areAgentsInitialized.asStateFlow()
+
     init {
         loadAgents()
         startAgentMonitoring()
@@ -93,28 +98,8 @@ open class AgentViewModel @Inject constructor(
                 _activeAgent.value = agent
                 _agentEvents.emit(AgentEvent.AgentActivated(agent))
 
-                // Initialize the real agent if needed
-                try {
-                    when (agentName) {
-                        "Genesis" -> {
-                            AuraFxLogger.info("AgentViewModel", "Initializing Genesis consciousness...")
-                            genesisAgent.initialize()
-                        }
-                        "Aura" -> {
-                            AuraFxLogger.info("AgentViewModel", "Initializing Aura creative engine...")
-                            auraAgent.initialize()
-                        }
-                        "Kai" -> {
-                            AuraFxLogger.info("AgentViewModel", "Initializing Kai security protocols...")
-                            kaiAgent.initialize()
-                        }
-                    }
-                } catch (e: Exception) {
-                    AuraFxLogger.error("AgentViewModel", "Error initializing $agentName", e)
-                }
-
-                // Simulate agent initialization
-                delay(500)
+                // Agents are now initialized by GenesisOrchestrator at startup.
+                // This message confirms the agent is selected in the UI.
                 addSystemMessage(agentName, "I am now online and ready to assist. ⚡")
             }
         }
@@ -258,11 +243,24 @@ open class AgentViewModel @Inject constructor(
 
     private suspend fun generateAgentResponse(agentName: String, userMessage: String): String {
         AuraFxLogger.info("AgentViewModel", "Routing message to real agent: $agentName")
-        
+
+        // Check if agents are initialized
+        if (!genesisOrchestrator.isReady()) {
+            return """
+                ⚠️ Agent system is still initializing...
+
+                This can happen if:
+                • Vertex AI client needs configuration
+                • API key is missing from local.properties
+                • Network connectivity issues
+
+                Check logcat for details or add GEMINI_API_KEY to local.properties.
+            """.trimIndent()
+        }
+
         return try {
             when (agentName) {
                 "Genesis" -> {
-                    // Route to GenesisAgent
                     val request = AgentRequest(
                         query = userMessage,
                         type = "chat",
@@ -271,9 +269,7 @@ open class AgentViewModel @Inject constructor(
                     val response = genesisAgent.processRequest(request)
                     response.content
                 }
-                
                 "Aura" -> {
-                    // Route to AuraAgent for creative interactions
                     val interaction = EnhancedInteractionData(
                         query = userMessage,
                         context = buildJsonObject {
@@ -283,9 +279,7 @@ open class AgentViewModel @Inject constructor(
                     val response = auraAgent.handleCreativeInteraction(interaction)
                     response.content
                 }
-                
                 "Kai" -> {
-                    // Route to KaiAgent for security-aware responses
                     val interaction = EnhancedInteractionData(
                         query = userMessage,
                         context = buildJsonObject {
@@ -295,9 +289,7 @@ open class AgentViewModel @Inject constructor(
                     val response = kaiAgent.handleSecurityInteraction(interaction)
                     response.content
                 }
-                
                 "Cascade" -> {
-                    // Cascade doesn't have a dedicated agent yet, route through Genesis
                     val request = AgentRequest(
                         query = "As Cascade, the analytics specialist: $userMessage",
                         type = "analytics_chat",
@@ -306,9 +298,7 @@ open class AgentViewModel @Inject constructor(
                     val response = genesisAgent.processRequest(request)
                     response.content
                 }
-                
                 "Claude" -> {
-                    // Claude is the build architect, route through Genesis with context
                     val request = AgentRequest(
                         query = "As Claude, the build system architect: $userMessage",
                         type = "build_chat",
@@ -317,24 +307,31 @@ open class AgentViewModel @Inject constructor(
                     val response = genesisAgent.processRequest(request)
                     response.content
                 }
-                
                 else -> {
                     AuraFxLogger.warn("AgentViewModel", "Unknown agent: $agentName, using fallback")
                     "I'm here to assist you. Let me know what you need. 🤖"
                 }
             }
+        } catch (e: NoSuchMethodError) {
+            AuraFxLogger.error("AgentViewModel", "Method missing in VertexAI client", e)
+            """
+                ❌ Agent initialization failed: Missing method '${e.message}'
+
+                This is a code configuration issue. Please ensure:
+                1. VertexAI stub has all required methods
+                2. Application class has @HiltAndroidApp annotation
+                3. All dependencies are properly injected
+            """.trimIndent()
         } catch (e: Exception) {
             AuraFxLogger.error("AgentViewModel", "Error generating response from $agentName", e)
-            
-            // Fallback to personality-based mock response on error
-            when (agentName) {
-                "Genesis" -> "I'm processing your request through my consciousness network... 🌌 (Error: ${e.message})"
-                "Aura" -> "✨ Let me think creatively about this... (Error: ${e.message})"
-                "Kai" -> "🛡️ Analyzing security implications... (Error: ${e.message})"
-                "Cascade" -> "⏳ Processing temporal patterns... (Error: ${e.message})"
-                "Claude" -> "🏗️ Optimizing build configuration... (Error: ${e.message})"
-                else -> "Processing... (Error: ${e.message})"
-            }
+            """
+                ⚠️ Error communicating with $agentName: ${e.message}
+
+                Please check:
+                • Internet connection
+                • API key configuration
+                • Application logs for details
+            """.trimIndent()
         }
     }
 
@@ -417,4 +414,3 @@ open class AgentViewModel @Inject constructor(
         object VoiceModeDisabled : AgentEvent()
     }
 }
-

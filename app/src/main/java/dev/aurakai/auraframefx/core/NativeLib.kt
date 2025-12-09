@@ -18,5 +18,19 @@ class NativeLib {
             // TODO: Replace with actual JNI implementation. This is a mock response.
             return "Native integration not implemented yet. This is a placeholder."
         }
+
+        fun initializeAISafe(): Boolean {
+            // TODO: Replace with actual JNI implementation. This is a mock response.
+            return true
+        }
+
+        fun getAIVersionSafe(): String {
+            // TODO: Replace with actual JNI implementation. This is a mock response.
+            return "1.0.0-mock"
+        }
+
+        fun shutdownAISafe() {
+            // TODO: Replace with actual JNI implementation. This is a mock response.
+        }
     }
 }

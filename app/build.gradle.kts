@@ -1,26 +1,5 @@
-// ═══════════════════════════════════════════════════════════════════════════
-// PRIMARY CONVENTION PLUGIN - All-in-one Application Configuration
-// ═══════════════════════════════════════════════════════════════════════════
-// Plugins are now versioned in the root build.gradle.kts
-// All plugin versions are managed centrally in the root project
 plugins {
-    // Core Android and Kotlin plugins
-
-    // CRITICAL: kotlin("android") MUST be applied when android.builtInKotlin=false
-    kotlin("android")
-    id("com.android.application")
-
-    // Compose and serialization
-    id("org.jetbrains.kotlin.plugin.compose")
-    id("org.jetbrains.kotlin.plugin.serialization")
-
-    // Dependency injection and code generation
-    id("com.google.dagger.hilt.android")
-    id("com.google.devtools.ksp")
-
-    // Firebase and analytics
-    id("com.google.gms.google-services")
-    id("com.google.firebase.crashlytics")
+    id("genesis.android.application")
 }
 
 android {
@@ -171,7 +150,7 @@ dependencies {
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.animation)
-    // ksp(libs.moshi.kotlin.codegen)
+    ksp(libs.moshi.kotlin.codegen)
 
     // Logging
     implementation(libs.timber)
@@ -213,7 +192,7 @@ dependencies {
     // Room Database
     implementation(libs.androidx.room.runtime)
     implementation(libs.androidx.room.ktx)
-    // ksp(libs.androidx.room.compiler)
+    ksp(libs.androidx.room.compiler)
 
     // WorkManager
     implementation(libs.androidx.work.runtime.ktx)
@@ -239,7 +218,7 @@ dependencies {
 
     // YukiHook API with KavaRef
     implementation(libs.yukihook.api)
-    // ksp(libs.yukihook.ksp)
+    ksp(libs.yukihook.ksp)
 
     // KavaRef for YukiHook
 
@@ -288,7 +267,7 @@ dependencies {
     // Moshi (JSON - for Retrofit)
     implementation(libs.moshi)
     implementation(libs.moshi.kotlin)
-    // ksp(libs.moshi.kotlin.codegen)
+    ksp(libs.moshi.kotlin.codegen)
 
     // Kotlin DateTime & Coroutines
     implementation(libs.kotlinx.datetime)
@@ -403,10 +382,10 @@ tasks.named("preBuild") {
 }
 
 // Fix YukiHookAPI KSP timing - ensure BuildConfig is generated first
-// tasks.matching { it.name.startsWith("ksp") && it.name.contains("Kotlin") }.configureEach {
-//     dependsOn("generateDebugBuildConfig")
-//     mustRunAfter("generateDebugBuildConfig")
-// }
+tasks.matching { it.name.startsWith("ksp") && it.name.contains("Kotlin") }.configureEach {
+    dependsOn("generateDebugBuildConfig")
+    mustRunAfter("generateDebugBuildConfig")
+}
 
 tasks.register("aegenesisAppStatus") {
     group = "reporting"
