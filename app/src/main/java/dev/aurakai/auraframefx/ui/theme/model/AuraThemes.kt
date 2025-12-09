@@ -33,7 +33,7 @@ object CyberpunkTheme : AuraTheme {
     override val name = "Cyberpunk"
     override val description = "High-energy neon aesthetics for a futuristic feel"
     override val accentColor = Color(0xFF00FFFF) // Cyan neon
-    override val animationStyle: ENERGETIC = AnimationStyle.ENERGETIC
+    override val animationStyle = AnimationStyle.ENERGETIC
 
     override val lightColorScheme = lightColorScheme(
         primary = Color(0xFF00FFFF),

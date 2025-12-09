@@ -148,13 +148,19 @@ open class ConferenceRoomViewModel constructor(
                 )
             }
 
-            AgentCapabilityCategory.GENERAL -> claudeService.processRequestFlow(
-                AiRequest(
-                    query = message,
-                    type = "build_analysis",
-                    context = mapOf("userContext" to context, "systematic_analysis" to "true").toJsonObject()
-                )
-            )
+            AgentCapabilityCategory.GENERAL -> {
+                kotlinx.coroutines.flow.flow {
+                    val response = claudeService.processRequest(
+                        AiRequest(
+                            query = message,
+                            type = "build_analysis",
+                            context = mapOf("userContext" to context, "systematic_analysis" to "true").toJsonObject()
+                        ),
+                        context = context
+                    )
+                    emit(response)
+                }
+            }
 
             AgentCapabilityCategory.COORDINATION -> {
                 // Genesis uses GenesisBridgeService for orchestration

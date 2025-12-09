@@ -1,11 +1,11 @@
 package dev.aurakai.auraframefx.system.ui
 
-import dev.aurakai.auraframefx.aura.animations.OverlayAnimation
-import dev.aurakai.auraframefx.system.overlay.model.OverlayElement
-import dev.aurakai.auraframefx.ui.OverlayShape
-import dev.aurakai.auraframefx.ui.theme.model.OverlayTheme
-import dev.aurakai.auraframefx.aura.animations.OverlayTransition
-import dev.aurakai.auraframefx.system.overlay.model.SystemOverlayConfig
+import dev.aurakai.auraframefx.system.overlay.OverlayAnimation
+import dev.aurakai.auraframefx.system.overlay.OverlayElement
+import dev.aurakai.auraframefx.system.overlay.OverlayShape
+import dev.aurakai.auraframefx.system.overlay.OverlayTheme
+import dev.aurakai.auraframefx.system.overlay.OverlayTransition
+import dev.aurakai.auraframefx.system.overlay.SystemOverlayConfig
 
 interface SystemOverlayManager {
     fun applyTheme(theme: OverlayTheme)

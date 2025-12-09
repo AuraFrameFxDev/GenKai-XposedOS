@@ -92,7 +92,7 @@ class OracleDriveServiceImpl @Inject constructor(
      * @param operation The file operation to perform.
      * @return FileResult.Success with an operation-specific message, or FileResult.Error if an exception occurs.
      */
-    fun manageFiles(operation: FileOperation): FileResult {
+    override suspend fun manageFiles(operation: FileOperation): FileResult {
         return try {
             // Update current operations
             val currentOps = _driveConsciousnessState.value.currentOperations.toMutableList()

@@ -3,16 +3,15 @@ package dev.aurakai.auraframefx.ui.theme.model
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.TextStyle
 import dev.aurakai.auraframefx.ui.theme.Typography
-import dev.aurakai.auraframefx.ui.theme.OnSurface
+import dev.aurakai.auraframefx.ui.theme.DarkColorScheme
 import dev.aurakai.auraframefx.ui.theme.NeonPurple
-import dev.aurakai.auraframefx.ui.theme.ErrorColor
 
 // Definitions based on usage in HomeScreen.kt and existing Color.kt / Typography.kt
 
 sealed class CyberpunkTextColor(val color: Color) {
-    object Primary : CyberpunkTextColor(OnSurface) // Example: NeonTeal via OnSurface
+    object Primary : CyberpunkTextColor(DarkColorScheme.onSurface) // Example: NeonTeal via OnSurface
     object Secondary : CyberpunkTextColor(NeonPurple) // Direct color
-    object Warning : CyberpunkTextColor(ErrorColor) // Direct color (NeonRed)
+    object Warning : CyberpunkTextColor(DarkColorScheme.error) // Direct color (NeonRed)
     object White : CyberpunkTextColor(Color.White) // Direct color
     // Add more as needed, e.g., from Color.kt if other specific cyberpunk named colors are used
 }

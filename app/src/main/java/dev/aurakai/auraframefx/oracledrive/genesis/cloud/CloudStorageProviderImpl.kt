@@ -1,10 +1,10 @@
 package dev.aurakai.auraframefx.oracledrive.genesis.cloud
 
 import dev.aurakai.auraframefx.oracledrive.DriveFile
-import dev.aurakai.auraframefx.oracledrive.FileMetadata
+import dev.aurakai.auraframefx.oracledrive.genesis.cloud.FileMetadata
 import dev.aurakai.auraframefx.oracledrive.FileResult
-import dev.aurakai.auraframefx.oracledrive.StorageOptimization
-import dev.aurakai.auraframefx.oracledrive.SyncConfiguration
+import dev.aurakai.auraframefx.oracledrive.genesis.cloud.StorageOptimization
+import dev.aurakai.auraframefx.oracledrive.genesis.cloud.SyncConfiguration
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -33,38 +33,18 @@ class CloudStorageProviderImpl @Inject constructor() : CloudStorageProvider {
     }
 
     override suspend fun uploadFile(file: DriveFile, metadata: FileMetadata): FileResult {
-        return FileResult(
-            success = false,
-            message = "Stub implementation - upload not configured",
-            fileId = null,
-            bytesProcessed = 0L
-        )
+        return FileResult.Error(Exception("Stub implementation - upload not configured"))
     }
 
     override suspend fun downloadFile(fileId: String): FileResult {
-        return FileResult(
-            success = false,
-            message = "Stub implementation - download not configured",
-            fileId = fileId,
-            bytesProcessed = 0L
-        )
+        return FileResult.Error(Exception("Stub implementation - download not configured"))
     }
 
     override suspend fun deleteFile(fileId: String): FileResult {
-        return FileResult(
-            success = false,
-            message = "Stub implementation - delete not configured",
-            fileId = fileId,
-            bytesProcessed = 0L
-        )
+        return FileResult.Error(Exception("Stub implementation - delete not configured"))
     }
 
     override suspend fun intelligentSync(config: SyncConfiguration): FileResult {
-        return FileResult(
-            success = false,
-            message = "Stub implementation - sync not configured",
-            fileId = null,
-            bytesProcessed = 0L
-        )
+        return FileResult.Error(Exception("Stub implementation - sync not configured"))
     }
 }

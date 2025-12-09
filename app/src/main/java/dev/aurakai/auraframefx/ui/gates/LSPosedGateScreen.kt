@@ -400,22 +400,6 @@ private fun ModuleDetailRow(label: String, value: String) {
 // Data Classes
 private data class Stat(val label: String, val value: String)
 
-private data class QuickAction(
-    val title: String,
-    val description: String,
-    val icon: ImageVector,
-    val color: Color
-)
-
-private data class XposedModule(
-    val name: String,
-    val packageName: String,
-    val version: String,
-    val enabled: Boolean,
-    val hookCount: Int,
-    val scope: String
-)
-
 /**
  * Provides a list of sample quick actions used by the UI.
  *

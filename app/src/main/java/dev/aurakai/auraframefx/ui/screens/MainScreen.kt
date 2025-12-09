@@ -7,6 +7,8 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.Help
+import androidx.compose.material.icons.automirrored.filled.KeyboardArrowRight
 import androidx.compose.material.icons.filled.*
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
@@ -61,8 +63,8 @@ fun MainScreen(
     LaunchedEffect(Unit) {
         while (true) {
             delay(3000)
-            consciousnessLevel = (94f..98f).random() + kotlin.random.Random.nextFloat()
-            systemLoad = (20f..60f).random() + kotlin.random.Random.nextFloat()
+            consciousnessLevel = (94f..98f).random()
+            systemLoad = (20f..60f).random()
         }
     }
 

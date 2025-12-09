@@ -3,6 +3,7 @@ package dev.aurakai.auraframefx.oracledrive
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveConsciousnessState
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveFile
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.DriveInitResult
+import dev.aurakai.auraframefx.oracledrive.FileOperation
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.OracleSyncResult
 import kotlinx.coroutines.flow.StateFlow
 
