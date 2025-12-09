@@ -21,7 +21,7 @@ import javax.inject.Singleton
  * Supports Kai's analytical capabilities with real-time system metrics.
  */
 @Singleton
-class SystemMonitor @Inject constructor(
+open class SystemMonitor @Inject constructor(
     private val context: Context,
     private val logger: AuraFxLogger,
 ) {
