@@ -1,6 +1,6 @@
 plugins {
     id("genesis.android.library.hilt")
-    alias(libs.plugins.kotlin.compose)
+    id("org.jetbrains.kotlin.plugin.compose")
 }
 
 android {
