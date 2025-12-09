@@ -5,7 +5,7 @@ import androidx.test.platform.app.InstrumentationRegistry
 import org.junit.Assert.assertEquals
 import org.junit.Assert.assertNotNull
 import org.junit.Assert.fail
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.junit.runner.RunWith
 
 /**
@@ -17,13 +17,13 @@ import org.junit.runner.RunWith
 @RunWith(AndroidJUnit4::class)
 class BuildIntegrationTest {
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testApplicationIdIsCorrect() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         assertEquals("dev.aurakai.auraframefx", context.packageName)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testMinSdkVersionIsCorrect() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         val packageInfo = context.packageManager.getPackageInfo(context.packageName, 0)
@@ -32,7 +32,7 @@ class BuildIntegrationTest {
         assertNotNull("Package info should be available", packageInfo)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testBuildConfigIsGenerated() {
         // Verify that BuildConfig class is generated and accessible
         try {
@@ -52,7 +52,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testVectorDrawablesSupportIsEnabled() {
         val context = InstrumentationRegistry.getInstrumentation().targetContext
         // This test verifies that vector drawables can be used
@@ -62,7 +62,7 @@ class BuildIntegrationTest {
         // Vector drawable support would be verified by the successful app startup
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testMultiDexIsWorking() {
         // If the app starts successfully with multiDexEnabled = true,
         // it indicates MultiDex is working correctly
@@ -81,7 +81,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testHiltIsProperlyConfigured() {
         // This test verifies that Hilt test runner is working
         val context = InstrumentationRegistry.getInstrumentation().targetContext
@@ -98,7 +98,7 @@ class BuildIntegrationTest {
         assertNotNull("Application should be initialized", application)
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testComposeIsAvailable() {
         // Verify that Compose dependencies are properly included
         try {
@@ -109,7 +109,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testRoomDatabaseCanBeAccessed() {
         // Verify that Room dependencies are properly configured
         try {
@@ -120,7 +120,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testRetrofitIsAvailable() {
         // Verify that network dependencies are properly included
         try {
@@ -131,7 +131,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testFirebaseIsAvailable() {
         // Verify that Firebase dependencies are properly included
         try {
@@ -142,7 +142,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testKotlinCoroutinesAreAvailable() {
         // Verify that Kotlin Coroutines are properly included
         try {
@@ -164,7 +164,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testSecurityCryptoIsAvailable() {
         // Verify that Security Crypto dependencies are properly included
         try {
@@ -186,7 +186,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testMaterial3IsAvailable() {
         // Verify that Material 3 dependencies are properly included
         try {
@@ -197,7 +197,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testNavigationComposeIsAvailable() {
         // Verify that Navigation Compose is available
         try {
@@ -208,7 +208,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testCoilComposeIsAvailable() {
         // Verify that Coil Compose is available
         try {
@@ -219,7 +219,7 @@ class BuildIntegrationTest {
         }
     }
 
-    @org.junit.jupiter.api.Test
+    @Test
     fun testTimberIsAvailable() {
         // Verify that Timber is available
         try {

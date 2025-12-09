@@ -5,13 +5,12 @@ import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.rememberNavController
 import androidx.test.ext.junit.runners.AndroidJUnit4
-import dev.aurakai.auraframefx.navigation.AppNavGraph
 import io.mockk.*
 import kotlinx.coroutines.test.runTest
 import org.junit.Assert.*
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import org.junit.runner.RunWith
 
 @RunWith(AndroidJUnit4::class)
@@ -23,7 +22,7 @@ class AppNavGraphTest {
     private lateinit var navController: NavHostController
     private lateinit var mockNavController: NavHostController
 
-    @BeforeEach
+    @Before
     fun setUp() {
         mockNavController = mockk<NavHostController>(relaxed = true)
         clearAllMocks()

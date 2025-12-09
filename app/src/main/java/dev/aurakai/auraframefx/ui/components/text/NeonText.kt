@@ -3,12 +3,14 @@ package dev.aurakai.auraframefx.ui.components.text
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.layout.*
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.graphics.*
+import androidx.compose.ui.graphics.drawscope.Stroke
 import androidx.compose.ui.text.*
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -16,11 +18,6 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.platform.LocalDensity
-import androidx.compose.ui.platform.LocalFontFamilyResolver
-import androidx.compose.ui.text.drawText
-import androidx.compose.ui.tooling.preview.Preview
-import kotlinx.coroutines.delay
 import kotlin.math.*
 
 /**
@@ -64,9 +61,6 @@ import kotlin.math.*
  * @param typingSpeedMs Delay in milliseconds between each character when typing animation is enabled.
  * @param onTypingComplete Optional callback invoked when the typing animation finishes.
  */
-import androidx.compose.material3.LocalTextStyle
-import androidx.compose.ui.text.rememberTextMeasurer
-
 @Composable
 fun NeonText(
     text: String,
@@ -85,7 +79,6 @@ fun NeonText(
 ) {
     val density = LocalDensity.current
     val glowRadiusPx = with(density) { glowRadius.toPx() }
-    val textMeasurer = rememberTextMeasurer()
 
     // Animation for the glow effect
     val infiniteTransition = rememberInfiniteTransition(label = "neonGlow")
@@ -139,8 +132,8 @@ fun NeonText(
     )
 
     // Create a text layout to get the size and position of each character
-    val textLayoutResult = remember(text, textStyle, textMeasurer) {
-        textMeasurer.measure(
+    val textLayoutResult = remember(text, textStyle) {
+        TextMeasurer().measure(
             text = AnnotatedString(text),
             style = textStyle
         )
@@ -177,7 +170,6 @@ fun NeonText(
 
                     // Draw outer glow
                     drawText(
-                        textMeasurer = textMeasurer,
                         text = text[charIndex].toString(),
                         style = textStyle.copy(
                             shadow = Shadow(
@@ -192,7 +184,6 @@ fun NeonText(
                     // Draw inner glow with neon effect
                     for (i in 1..3) {
                         drawText(
-                            textMeasurer = textMeasurer,
                             text = text[charIndex].toString(),
                             style = textStyle.copy(
                                 shadow = Shadow(
@@ -226,3 +217,36 @@ fun NeonText(
     }
 }
 
+/**
+ * A simple TextMeasurer for measuring text layout
+ */
+private class TextMeasurer {
+    /**
+     * Measures the layout of the provided text using the specified style and returns the layout result.
+     *
+     * @param text The text to be measured.
+     * @param style The style applied during measurement.
+     * @return A TextLayoutResult containing size, position, and bounding box information for the measured text.
+     */
+    fun measure(
+        text: AnnotatedString,
+        style: TextStyle,
+    ): TextLayoutResult {
+        val textLayout = TextLayout(
+            text = text,
+            style = style,
+            maxLines = 1,
+            softWrap = false,
+            density = LocalDensity.current,
+            layoutDirection = LayoutDirection.Ltr,
+            fontFamilyResolver = LocalFontFamilyResolver.current
+        )
+        return textLayout
+    }
+}
+
+/**
+ * A preview composable for the NeonText
+ */
+@Composable
+@Preview "

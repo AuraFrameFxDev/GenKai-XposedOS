@@ -14,10 +14,10 @@ import kotlinx.coroutines.test.StandardTestDispatcher
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import org.junit.After
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
 import kotlin.test.assertEquals
 import kotlin.test.assertFalse
 import kotlin.test.assertTrue
@@ -41,7 +41,7 @@ class OracleDriveControlViewModelTest {
     private lateinit var mockErrorObserver: Observer<String>
     private lateinit var mockLoadingObserver: Observer<Boolean>
 
-    @BeforeEach
+    @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
 
@@ -58,7 +58,7 @@ class OracleDriveControlViewModelTest {
         viewModel.isLoading.observeForever(mockLoadingObserver)
     }
 
-    @AfterEach
+    @After
     fun tearDown() {
         Dispatchers.resetMain()
         viewModel.driveState.removeObserver(mockStateObserver)

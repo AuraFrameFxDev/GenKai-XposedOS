@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.genesis.security
 
+import android.content.Context
+
 /**
  * Manages cryptographic operations for the application.
  */
@@ -31,4 +33,12 @@ interface CryptographyManager {
      * @return A secure token string
      */
     fun generateSecureToken(): String
+
+    class Placeholder private constructor() {
+        companion object {
+            fun getInstance(context: Context): Placeholder = Placeholder()
+        }
+
+        fun generateSecureToken(): String = "stub-token"
+    }
 }

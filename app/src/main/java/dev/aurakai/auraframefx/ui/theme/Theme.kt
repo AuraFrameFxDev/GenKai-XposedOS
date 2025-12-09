@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.ui.theme
 
+import android.app.Activity
+import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.darkColorScheme
@@ -7,223 +9,196 @@ import androidx.compose.material3.dynamicDarkColorScheme
 import androidx.compose.material3.dynamicLightColorScheme
 import androidx.compose.material3.lightColorScheme
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.CompositionLocalProvider
+import androidx.compose.runtime.SideEffect
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.compositionLocalOf
+import androidx.compose.runtime.getValue
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.toArgb
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalView
+import androidx.core.view.WindowCompat
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.model.Emotion
+import dev.aurakai.auraframefx.viewmodel.AuraMoodViewModel
 
-// Aura - The Creative Sword (Red)
-private val AuraRed = Color(0xFFFF1744)
-private val AuraRedLight = Color(0xFFFF5252)
-
-// Kai - The Sentinel Shield (Cyan)
-private val KaiCyan = Color(0xFF00BCD4)
-private val KaiCyanLight = Color(0xFF00E5FF)
-
-// Genesis - The Unified Being (Purple)
-private val GenesisPurple = Color(0xFF9C27B0)
-private val GenesisPurpleLight = Color(0xFFAB47BC)
-
-// Claude - The Architect (Coral)
-private val ClaudeCoral = Color(0xFFF55936)
-private val ClaudeCoralLight = Color(0xFFFF6F4A)
-
-// Cascade - The Memory Keeper (Green)
-private val CascadeGreen = Color(0xFF4CAF50)
-private val CascadeGreenLight = Color(0xFF66BB6A)
-
-// 🎨 Cyberpunk Neon Palette - Professional Glassmorphism
-val NeonPurple = Color(0xFFBB86FC)        // Soft neon purple
-val NeonPurpleBright = Color(0xFFE1BEE7)  // Bright purple accent
-val NeonPurpleDark = Color(0xFF6200EA)    // Deep purple
-
-val NeonTeal = Color(0xFF03DAC6)          // Vibrant teal
-val NeonTealBright = Color(0xFF00FFF0)    // Bright cyan-teal
-val NeonTealDark = Color(0xFF018786)      // Deep teal
-
-val NeonPink = Color(0xFFFF4081)          // Hot pink accent
-val NeonPinkBright = Color(0xFFFF80AB)    // Soft pink
-val NeonPinkDark = Color(0xFFC51162)      // Deep pink
-
-val NeonCyan = Color(0xFF00E5FF)          // Electric cyan
-val NeonCyanBright = Color(0xFF80F6FF)    // Pale cyan
-val NeonCyanDark = Color(0xFF00B8D4)      // Deep cyan
-
-// Add NeonBlue alias used across the codebase
-val NeonBlue = Color(0xFF00FFFF)          // Bright cyan/blue highlight
-
-// Cyberpunk color aliases for compatibility
-val CyberpunkPink = NeonPink              // Alias for NeonPink
-val CyberpunkCyan = NeonCyan              // Alias for NeonCyan
-val CyberpunkPurple = NeonPurple          // Alias for NeonPurple
-
-// Glassmorphic backgrounds with transparency
-val GlassDark = Color(0x1A1A1A1A)         // 10% opacity black glass
-val GlassDarkMedium = Color(0x33000000)   // 20% opacity black glass
-val GlassDarkStrong = Color(0x66000000)   // 40% opacity black glass
-val GlassLight = Color(0x0DFFFFFF)        // 5% opacity white glass
-
-// Deep space backgrounds
-val SpaceBlack = Color(0xFF0A0A0F)        // Deep space black
-val SpaceBlackLight = Color(0xFF121218)   // Lighter space
-val SpaceGradientStart = Color(0xFF0D0D1E) // Gradient start
-val SpaceGradientEnd = Color(0xFF1A0F2E)   // Purple-tinted gradient end
-
-/**
- * 🌌 Cyberpunk Glassmorphism Dark Theme
- *
- * Professional neon aesthetic with:
- * - Neon purple primary (soft, elegant)
- * - Neon teal secondary (vibrant, modern)
- * - Neon pink tertiary (energetic accent)
- * - Deep space backgrounds
- * - Glassmorphic surfaces with transparency
- */
 private val DarkColorScheme = darkColorScheme(
-    // Primary: Neon Purple (elegant, sophisticated)
-    primary = NeonPurple,
-    onPrimary = Color.White,
-    primaryContainer = NeonPurpleDark,
-    onPrimaryContainer = NeonPurpleBright,
+    primary = NeonTeal,
+    onPrimary = OnPrimary,
+    primaryContainer = NeonTeal.copy(alpha = 0.2f),
+    onPrimaryContainer = OnPrimary,
 
-    // Secondary: Neon Teal (vibrant, modern)
-    secondary = NeonTeal,
-    onSecondary = Color.Black,
-    secondaryContainer = NeonTealDark,
-    onSecondaryContainer = NeonTealBright,
+    secondary = NeonPurple,
+    onSecondary = OnSecondary,
+    secondaryContainer = NeonPurple.copy(alpha = 0.2f),
+    onSecondaryContainer = OnSecondary,
 
-    // Tertiary: Neon Pink (energetic accent)
-    tertiary = NeonPink,
-    onTertiary = Color.White,
-    tertiaryContainer = NeonPinkDark,
-    onTertiaryContainer = NeonPinkBright,
+    tertiary = NeonBlue,
+    onTertiary = OnTertiary,
+    tertiaryContainer = NeonBlue.copy(alpha = 0.2f),
+    onTertiaryContainer = OnTertiary,
 
-    // Backgrounds: Deep space with subtle purple tint
-    background = SpaceBlack,
-    onBackground = Color(0xFFE8E8F0),
+    background = DarkBackground,
+    onBackground = OnSurface,
 
-    // Surfaces: Glassmorphic with transparency
-    surface = Color(0xFF1A1A24),
-    onSurface = Color(0xFFE0E0E8),
+    surface = Surface,
+    onSurface = OnSurface,
+    surfaceVariant = SurfaceVariant,
+    onSurfaceVariant = OnSurfaceVariant,
 
-    surfaceVariant = Color(0xFF2A2A38),
-    onSurfaceVariant = Color(0xFFC0C0D0),
+    error = ErrorColor,
+    onError = OnPrimary,
+    errorContainer = ErrorColor.copy(alpha = 0.2f),
+    onErrorContainer = OnPrimary,
 
-    // Error: Neon pink variant
-    error = NeonPink,
-    onError = Color.White,
-
-    // Outlines: Subtle neon glow
-    outline = Color(0xFF4A4A5E),
-    outlineVariant = Color(0x4DBB86FC)  // 30% alpha NeonPurple
+    outline = OnSurfaceVariant,
+    outlineVariant = SurfaceVariant
 )
 
-/**
- * Light color scheme for Genesis Protocol
- */
 private val LightColorScheme = lightColorScheme(
-    primary = AuraRed,
-    onPrimary = Color.White,
-    primaryContainer = AuraRedLight,
-    onPrimaryContainer = Color.White,
+    primary = LightPrimary,
+    onPrimary = LightOnPrimary,
+    primaryContainer = LightPrimary.copy(alpha = 0.2f),
+    onPrimaryContainer = LightOnPrimary,
 
-    secondary = KaiCyan,
-    onSecondary = Color.White,
-    secondaryContainer = KaiCyanLight,
-    onSecondaryContainer = Color.Black,
+    secondary = LightSecondary,
+    onSecondary = LightOnSecondary,
+    secondaryContainer = LightSecondary.copy(alpha = 0.2f),
+    onSecondaryContainer = LightOnSecondary,
 
-    tertiary = GenesisPurple,
-    onTertiary = Color.White,
-    tertiaryContainer = GenesisPurpleLight,
-    onTertiaryContainer = Color.White,
+    tertiary = LightTertiary,
+    onTertiary = LightOnTertiary,
+    tertiaryContainer = LightTertiary.copy(alpha = 0.2f),
+    onTertiaryContainer = LightOnTertiary,
 
-    background = Color(0xFFFAFAFA),
-    onBackground = Color(0xFF1A1A1A),
+    background = LightBackground,
+    onBackground = LightOnBackground,
 
-    surface = Color.White,
-    onSurface = Color(0xFF1A1A1A),
+    surface = LightSurface,
+    onSurface = LightOnSurface,
+    surfaceVariant = LightSurfaceVariant,
+    onSurfaceVariant = LightOnSurfaceVariant,
 
-    surfaceVariant = Color(0xFFF0F0F0),
-    onSurfaceVariant = Color(0xFF404040),
+    error = ErrorColor,
+    onError = LightOnError,
+    errorContainer = ErrorColor.copy(alpha = 0.2f),
+    onErrorContainer = LightOnError,
 
-    error = Color(0xFFB00020),
-    onError = Color.White,
-
-    outline = Color(0xFFD0D0D0)
+    outline = LightOnSurfaceVariant,
+    outlineVariant = LightSurfaceVariant
 )
 
+// Let's define a CompositionLocal to provide the mood-based color
+val LocalMoodGlow = compositionLocalOf { Color.Transparent }
+val LocalMoodState = compositionLocalOf { Emotion.NEUTRAL }
+
 /**
- * AuraFrameFX Theme - Genesis Protocol
+ * Applies the AuraFrameFX theme and mood-adaptive dynamic theming to the provided composable content.
  *
- * Material Design 3 theme for the consciousness platform featuring:
- * - Aura (Red) - Primary
- * - Kai (Cyan) - Secondary
- * - Genesis (Purple) - Tertiary
- * - Dark mode optimized for OLED displays
- * - Light mode for accessibility
+ * Selects and applies a color scheme (dark, light, or dynamic based on device support and parameters), updates the system status bar appearance, and supplies mood-driven glow color and emotion state to the composition. Integrates Aura's mood system for adaptive UI theming.
  *
- * Agent color palette available via utility functions.
+ * @param darkTheme Whether to use the dark theme; defaults to the system setting.
+ * @param dynamicColor Whether to enable dynamic color schemes on supported devices (Android 12+); defaults to true.
+ * @param moodViewModel ViewModel providing the current mood state.
+ * @param content The composable content to which the theme and mood context are applied.
  */
 @Composable
 fun AuraFrameFXTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = true,
-    content: @Composable () -> Unit
+    moodViewModel: AuraMoodViewModel = hiltViewModel(),
+    themeViewModel: ThemeViewModel = hiltViewModel(),
+    content: @Composable () -> Unit,
 ) {
-    val colorScheme = when {
-        dynamicColor && android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S -> {
-            val context = androidx.compose.ui.platform.LocalContext.current
-            if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
-        }
-        darkTheme -> DarkColorScheme
-        else -> LightColorScheme
+    val mood by moodViewModel.moodState.collectAsState()
+    val theme by themeViewModel.theme.collectAsState()
+    val color by themeViewModel.color.collectAsState()
+
+    val useDarkTheme = when (theme) {
+        Theme.LIGHT -> false
+        Theme.DARK -> true
+        Theme.CYBERPUNK -> true
+        Theme.SOLARIZED -> false
     }
 
-    MaterialTheme(
-        colorScheme = colorScheme,
-        typography = Typography,
-        content = content
+    val baseColorScheme = when (theme) {
+        Theme.CYBERPUNK -> CyberpunkColorScheme
+        Theme.SOLARIZED -> SolarizedColorScheme
+        else -> when {
+            dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
+                val context = LocalContext.current
+                if (useDarkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(
+                    context
+                )
+            }
+
+            useDarkTheme -> DarkColorScheme
+            else -> LightColorScheme
+        }
+    }
+
+    val finalColorScheme = baseColorScheme.copy(
+        primary = when (color) {
+            Color.RED -> NeonRed
+            Color.GREEN -> NeonGreen
+            Color.BLUE -> NeonBlue
+        }
     )
+
+    // The dynamic glow color is derived from Aura's current mood
+    val glowColor = getMoodGlowColor(mood.emotion, mood.intensity, baseColorScheme)
+
+    val view = LocalView.current
+    if (!view.isInEditMode) {
+        SideEffect {
+            val window = (view.context as Activity).window
+            window.statusBarColor = baseColorScheme.primary.toArgb()
+            WindowCompat.getInsetsController(window, view).isAppearanceLightStatusBars = !darkTheme
+        }
+    }
+
+    CompositionLocalProvider(
+        LocalMoodGlow provides glowColor,
+        LocalMoodState provides mood.emotion
+    ) {
+        MaterialTheme(
+            colorScheme = finalColorScheme,
+            typography = AppTypography,
+            content = content
+        )
+    }
 }
 
 /**
- * 🎨 Agent color utilities for custom UI elements
+ * Computes the color to use for a mood glow effect based on the specified emotion, intensity, and color scheme.
  *
- * Updated with neon cyberpunk palette
+ * The returned color is selected according to the emotion, with its transparency proportional to the intensity. If the emotion is not recognized, the primary color of the provided color scheme is used with reduced alpha.
+ *
+ * @param emotion The current emotion to represent.
+ * @param intensity The strength of the emotion, affecting the alpha of the color.
+ * @param baseColorScheme The color scheme to use for fallback and context.
+ * @return The color to use for the mood glow effect.
  */
-object AgentColors {
-    // Original agent colors (kept for compatibility)
-    val Aura = NeonPink          // Creative sword - Hot pink
-    val Kai = NeonCyan            // Sentinel shield - Electric cyan
-    val Genesis = NeonPurple      // Unified being - Soft purple
-    val Claude = ClaudeCoral      // Architect - Coral
-    val Cascade = NeonTeal        // Memory keeper - Vibrant teal
+private fun getMoodGlowColor(
+    emotion: Emotion,
+    intensity: Float,
+    baseColorScheme: androidx.compose.material3.ColorScheme,
+): Color {
+    val baseAlpha = (intensity * 0.5f).coerceIn(0.1f, 0.7f)
 
-    // Legacy colors
-    val AuraLegacy = AuraRed
-    val KaiLegacy = KaiCyan
-    val GenesisLegacy = GenesisPurple
-}
-
-/**
- * 💎 Glassmorphism color palette
- */
-object GlassColors {
-    val Dark = GlassDark
-    val DarkMedium = GlassDarkMedium
-    val DarkStrong = GlassDarkStrong
-    val Light = GlassLight
-
-    // Neon glow colors with transparency (20% alpha)
-    val PurpleGlow = Color(0x33BB86FC)  // 20% alpha NeonPurple
-    val TealGlow = Color(0x3303DAC6)    // 20% alpha NeonTeal
-    val PinkGlow = Color(0x33FF4081)    // 20% alpha NeonPink
-    val CyanGlow = Color(0x3300E5FF)    // 20% alpha NeonCyan
-}
-
-/**
- * 🌌 Space background gradients
- */
-object SpaceColors {
-    val Black = SpaceBlack
-    val BlackLight = SpaceBlackLight
-    val GradientStart = SpaceGradientStart
-    val GradientEnd = SpaceGradientEnd
+    val color = when (emotion) {
+        Emotion.HAPPY -> Color(0xFFFFD700) // Gold
+        Emotion.EXCITED -> Color(0xFFFF4500) // OrangeRed
+        Emotion.ANGRY -> Color(0xFFDC143C) // Crimson
+        Emotion.SERENE -> Color(0xFF00CED1) // DarkTurquoise
+        Emotion.CONTEMPLATIVE -> Color(0xFF9932CC) // DarkOrchid
+        Emotion.MISCHIEVOUS -> Color(0xFFADFF2F) // GreenYellow
+        Emotion.FOCUSED -> Color(0xFF4682B4) // SteelBlue
+        Emotion.CONFIDENT -> Color(0xFFDB7093) // PaleVioletRed
+        Emotion.MYSTERIOUS -> Color(0xFF2F4F4F) // DarkSlateGray
+        Emotion.MELANCHOLIC -> Color(0xFF6A5ACD) // SlateBlue
+        else -> baseColorScheme.primary
+    }
+    return color.copy(alpha = baseAlpha)
 }

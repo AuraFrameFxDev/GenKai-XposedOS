@@ -1,32 +1,30 @@
 package settings
 
-import org.junit.jupiter.api.Assertions.assertEquals
-import org.junit.jupiter.api.Assertions.assertFalse
-import org.junit.jupiter.api.Assertions.assertTrue
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import org.junit.Assert.*
 import java.io.File
 
 /**
  * Additional validation tests for settings.gradle.kts from app module perspective
- * Using JUnit 5 syntax to match existing app module test patterns
+ * Using JUnit 4 syntax to match existing app module test patterns
  */
 class SettingsConfigurationTest {
 
     @Test
     fun `settings file should be parseable as gradle script`() {
         val settingsFile = File("../settings.gradle.kts")
-        assertTrue(settingsFile.exists(), "Settings file should exist")
+        assertTrue("Settings file should exist", settingsFile.exists())
 
         val content = settingsFile.readText()
 
         // Basic syntax validation
-        assertFalse(content.contains("TODO"), "Should not contain syntax errors")
-        assertFalse(content.contains("FIXME"), "Should not contain placeholder text")
+        assertFalse("Should not contain syntax errors", content.contains("TODO"))
+        assertFalse("Should not contain placeholder text", content.contains("FIXME"))
 
         // Should have balanced braces
         val openBraces = content.count { it == '{' }
         val closeBraces = content.count { it == '}' }
-        assertEquals(openBraces, closeBraces, "Braces should be balanced")
+        assertEquals("Braces should be balanced", openBraces, closeBraces)
     }
 
     @Test
@@ -35,8 +33,8 @@ class SettingsConfigurationTest {
         val content = settingsFile.readText()
 
         assertTrue(
-            content.contains("include(\":app\")"),
-            "App module should be included"
+            "App module should be included",
+            content.contains("include(\":app\")")
         )
     }
 
@@ -46,8 +44,8 @@ class SettingsConfigurationTest {
         val content = settingsFile.readText()
 
         assertTrue(
-            content.contains("rootProject.name = \"AuraFrameFX\""),
-            "Project name should be AuraFrameFX"
+            "Project name should be AuraFrameFX",
+            content.contains("rootProject.name = \"AuraFrameFX\"")
         )
     }
 
@@ -57,10 +55,10 @@ class SettingsConfigurationTest {
         val content = settingsFile.readText()
 
         // Should include Android-specific configuration
-        assertTrue(content.contains("google()"), "Should configure Android repositories")
+        assertTrue("Should configure Android repositories", content.contains("google()"))
         assertTrue(
-            content.contains("com.android.application"),
-            "Should have Android plugin management"
+            "Should have Android plugin management",
+            content.contains("com.android.application")
         )
     }
 
@@ -71,12 +69,12 @@ class SettingsConfigurationTest {
 
         // Verify conditional logic exists
         assertTrue(
-            content.contains("if (file(\"jvm-test\").exists())"),
-            "Should have conditional jvm-test include"
+            "Should have conditional jvm-test include",
+            content.contains("if (file(\"jvm-test\").exists())")
         )
         assertTrue(
-            content.contains("if (file(\"sandbox-ui\").exists())"),
-            "Should have conditional sandbox-ui include"
+            "Should have conditional sandbox-ui include",
+            content.contains("if (file(\"sandbox-ui\").exists())")
         )
 
         // Verify actual module directories match conditions
@@ -85,15 +83,15 @@ class SettingsConfigurationTest {
 
         if (jvmTestExists) {
             assertTrue(
-                content.contains("include(\":jvm-test\")"),
-                "jvm-test directory exists, should be included"
+                "jvm-test directory exists, should be included",
+                content.contains("include(\":jvm-test\")")
             )
         }
 
         if (sandboxUiExists) {
             assertTrue(
-                content.contains("include(\":sandbox-ui\")"),
-                "sandbox-ui directory exists, should be included"
+                "sandbox-ui directory exists, should be included",
+                content.contains("include(\":sandbox-ui\")")
             )
         }
     }
@@ -110,8 +108,14 @@ class SettingsConfigurationTest {
         )
 
         repositoryUrls.forEach { url ->
-            assertTrue(content.contains(url), "Should contain secure repository URL: $url")
-            assertTrue(url.startsWith("https://"), "Repository URL should use HTTPS: $url")
+            assertTrue(
+                "Should contain secure repository URL: $url",
+                content.contains(url)
+            )
+            assertTrue(
+                "Repository URL should use HTTPS: $url",
+                url.startsWith("https://")
+            )
         }
     }
 
@@ -121,8 +125,8 @@ class SettingsConfigurationTest {
         val content = settingsFile.readText()
 
         assertTrue(
-            content.contains("repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)"),
-            "Should enforce centralized repository management"
+            "Should enforce centralized repository management",
+            content.contains("repositoriesMode.set(RepositoriesMode.FAIL_ON_PROJECT_REPOS)")
         )
     }
 }

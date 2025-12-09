@@ -12,18 +12,19 @@ import androidx.compose.ui.platform.testTag
 import androidx.compose.ui.test.*
 import androidx.compose.ui.test.junit4.createComposeRule
 import androidx.compose.ui.unit.dp
-import dev.aurakai.auraframefx.ui.theme.model.AuraThemeData
+import dev.aurakai.auraframefx.theme.AuraTheme
 import dev.aurakai.auraframefx.ui.animations.KineticIdentityLibrary.EmotionalState
 import dev.aurakai.auraframefx.ui.animations.KineticIdentityLibrary.FlowDirection
 import dev.aurakai.auraframefx.ui.animations.KineticIdentityLibrary.Particle
 import io.mockk.*
+import kotlinx.coroutines.test.runTest
 import org.junit.Rule
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.Test
+import org.junit.Test
+import org.junit.Before
+import org.junit.After
 import kotlin.test.assertEquals
-import kotlin.test.assertNotNull
 import kotlin.test.assertTrue
+import kotlin.test.assertNotNull
 
 /**
  * Comprehensive unit tests for KineticIdentityLibrary
@@ -45,17 +46,17 @@ class KineticIdentityLibraryTest {
     @get:Rule
     val composeTestRule = createComposeRule()
 
-    private lateinit var mockTheme: AuraThemeData
+    private lateinit var mockTheme: AuraTheme
 
-    @BeforeEach
+    @Before
     fun setup() {
-        mockTheme = mockk<AuraThemeData>(relaxed = true) {
+        mockTheme = mockk<AuraTheme>(relaxed = true) {
             every { accentColor } returns Color.Blue
-            every { animationStyle } returns AuraThemeData.AnimationStyle.FLOWING
+            every { animationStyle } returns AuraTheme.AnimationStyle.FLOWING
         }
     }
 
-    @AfterEach
+    @After
     fun tearDown() {
         clearAllMocks()
     }
@@ -704,7 +705,7 @@ class KineticIdentityLibraryTest {
 
     @Test
     fun particleFlow_handlesThemeChanges() {
-        var animationStyle by mutableStateOf(AuraThemeData.AnimationStyle.FLOWING)
+        var animationStyle by mutableStateOf(AuraTheme.AnimationStyle.FLOWING)
 
         every { mockTheme.animationStyle } returns animationStyle
 
@@ -718,7 +719,7 @@ class KineticIdentityLibraryTest {
         composeTestRule.onNodeWithTag("particle_theme_changes").assertExists()
 
         // Change animation style
-        animationStyle = AuraThemeData.AnimationStyle.ENERGETIC
+        animationStyle = AuraTheme.AnimationStyle.ENERGETIC
         every { mockTheme.animationStyle } returns animationStyle
 
         composeTestRule.waitForIdle()
@@ -930,9 +931,9 @@ class KineticIdentityLibraryTest {
 
     @Test
     fun animations_handleNullAccentColor() {
-        val themeWithNullColor = mockk<AuraThemeData>(relaxed = true) {
+        val themeWithNullColor = mockk<AuraTheme>(relaxed = true) {
             every { accentColor } returns Color.Unspecified
-            every { animationStyle } returns AuraThemeData.AnimationStyle.FLOWING
+            every { animationStyle } returns AuraTheme.AnimationStyle.FLOWING
         }
 
         composeTestRule.setContent {
@@ -949,8 +950,8 @@ class KineticIdentityLibraryTest {
 
     @Test
     fun particleFlow_handlesAllAnimationStyles() {
-        AuraThemeData.AnimationStyle.values().forEachIndexed { index, style ->
-            val themeWithStyle = mockk<AuraThemeData>(relaxed = true) {
+        AuraTheme.AnimationStyle.values().forEachIndexed { index, style ->
+            val themeWithStyle = mockk<AuraTheme>(relaxed = true) {
                 every { accentColor } returns Color.Blue
                 every { animationStyle } returns style
             }
@@ -971,7 +972,7 @@ class KineticIdentityLibraryTest {
 // SEPARATE TEST CLASS FOR PURE FUNCTIONS (Using JUnit 5)
 class KineticIdentityLibraryPureFunctionTest {
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun generateParticles_createsCorrectCount() {
         // We can't directly access private functions, but we can test the public interface
         // that uses them indirectly through the Composable functions
@@ -991,7 +992,7 @@ class KineticIdentityLibraryPureFunctionTest {
         kotlin.test.assertEquals(200f, testParticle.position.y)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun particle_handlesLifeCycleLogic() {
         val particle = Particle(
             position = Offset(100f, 200f),
@@ -1007,7 +1008,7 @@ class KineticIdentityLibraryPureFunctionTest {
         kotlin.test.assertEquals(0.5f, expectedAlpha)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun particle_handlesZeroLife() {
         val particle = Particle(
             position = Offset(100f, 200f),
@@ -1022,7 +1023,7 @@ class KineticIdentityLibraryPureFunctionTest {
         kotlin.test.assertEquals(0.0f, expectedAlpha)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun particle_handlesMaxLife() {
         val particle = Particle(
             position = Offset(100f, 200f),
@@ -1037,7 +1038,7 @@ class KineticIdentityLibraryPureFunctionTest {
         kotlin.test.assertEquals(1.0f, expectedAlpha)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun particle_handlesIntensityModulation() {
         val particle = Particle(
             position = Offset(100f, 200f),
@@ -1052,7 +1053,7 @@ class KineticIdentityLibraryPureFunctionTest {
         kotlin.test.assertEquals(1.0f, expectedAlpha)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun emotionalState_breathingDurationMappingLogic() {
         // Test the logic patterns that would be in the when statement
         val calmDuration = 4000
@@ -1068,7 +1069,7 @@ class KineticIdentityLibraryPureFunctionTest {
         kotlin.test.assertTrue(neutralDuration < calmDuration)
     }
 
-    @Test
+    @org.junit.jupiter.api.Test
     fun emotionalState_amplitudeMappingLogic() {
         // Test the amplitude logic patterns
         val calmAmplitude = 0.3f

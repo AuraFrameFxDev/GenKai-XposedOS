@@ -1,7 +1,24 @@
-package dev.aurakai.auraframefx.aura.animations
+package dev.aurakai.auraframefx.ui.animation
 
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.Color // Added import for Color
+
+// Moved extension functions to top-level for direct use on Modifier
+
+/**
+ * Applies a cyber-themed edge glow effect to the modifier.
+ *
+ * Currently a placeholder with no visual effect.
+ * @return The original modifier unchanged.
+ */
+/**
+ * Applies a cyber-themed edge glow visual effect to the modifier.
+ *
+ * Currently a placeholder with no visual effect applied.
+ *
+ * @return The original modifier unchanged.
+ */
+fun Modifier.cyberEdgeGlow(): Modifier = this
 
 /**
  * Intended to apply a customizable cyber edge glow effect to this modifier using the given primary and secondary colors.
@@ -19,3 +36,18 @@ fun Modifier.cyberEdgeGlow(primaryColor: Color, secondaryColor: Color): Modifier
  * @return The modifier with the digital pixelation effect applied when visible is true, or the original modifier otherwise.
  */
 fun Modifier.digitalPixelEffect(visible: Boolean): Modifier = this
+
+/**
+ * Applies a digital glitch visual effect to this modifier.
+ *
+ * This is a placeholder implementation; no visual effect is currently applied.
+ *
+ * @return The original modifier unchanged.
+ */
+fun Modifier.digitalGlitchEffect(): Modifier = this // Placeholder
+
+// The object can be removed if it serves no other purpose,
+// or kept if it's meant to group other non-Modifier related transition utilities.
+// object DigitalTransitions { }
+// For now, let's assume the object itself is not strictly needed if these were its only members.
+

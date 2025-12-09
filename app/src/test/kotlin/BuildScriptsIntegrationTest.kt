@@ -1,28 +1,32 @@
 package dev.aurakai.auraframefx.test
 
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.Assertions.*
-import org.junit.jupiter.api.BeforeEach
-import org.junit.jupiter.api.DisplayName
-import org.junit.jupiter.api.MethodOrderer
-import org.junit.jupiter.api.Nested
 import org.junit.jupiter.api.Test
+import org.junit.jupiter.api.BeforeEach
+import org.junit.jupiter.api.AfterEach
 import org.junit.jupiter.api.TestInstance
-import org.junit.jupiter.api.TestMethodOrder
+import org.junit.jupiter.api.Nested
+import org.junit.jupiter.api.DisplayName
+import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.assertThrows
+import org.junit.jupiter.api.TestMethodOrder
+import org.junit.jupiter.api.MethodOrderer
 import org.junit.jupiter.params.ParameterizedTest
-import org.junit.jupiter.params.provider.Arguments
-import org.junit.jupiter.params.provider.CsvSource
 import org.junit.jupiter.params.provider.ValueSource
+import org.junit.jupiter.params.provider.CsvSource
+import org.junit.jupiter.params.provider.Arguments
+import org.junit.jupiter.params.provider.MethodSource
 import org.mockito.Mockito.*
 import org.mockito.kotlin.*
 import java.io.File
 import java.io.FileNotFoundException
+import java.nio.file.Files
 import java.nio.file.Path
+import java.nio.file.Paths
 import java.util.concurrent.TimeoutException
 import java.util.stream.Stream
-import kotlin.io.path.createTempDirectory
 import kotlin.io.path.exists
+import kotlin.io.path.createTempDirectory
+import kotlin.io.path.deleteExisting
 
 /**
  * Comprehensive integration tests for build script functionality.
@@ -915,7 +919,7 @@ class BuildScriptsIntegrationTest {
         """.trimIndent()
     }
 
-    private fun parseBuildScript(file: File): BuildScriptParseResult {
+    private fun parseBuildScript(file: File): BuildScriptParseResult? {
         // Mock implementation - would parse build script
         return BuildScriptParseResult(
             success = true,

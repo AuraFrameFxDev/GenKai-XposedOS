@@ -9,3 +9,4 @@ private fun Unit.onInit(): Any {
 }
 
 open annotation class IYukiHookXposedInit
+

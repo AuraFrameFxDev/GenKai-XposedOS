@@ -1,31 +1,29 @@
 package dev.aurakai.auraframefx.utils
 
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
-import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.Json
 
-/**
- * Utilities for converting Kotlin Maps to JsonObject for kotlinx.serialization compatibility.
- */
+object JsonUtils {
+    internal val json = Json {
+        ignoreUnknownKeys = true
+        isLenient = true
+        prettyPrint = true
+    }
 
-fun Map<String, *>?.toJsonObject(): JsonObject {
-    val map = this ?: emptyMap<String, Any?>()
-    val content = buildJsonObject {
-        for ((k, v) in map) {
-            when (v) {
-                null -> put(k, JsonPrimitive(""))
-                is String -> put(k, JsonPrimitive(v))
-                is Number -> put(k, JsonPrimitive(v.toString()))
-                is Boolean -> put(k, JsonPrimitive(v))
-                is Map<*, *> -> {
-                    // recursively convert nested maps (assuming keys are strings)
-                    @Suppress("UNCHECKED_CAST")
-                    put(k, (v as Map<String, *>).toJsonObject())
-                }
-                else -> put(k, JsonPrimitive(v.toString()))
-            }
+    fun <T> toJson(obj: T, serializer: kotlinx.serialization.KSerializer<T>): String? {
+        return try {
+            Json.encodeToString(serializer, obj)
+        } catch (e: Exception) {
+            // Log the exception
+            null
         }
     }
-    return content
-}
 
+    fun <T> fromJson(jsonString: String, serializer: kotlinx.serialization.KSerializer<T>): T? {
+        return try {
+            Json.decodeFromString(serializer, jsonString)
+        } catch (e: Exception) {
+            // Log the exception
+            null
+        }
+    }
+}

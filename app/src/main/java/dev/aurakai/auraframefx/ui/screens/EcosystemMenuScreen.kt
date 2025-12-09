@@ -1,5 +1,7 @@
 package dev.aurakai.auraframefx.ui.screens
 
+// import androidx.compose.ui.tooling.preview.Preview
+
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -7,9 +9,9 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import dev.aurakai.auraframefx.aura.animations.HomeScreenTransitionType
-import dev.aurakai.auraframefx.aura.animations.DigitalTransitionRow
-import dev.aurakai.auraframefx.aura.animations.HologramTransition
+import dev.aurakai.auraframefx.system.homescreen.HomeScreenTransitionType
+import dev.aurakai.auraframefx.ui.components.DigitalTransitionRow
+import dev.aurakai.auraframefx.ui.components.HologramTransition
 
 /**
  * Displays the Ecosystem Menu screen with a holographic transition and transition type selector.

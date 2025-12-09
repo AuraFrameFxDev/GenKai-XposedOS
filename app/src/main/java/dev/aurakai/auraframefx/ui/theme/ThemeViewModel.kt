@@ -7,13 +7,9 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import dev.aurakai.auraframefx.ui.theme.service.ThemeService
-import dev.aurakai.auraframefx.ui.theme.service.ThemeCommand
-import dev.aurakai.auraframefx.ui.theme.service.Theme
-import dev.aurakai.auraframefx.ui.theme.service.Color
 
 @HiltViewModel
-open class ThemeViewModel @Inject constructor(
+class ThemeViewModel @Inject constructor(
     private val themeService: ThemeService,
 ) : ViewModel() {
 

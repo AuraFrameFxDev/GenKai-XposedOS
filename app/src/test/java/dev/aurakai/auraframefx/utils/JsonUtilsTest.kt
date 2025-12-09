@@ -189,7 +189,7 @@ class JsonUtilsTest {
 
     @Nested
     @DisplayName("JSON Serialization Tests")
-    class JsonSerializationTests {
+    inner class JsonSerializationTests {
 
         @Test
         @DisplayName("Should serialize object to JSON string successfully")
@@ -257,7 +257,7 @@ class JsonUtilsTest {
 
     @Nested
     @DisplayName("JSON Deserialization Tests")
-    class JsonDeserializationTests {
+    inner class JsonDeserializationTests {
 
         @Test
         @DisplayName("Should deserialize JSON string to object successfully")
@@ -433,7 +433,7 @@ class JsonUtilsTest {
 
     @Nested
     @DisplayName("JSON Formatting Tests")
-    class JsonFormattingTests {
+    inner class JsonFormattingTests {
 
         @Test
         @DisplayName("Should format JSON with proper indentation")
@@ -626,7 +626,7 @@ class JsonUtilsTest {
 
     @Nested
     @DisplayName("Performance and Edge Case Tests")
-    class PerformanceEdgeCaseTests {
+    inner class PerformanceEdgeCaseTests {
 
         @Test
         @DisplayName("Should handle large JSON objects efficiently")
@@ -768,7 +768,7 @@ class JsonUtilsTest {
 
     @Nested
     @DisplayName("Type Safety and Generic Tests")
-    class TypeSafetyTests {
+    inner class TypeSafetyTests {
 
         @Test
         @DisplayName("Should handle generic type deserialization safely")

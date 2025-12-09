@@ -1,24 +1,52 @@
-// Kotlin
 package dev.aurakai.auraframefx.api.client.infrastructure
 
-import com.squareup.moshi.Moshi
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonBuilder
 import kotlinx.serialization.modules.SerializersModule
 import kotlinx.serialization.modules.SerializersModuleBuilder
-import dev.aurakai.auraframefx.ui.adapters.UUIDAdapter
-import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import java.math.BigDecimal
+import java.math.BigInteger
+import java.net.URI
+import java.net.URL
+import java.time.LocalDate
+import java.time.LocalDateTime
+import java.time.OffsetDateTime
+import java.util.UUID
+import java.util.concurrent.atomic.AtomicBoolean
+import java.util.concurrent.atomic.AtomicInteger
+import java.util.concurrent.atomic.AtomicLong
 
 object Serializer {
+    @Deprecated(
+        "Use Serializer.kotlinxSerializationAdapters instead",
+        replaceWith = ReplaceWith("Serializer.kotlinxSerializationAdapters"),
+        level = DeprecationLevel.ERROR
+    )
+    @JvmStatic
+    val kotlinSerializationAdapters: SerializersModule
+        get() {
+            return kotlinxSerializationAdapters
+        }
 
     private var isAdaptersInitialized = false
 
-    // Keep an empty module here until concrete KSerializer implementations are available
     @JvmStatic
     val kotlinxSerializationAdapters: SerializersModule by lazy {
-        true.also { true.also { isAdaptersInitialized = it } }
+        isAdaptersInitialized = true
         SerializersModule {
-            // Add contextual serializers here when their KSerializer implementations are present.
+            contextual(BigDecimal::class, BigDecimalAdapter)
+            contextual(BigInteger::class, BigIntegerAdapter)
+            contextual(LocalDate::class, LocalDateAdapter)
+            contextual(LocalDateTime::class, LocalDateTimeAdapter)
+            contextual(OffsetDateTime::class, OffsetDateTimeAdapter)
+            contextual(UUID::class, UUIDAdapter)
+            contextual(AtomicInteger::class, AtomicIntegerAdapter)
+            contextual(AtomicLong::class, AtomicLongAdapter)
+            contextual(AtomicBoolean::class, AtomicBooleanAdapter)
+            contextual(URI::class, URIAdapter)
+            contextual(URL::class, URLAdapter)
+            contextual(StringBuilder::class, StringBuilderAdapter)
+
             apply(kotlinxSerializationAdaptersConfiguration)
         }
     }
@@ -64,27 +92,4 @@ object Serializer {
             }
             field = value
         }
-
-    // Minimal Moshi setup using adapters that exist in the project.
-    @JvmStatic
-    val moshiBuilder: Moshi.Builder = Moshi.Builder()
-        .add(UUIDAdapter())
-        .add(ByteArrayAdapter())
-        .add(KotlinJsonAdapterFactory())
-
-    @JvmStatic
-    val moshi: Moshi by lazy {
-        moshiBuilder.build()
-    }
 }
-
-
-@Deprecated(
-    "Use Serializer.kotlinxSerializationAdapters instead",
-    replaceWith = ReplaceWith("Serializer.kotlinxSerializationAdapters"),
-    level = DeprecationLevel.ERROR
-)
-internal val kotlinSerializationAdapters: SerializersModule
-    get() {
-        return Serializer.kotlinxSerializationAdapters
-    }

@@ -9,8 +9,9 @@ import org.junit.jupiter.api.*
 import org.junit.jupiter.api.Assertions.*
 import org.junit.jupiter.api.extension.ExtendWith
 import org.mockito.junit.jupiter.MockitoExtension
-import java.io.ByteArrayInputStream
 import java.io.File
+import java.io.InputStream
+import java.io.ByteArrayInputStream
 import java.security.MessageDigest
 
 /**
@@ -738,7 +739,7 @@ class IntegrityMonitorTest {
 
     @Nested
     @DisplayName("Data Class Tests")
-    class DataClassTests {
+    inner class DataClassTests {
 
         @Test
         @DisplayName("IntegrityViolation data class should have correct properties")

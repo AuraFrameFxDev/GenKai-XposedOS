@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.xposed.lockscreen
+package dev.aurakai.auraframefx.system.lockscreen.model
 
 /**
  * Enum class representing different types of lock screen animations
@@ -20,3 +20,4 @@ enum class LockScreenAnimation {
     GLOW,
     PARTICLE_EFFECT
 }
+

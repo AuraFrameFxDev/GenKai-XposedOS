@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.system.overlay
+package dev.aurakai.auraframefx.system.overlay // Ensure this package is correct
 
 import kotlinx.serialization.Serializable
 
@@ -32,13 +32,7 @@ data class NotchBarConfig(
     val marginBottomPx: Int = 0,
     val marginStartPx: Int = 0,
     val marginEndPx: Int = 0,
-
-    /**
-     * Future enhancements for notch bar:
-     * - Shape adjustments: Custom notch cutout shapes, rounded corners per side
-     * - Content handling: Dynamic content overlays, notification badges
-     * - Animation: Entry/exit transitions, content slide effects
-     */
+    // TODO: Future: shape adjustments, content handling
 )
 
 @Serializable
@@ -89,23 +83,7 @@ data class OverlayShape(
     val strokeColor: String? = null, // Hex color for the shape's border
     val strokeWidthPx: Float = 0f, // Width of the border
     val shadow: ShapeShadow? = null, // Optional shadow
-
-    /**
-     * Custom path data for complex shapes using SVG path syntax.
-     * Example: "M 10,10 L 90,10 L 50,90 Z" for a triangle
-     * When defined, this overrides simple shape types and allows:
-     * - Custom vector paths
-     * - Bezier curves
-     * - Complex polygons
-     * - SVG-compatible path commands
-     */
-    val customPathData: String? = null,
-
-    /**
-     * Gradient fill configuration for advanced styling.
-     * Future enhancement to support linear/radial gradients.
-     */
-    val gradientConfig: String? = null // JSON string for gradient settings
+    // TODO: Add properties for more complex shapes (e.g., path data)
 )
 
 @Serializable

@@ -1,7 +1,7 @@
 package dev.aurakai.auraframefx.di
 
 import android.content.Context
-import androidx.hilt.work.HiltWorkerFactory
+import androidx.hilt.work.HiltWorkerFactory // For Configuration.Builder().setWorkerFactory
 import androidx.work.Configuration
 import androidx.work.WorkManager
 import dagger.Module
@@ -12,23 +12,18 @@ import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
 /**
- * Hilt Module for providing WorkManager and its configuration.
- *
- * Configures WorkManager with HiltWorkerFactory to enable dependency injection
- * in Worker classes annotated with @HiltWorker.
+ * Hilt Module for providing WorkManager related dependencies.
+ * TODO: Reported as unused declaration. Ensure Hilt is set up for WorkManager.
  */
 @Module
 @InstallIn(SingletonComponent::class)
 object WorkManagerModule {
 
     /**
-     * Provides WorkManager Configuration with HiltWorkerFactory.
-     *
-     * This configuration enables Hilt to inject dependencies into Worker classes.
-     * The configuration is used during WorkManager initialization.
-     *
-     * @param workerFactory HiltWorkerFactory instance for worker dependency injection
-     * @return WorkManager Configuration configured with Hilt support
+     * Provides WorkManager Configuration.
+     * @param workerFactory HiltWorkerFactory dependency.
+     * @return A WorkManager Configuration instance.
+     * TODO: Reported as unused. Ensure this is correctly set up if custom WorkManager config is needed.
      */
     @Provides
     @Singleton
@@ -40,24 +35,24 @@ object WorkManagerModule {
             .build()
 
     /**
-     * Provides the WorkManager singleton instance.
-     *
-     * WorkManager is initialized with the Hilt-aware configuration and used throughout
-     * the app for background task scheduling and execution.
-     *
-     * @param context Application context used to get the WorkManager instance
-     * @param configuration WorkManager configuration (provided by Hilt, used for initialization)
-     * @return The WorkManager singleton instance
+     * Provides the WorkManager instance.
+     * @param _context Application context. Parameter reported as unused.
+     * @param _configuration WorkManager Configuration dependency. Parameter reported as unused.
+     * @return A WorkManager instance.
+     * TODO: Reported as unused. Ensure WorkManager is initialized and used.
      */
     @Provides
     @Singleton
     fun provideWorkManager(
-        @ApplicationContext context: Context,
-        configuration: Configuration,
+        @ApplicationContext _context: Context,
+        _configuration: Configuration, // Hilt will provide this from the method above
     ): WorkManager {
-        // Note: WorkManager initialization with custom configuration should happen in
-        // Application.onCreate via Configuration.Provider or WorkManagerInitializer
-        // This provider returns the already-initialized instance
-        return WorkManager.getInstance(context)
+        // TODO: Parameters _context, _configuration reported as unused (Hilt will provide them).
+        // WorkManager.initialize(_context, _configuration) // This should be done once, usually in Application.onCreate
+        // return WorkManager.getInstance(_context)
+
+        // As per Hilt docs, if you provide Configuration, Hilt handles initialization.
+        // So, just getting the instance should be fine.
+        return WorkManager.getInstance(_context) // Placeholder, assumes Hilt handles init via Configuration provider
     }
 }

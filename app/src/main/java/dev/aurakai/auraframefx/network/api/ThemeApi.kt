@@ -1,9 +1,8 @@
 package dev.aurakai.auraframefx.network.api
 
 import dev.aurakai.auraframefx.network.model.Theme
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Path
+import retrofit2.Response
+import retrofit2.http.*
 
 /**
  * API interface for theme-related operations.

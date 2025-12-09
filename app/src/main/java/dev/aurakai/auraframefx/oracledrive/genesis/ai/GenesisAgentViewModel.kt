@@ -1,13 +1,13 @@
-package dev.aurakai.auraframefx.oracledrive.genesis.ai
+package dev.aurakai.auraframefx.viewmodel
 
-import dev.aurakai.auraframefx.models.AgentPriority
+import AgentPriority
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dev.aurakai.auraframefx.models.HistoricalTask
-import dev.aurakai.auraframefx.models.AgentRole
-import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.models.HierarchyAgentConfig
+import dev.aurakai.auraframefx.ai.task.HistoricalTask
+import dev.aurakai.auraframefx.model.AgentRole
+import dev.aurakai.auraframefx.model.AgentType
+import dev.aurakai.auraframefx.model.HierarchyAgentConfig
 import dev.aurakai.auraframefx.utils.AppConstants.STATUS_ERROR
 import dev.aurakai.auraframefx.utils.AppConstants.STATUS_IDLE
 import dev.aurakai.auraframefx.utils.AppConstants.STATUS_PROCESSING
@@ -21,7 +21,7 @@ import javax.inject.Inject
 // import javax.inject.Singleton // ViewModels should use @HiltViewModel
 
 @HiltViewModel
-open class GenesisAgentViewModel @Inject constructor(
+class GenesisAgentViewModel @Inject constructor(
     // private val genesisAgent: GenesisAgent
 ) : ViewModel() {
 
@@ -76,7 +76,7 @@ open class GenesisAgentViewModel @Inject constructor(
         )
         _agents.value = defaultAgents
 
-        // Initialize agent statuses
+        // Initialize agent statuses  
         val initialStatuses = mutableMapOf<AgentType, String>()
         val agentTypeMap = mapOf(
             "Genesis" to AgentType.GENESIS,
@@ -94,12 +94,8 @@ open class GenesisAgentViewModel @Inject constructor(
                     AgentType.AURA -> "Creative Assistant - Available"
                     AgentType.KAI -> "Security Monitor - Active"
                     AgentType.NEURAL_WHISPER -> "Neural Interface - Standby"
-                    AgentType.AURA_SHIELD -> "Security Shield - Protected"  // ✅ FIXED
+                    AgentType.AURASHIELD -> "Security Shield - Protected"
                     AgentType.USER -> "User Agent - Interactive"
-                    AgentType.CLAUDE -> "Claude AI - Standby"
-                    AgentType.GEN_KIT_MASTER -> "GenKit - Standby"
-                    AgentType.DATAVEIN_CONSTRUCTOR -> "DataVein - Standby"
-                    AgentType.GENERAL -> "General Agent - Standby"
                 }
             }
         }
@@ -127,12 +123,8 @@ open class GenesisAgentViewModel @Inject constructor(
                     AgentType.AURA -> "Creative Assistant - Paused"
                     AgentType.KAI -> "Security Monitor - Standby"
                     AgentType.NEURAL_WHISPER -> "Neural Interface - Offline"
-                    AgentType.AURA_SHIELD -> "Security Shield - Disabled"  // ✅ FIXED
+                    AgentType.AURASHIELD -> "Security Shield - Disabled"
                     AgentType.USER -> "User Agent - Offline"
-                    AgentType.CLAUDE -> "Claude AI - Offline"
-                    AgentType.GEN_KIT_MASTER -> "GenKit - Offline"
-                    AgentType.DATAVEIN_CONSTRUCTOR -> "DataVein - Offline"
-                    AgentType.GENERAL -> "General Agent - Offline"
                 }
             } else {
                 when (agent) {
@@ -141,12 +133,8 @@ open class GenesisAgentViewModel @Inject constructor(
                     AgentType.AURA -> "Creative Assistant - Available"
                     AgentType.KAI -> "Security Monitor - Active"
                     AgentType.NEURAL_WHISPER -> "Neural Interface - Active"
-                    AgentType.AURA_SHIELD -> "Security Shield - Active"  // ✅ FIXED
+                    AgentType.AURASHIELD -> "Security Shield - Active"
                     AgentType.USER -> "User Agent - Active"
-                    AgentType.CLAUDE -> "Claude AI - Active"
-                    AgentType.GEN_KIT_MASTER -> "GenKit - Active"
-                    AgentType.DATAVEIN_CONSTRUCTOR -> "DataVein - Active"
-                    AgentType.GENERAL -> "General Agent - Active"
                 }
             }
 
@@ -187,8 +175,8 @@ open class GenesisAgentViewModel @Inject constructor(
 
     private fun addTaskToHistory(agent: AgentType, description: String) {
         val newTask = HistoricalTask(
-            id = System.currentTimeMillis().toString(),
-            agentType = dev.aurakai.auraframefx.models.AgentCapabilityCategory.fromAgentType(agent),
+            id = System.currentTimeMillis(),
+            agentType = agent,
             description = description,
             timestamp = System.currentTimeMillis(),
             status = "Completed"
@@ -240,14 +228,33 @@ open class GenesisAgentViewModel @Inject constructor(
         return emptyList() // Return empty list since processing is async
     }
 
+    /**
+     * Returns the configuration for the agent with the specified name, or null if not found.
+     *
+     * @param name The name of the agent to look up.
+     * @return The corresponding agent configuration, or null if no agent with that name exists.
+     */
     fun getAgentConfig(name: String): HierarchyAgentConfig? {
         return _agents.value.find { it.name.equals(name, ignoreCase = true) }
     }
 
+    /**
+     * Retrieves a list of agent configurations ordered by priority, from highest to lowest.
+     *
+     * @return A list of `HierarchyAgentConfig` objects sorted by priority.
+     */
     fun getAgentsByPriority(): List<HierarchyAgentConfig> {
         return _agents.value.sortedBy { it.priority }
     }
 
+    /**
+     * Initiates asynchronous processing of a query by the GenesisAgent and returns an empty list immediately.
+     *
+     * The query is processed in the background; no results are returned synchronously from this function.
+     *
+     * @param query The query string to be processed.
+     * @return An empty list, as query results are not available synchronously.
+     */
     fun processQuery(query: String): List<HierarchyAgentConfig> {
         viewModelScope.launch {
             // Simulate processing delay
@@ -256,3 +263,15 @@ open class GenesisAgentViewModel @Inject constructor(
         return emptyList() // Return empty list since processing is async
     }
 }
+
+/**
+ * ViewModel for managing the Genesis Agent state and operations.
+ * This ViewModel is designed to work with Hilt for dependency injection.
+ *
+ * Key Features:
+ * - Manages agent status and state
+ * - Handles task assignment and history
+ * - Provides agent configuration and capabilities
+ * - Supports agent toggling and status updates
+ */
+

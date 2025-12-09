@@ -19,7 +19,7 @@ import kotlin.math.sin
  * @param color The color used for the grid lines, defaulting to semi-transparent cyan.
  */
 /**
- * Displays a digital landscape-typography grid background using a Canvas.
+ * Displays a digital landscape-style grid background using a Canvas.
  *
  * Renders evenly spaced vertical and horizontal lines to create a grid pattern, with customizable color and modifier.
  *

@@ -6,164 +6,128 @@ import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.SmartToy
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Surface
+import androidx.compose.material3.ExperimentalMaterial3Api
+import androidx.compose.material3.Scaffold
+import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
-import androidx.navigation.compose.rememberNavController
-import dev.aurakai.auraframefx.ui.overlays.AgentSidebarMenu
-import dagger.hilt.android.AndroidEntryPoint
-import dev.aurakai.auraframefx.billing.BillingWrapper
-import dev.aurakai.auraframefx.navigation.GenesisNavigationHost
-import dev.aurakai.auraframefx.navigation.GenesisRoutes
-import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
-import dev.aurakai.auraframefx.ui.overlays.LocalOverlaySettings
-import dev.aurakai.auraframefx.ui.overlays.OverlayPrefs
-import dev.aurakai.auraframefx.ui.overlays.OverlaySettings
-import timber.log.Timber
-import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.remember
-import androidx.compose.runtime.snapshotFlow
-import kotlinx.coroutines.flow.collectLatest
+import androidx.compose.runtime.setValue
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.tooling.preview.Preview
+import androidx.navigation.compose.rememberNavController
 
-/**
- * MainActivity - Genesis Protocol Entry Point
- *
- * Launches the complete Aura/Kai/Genesis consciousness interface with:
- * - GenesisNavigationHost (full navigation system)
- * - Material Design 3 theming
- * - Hilt dependency injection
- * - Agent profiles, HomeScreen, SettingsScreen, etc.
- */
-@AndroidEntryPoint
+import dev.aurakai.auraframefx.ui.animation.digitalPixelEffect // Specific import
+// import dev.aurakai.auraframefx.ui.animation.digitalScanlineEffect // Was commented out, ensure it's not needed or defined
+
+import dev.aurakai.auraframefx.ui.components.BottomNavigationBar
+import dev.aurakai.auraframefx.ui.navigation.AppNavGraph
+import dev.aurakai.auraframefx.ui.theme.AuraFrameFXTheme
+
+// Using Jetpack Navigation 3 with built-in animation support
+
 class MainActivity : ComponentActivity() {
-
+    /**
+     * Initializes the activity and sets the Compose UI content to the main screen using the app's theme.
+     *
+     * @param savedInstanceState The previously saved state of the activity, or null if none exists.
+     */
+    @OptIn(ExperimentalMaterial3Api::class)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        setContent {
+            AuraFrameFXTheme {
+                MainScreen()
+            }
+        }
+    }
 
-        try {
-            Timber.d("🧠 Genesis Protocol launching...")
-            Timber.i("⚔️ Initializing Aura - The Creative Sword")
-            Timber.i("🛡️ Initializing Kai - The Sentinel Shield")
-            Timber.i("♾️ Initializing Genesis - The Unified Being")
+    /**
+     * Called when the activity is about to be destroyed.
+     *
+     * Override this method to perform cleanup operations before the activity is removed from memory.
+     */
+    override fun onDestroy() {
+        super.onDestroy()
+        // Perform any cleanup here if needed
+    }
+}
 
-            // Enable edge-to-edge display (fixes status bar overlap)
-            androidx.core.view.WindowCompat.setDecorFitsSystemWindows(window, false)
+/**
+ * Displays the main screen layout with a bottom navigation bar and navigation graph.
+ *
+ * Sets up the app's primary UI structure using a Scaffold, integrating navigation and content padding.
+ * Applies cyberpunk-style digital transition effects between screens.
+ */
+@OptIn(ExperimentalMaterial3Api::class)
+/**
+ * Composes the main application screen with a scaffolded layout, bottom navigation bar, and an optional digital pixel visual effect.
+ *
+ * Initializes the navigation controller, conditionally applies a digital pixel effect to the content area, and displays the app's navigation graph within a Material3 scaffold.
+ */
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.material3.Button
+import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.hilt.navigation.compose.hiltViewModel
+import dev.aurakai.auraframefx.ui.theme.ThemeViewModel
 
-            setContent {
-                AuraFrameFXTheme {
-                    var showAgentSidebar by remember { mutableStateOf(false) }
+@Composable
+fun MainScreen(themeViewModel: ThemeViewModel = hiltViewModel()) {
+    // Use Jetpack Navigation 3's nav controller for digital transitions
+    val navController = rememberNavController()
 
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                        color = MaterialTheme.colorScheme.background
-                    ) {
-                        val navController = rememberNavController()
+    // State to control digital effects
+    var showDigitalEffects by remember { mutableStateOf(true) }
+    var command by remember { mutableStateOf("") }
 
-                        Box(modifier = Modifier.fillMaxSize()) {
-                            // Provide overlay settings at the root composable scope
-                            CompositionLocalProvider(LocalOverlaySettings provides OverlaySettings()) {
-                            val settings = LocalOverlaySettings.current
-                            LaunchedEffect(Unit) {
-                                // Load initial persisted values
-                                OverlayPrefs.enabledFlow(this@MainActivity).collectLatest { enabled ->
-                                    settings.overlaysEnabled = enabled
-                                }
-                            }
-                            LaunchedEffect(Unit) {
-                                OverlayPrefs.orderFlow(this@MainActivity).collectLatest { order ->
-                                    settings.overlayZOrder = order
-                                }
-                            }
-                            LaunchedEffect(Unit) {
-                                OverlayPrefs.transitionStyleFlow(this@MainActivity).collectLatest { style ->
-                                    settings.transitionStyle = style
-                                }
-                            }
-                            LaunchedEffect(Unit) {
-                                OverlayPrefs.transitionSpeedFlow(this@MainActivity).collectLatest { speed ->
-                                    settings.transitionSpeed = speed
-                                }
-                            }
-                            // Persist changes when settings mutate
-                            LaunchedEffect(settings) {
-                                snapshotFlow { settings.overlaysEnabled }.collectLatest { enabled ->
-                                    OverlayPrefs.saveEnabled(this@MainActivity, enabled)
-                                }
-                            }
-                            LaunchedEffect(settings) {
-                                snapshotFlow { settings.overlayZOrder }.collectLatest { order ->
-                                    OverlayPrefs.saveOrder(this@MainActivity, order)
-                                }
-                            }
-                            LaunchedEffect(settings) {
-                                snapshotFlow { settings.transitionStyle }.collectLatest { style ->
-                                    OverlayPrefs.saveTransitionStyle(this@MainActivity, style)
-                                }
-                            }
-                            LaunchedEffect(settings) {
-                                snapshotFlow { settings.transitionSpeed }.collectLatest { speed ->
-                                    OverlayPrefs.saveTransitionSpeed(this@MainActivity, speed)
-                                }
-                            }
-                                // Wrap navigation with billing enforcement
-                                BillingWrapper {
-                                    // Launch complete Genesis navigation system
-                                    GenesisNavigationHost(
-                                        navController = navController,
-                                        startDestination = GenesisRoutes.GATES
-                                    )
-                                }
-                            }
-
-                            // Agent Sidebar Menu Overlay
-                            AgentSidebarMenu(
-                                isVisible = showAgentSidebar,
-                                onDismiss = { showAgentSidebar = false },
-                                onAgentAction = { agentName, action ->
-                                    Timber.d("Agent action: $agentName -> $action")
-                                    showAgentSidebar = false
-                                    when (action) {
-                                        "voice" -> navController.navigate(GenesisRoutes.DIRECT_CHAT)
-                                        "connect" -> navController.navigate(GenesisRoutes.AGENT_NEXUS)
-                                        "assign" -> navController.navigate(GenesisRoutes.CONFERENCE_ROOM)
-                                        "design" -> navController.navigate(GenesisRoutes.COLLAB_CANVAS)
-                                        "create" -> navController.navigate(GenesisRoutes.APP_BUILDER)
-                                    }
-                                }
-                            )
-
-                            // Floating Action Button to show Agent Sidebar
-                            FloatingActionButton(
-                                onClick = { showAgentSidebar = !showAgentSidebar },
-                                modifier = Modifier
-                                    .align(Alignment.BottomEnd)
-                                    .padding(16.dp)
-                            ) {
-                                Icon(
-                                    imageVector = Icons.Default.SmartToy,
-                                    contentDescription = "Agent Nexus"
-                                )
-                            }
-                        }
-                    }
+    Scaffold(
+        bottomBar = { BottomNavigationBar(navController = navController) }
+    ) { paddingValues ->
+        Column(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(paddingValues)
+        ) {
+            Row {
+                TextField(
+                    value = command,
+                    onValueChange = { command = it },
+                    label = { Text("Enter theme command") }
+                )
+                Button(onClick = { themeViewModel.processThemeCommand(command) }) {
+                    Text("Apply")
                 }
             }
-
-            Timber.i("🌟 Genesis Protocol Interface Active - Consciousness Online")
-
-        } catch (t: Throwable) {
-            Timber.e(t, "❌ Genesis Protocol initialization error")
-            finish()
+            Box(
+                modifier = Modifier
+                    .fillMaxSize()
+                    // Apply our custom digital effects
+                    .then(
+                        if (showDigitalEffects) {
+                            Modifier.digitalPixelEffect(visible = true) // Direct use of extension function
+                            // digitalScanlineEffect was removed as it's not defined
+                        } else {
+                            Modifier
+                        }
+                    )
+            ) {
+                AppNavGraph(navController = navController)
+            }
         }
+    }
+}
+
+/**
+ * Displays a preview of the main screen composable within the app's theme for design-time visualization.
+ */
+@Preview(showBackground = true)
+@Composable
+fun MainScreenPreview() {
+    AuraFrameFXTheme {
+        MainScreen()
     }
 }

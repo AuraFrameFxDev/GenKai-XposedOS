@@ -5,35 +5,36 @@ import android.app.NotificationManager
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
+import android.os.Build
 import androidx.core.app.NotificationCompat
+import dev.aurakai.auraframefx.R
 
-/**
- * Security alert receiver for integrity violations.
- * Note: Cannot use @AndroidEntryPoint on statically-registered BroadcastReceivers
- * as it causes ASM instrumentation failures during build.
- */
 class IntegrityViolationReceiver : BroadcastReceiver() {
 
-    private val channelId = "integrity_alert"
-
     override fun onReceive(context: Context, intent: Intent) {
+        if (intent.action == IntegrityMonitorService.ACTION_INTEGRITY_VIOLATION) {
+            showNotification(context)
+        }
+    }
+
+    private fun showNotification(context: Context) {
         val notificationManager =
             context.getSystemService(Context.NOTIFICATION_SERVICE) as NotificationManager
+        val channelId = "integrity_violation_channel"
 
-        // Create notification channel for API 26+
-        val channel = NotificationChannel(
-            channelId,
-            "Security Alerts",
-            NotificationManager.IMPORTANCE_HIGH
-        ).apply {
-            description = "Alerts for security violations"
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            val channel = NotificationChannel(
+                channelId,
+                "Integrity Violation",
+                NotificationManager.IMPORTANCE_HIGH
+            )
+            notificationManager.createNotificationChannel(channel)
         }
-        notificationManager.createNotificationChannel(channel)
 
         val notification = NotificationCompat.Builder(context, channelId)
             .setContentTitle("Security Alert")
             .setContentText("Application integrity has been compromised!")
-            .setSmallIcon(android.R.drawable.ic_dialog_alert)
+            .setSmallIcon(R.drawable.ic_security_alert)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()
 

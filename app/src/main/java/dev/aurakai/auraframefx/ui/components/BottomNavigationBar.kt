@@ -10,7 +10,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.navigation.NavController
 import androidx.navigation.compose.currentBackStackEntryAsState
-import dev.aurakai.auraframefx.navigation.NavDestination
+import dev.aurakai.auraframefx.ui.navigation.NavDestination
 
 /**
  * Bottom navigation bar for the AuraFrameFX app

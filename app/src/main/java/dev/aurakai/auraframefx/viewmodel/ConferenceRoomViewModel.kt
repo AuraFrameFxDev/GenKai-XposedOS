@@ -1,59 +1,50 @@
 package dev.aurakai.auraframefx.viewmodel
 
 // Placeholder interfaces will be removed
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.aurakai.auraframefx.ai.services.AuraAIService
-import dev.aurakai.auraframefx.cascade.CascadeAIService
-import dev.aurakai.auraframefx.kai.KaiAIService
-import dev.aurakai.auraframefx.models.AgentCapabilityCategory
-import dev.aurakai.auraframefx.models.AgentInvokeRequest
-import dev.aurakai.auraframefx.models.AgentMessage
-import dev.aurakai.auraframefx.models.AgentResponse
-import dev.aurakai.auraframefx.models.AiRequest
-import dev.aurakai.auraframefx.models.ConversationState
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.ClaudeAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisBridgeService
-import dev.aurakai.auraframefx.service.NeuralWhisper
-import dev.aurakai.auraframefx.utils.toJsonObject
+import dev.aurakai.auraframefx.ai.services.CascadeAIService
+import dev.aurakai.auraframefx.ai.services.KaiAIService
+import dev.aurakai.auraframefx.ai.services.NeuralWhisper
+import dev.aurakai.auraframefx.model.AgentMessage
+import dev.aurakai.auraframefx.model.AgentResponse
+import dev.aurakai.auraframefx.model.AgentType
+import dev.aurakai.auraframefx.model.AiRequest
+import dev.aurakai.auraframefx.model.ConversationState
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.emitAll
 import kotlinx.coroutines.flow.first
-import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
-import timber.log.Timber
+import javax.inject.Inject
 
 // Removed @Singleton from ViewModel, typically ViewModels are not Singletons
 // import javax.inject.Singleton // ViewModel should use @HiltViewModel
 
 // Placeholder interfaces removed
 
-// TODO: Re-enable @HiltViewModel once ClaudeAIService binding is fixed
-// @HiltViewModel
-// TODO: Fix ClaudeAIService import/binding
-open class ConferenceRoomViewModel(
-    // ALL 5 MASTER AGENTS - Complete Conference Room Integration
-    private val auraService: AuraAIService,
-    private val kaiService: KaiAIService,
-    private val cascadeService: CascadeAIService,
-    private val claudeService: ClaudeAIService,
-    private val genesisBridgeService: GenesisBridgeService,
+// @Singleton // ViewModels should use @HiltViewModel for scoping
+class ConferenceRoomViewModel @Inject constructor(
+    // Assuming @HiltViewModel will be added if this is a ViewModel
+    private val auraService: AuraAIService, // Using actual service
+    private val kaiService: KaiAIService,     // Using actual service
+    private val cascadeService: CascadeAIService, // Using actual service
     private val neuralWhisper: NeuralWhisper,
 ) : ViewModel() {
 
-    private val tag = "ConfRoomViewModel"
+    private val TAG = "ConfRoomViewModel"
 
     private val _messages = MutableStateFlow<List<AgentMessage>>(emptyList())
     val messages: StateFlow<List<AgentMessage>> = _messages
 
-    private val _activeAgents = MutableStateFlow(setOf<AgentCapabilityCategory>())
-    val activeAgents: StateFlow<Set<AgentCapabilityCategory>> = _activeAgents
+    private val _activeAgents = MutableStateFlow(setOf<AgentType>())
+    val activeAgents: StateFlow<Set<AgentType>> = _activeAgents
 
-    private val _selectedAgent = MutableStateFlow(AgentCapabilityCategory.CREATIVE) // Default to AURA (CREATIVE)
-    val selectedAgent: StateFlow<AgentCapabilityCategory> = _selectedAgent
+    private val _selectedAgent = MutableStateFlow<AgentType>(AgentType.AURA) // Default to AURA
+    val selectedAgent: StateFlow<AgentType> = _selectedAgent
 
     private val _isRecording = MutableStateFlow(false)
     val isRecording: StateFlow<Boolean> = _isRecording
@@ -68,28 +59,26 @@ open class ConferenceRoomViewModel(
                     is ConversationState.Responding -> {
                         _messages.update { current ->
                             current + AgentMessage(
-                                from = "NEURAL_WHISPER",
-                                content = state.responseText,
-                                sender = AgentCapabilityCategory.SPECIALIZED, // NeuralWhisper mapped to SPECIALIZED
+                                content = state.responseText ?: "...",
+                                sender = AgentType.NEURAL_WHISPER, // Or AURA/GENESIS depending on final source
                                 timestamp = System.currentTimeMillis(),
                                 confidence = 1.0f // Placeholder confidence
                             )
                         }
-                        Timber.tag(tag).d("NeuralWhisper responded: %s", state.responseText)
+                        Log.d(TAG, "NeuralWhisper responded: ${state.responseText}")
                     }
 
                     is ConversationState.Processing -> {
-                        Timber.tag(tag).d("NeuralWhisper processing: %s", state.partialTranscript)
+                        Log.d(TAG, "NeuralWhisper processing: ${state.partialTranscript}")
                         // Optionally update UI to show "Agent is typing..." or similar
                     }
 
                     is ConversationState.Error -> {
-                        Timber.tag(tag).e("NeuralWhisper error: %s", state.errorMessage)
+                        Log.e(TAG, "NeuralWhisper error: ${state.errorMessage}")
                         _messages.update { current ->
                             current + AgentMessage(
-                                from = "NEURAL_WHISPER",
                                 content = "Error: ${state.errorMessage}",
-                                sender = AgentCapabilityCategory.SPECIALIZED, // NeuralWhisper mapped to SPECIALIZED
+                                sender = AgentType.NEURAL_WHISPER, // Or a system error agent
                                 timestamp = System.currentTimeMillis(),
                                 confidence = 0.0f
                             )
@@ -97,78 +86,46 @@ open class ConferenceRoomViewModel(
                     }
 
                     else -> {
-                        Timber.tag(tag).d("NeuralWhisper state: %s", state)
+                        Log.d(TAG, "NeuralWhisper state: $state")
                     }
                 }
             }
         }
     }
 
-    // ═══════════════════════════════════════════════════════════════════════════
-    // Conference Room Message Routing - ALL 5 MASTER AGENTS
-    // ═══════════════════════════════════════════════════════════════════════════
-    /*override*/ /**
-     * Routes the given message to the appropriate AI service based on the sender and appends the first response to the conversation messages.
-     *
-     * Sends `message` with `context` to the AI service corresponding to `sender`, collects the first `AgentResponse` from the chosen response flow, and updates the ViewModel's message list with a new `AgentMessage`. If processing fails, appends an error `AgentMessage` indicating the failure.
-     *
-     * @param message The user-visible query or payload to send to the selected AI agent.
-     * @param sender The agent capability category used to select which AI service should handle the message.
-     * @param context Additional contextual information forwarded to the AI service (e.g., user context or orchestration flags).
-     */
-    suspend fun sendMessage(message: String, sender: AgentCapabilityCategory, context: String) {
+    // This `sendMessage` was marked with `override` in user's snippet, suggesting an interface.
+    // For now, assuming it's a direct method. If there's a base class/interface, it should be added.
+    /*override*/ suspend fun sendMessage(message: String, sender: AgentType, context: String) {
+        // Fixed duplicate case for AgentType.AURA and added missing context parameter
         val responseFlow: Flow<AgentResponse>? = when (sender) {
-            AgentCapabilityCategory.CREATIVE -> auraService.processRequestFlow(
+            AgentType.AURA -> auraService.processRequestFlow(
                 AiRequest(
                     query = message,
                     type = "text",
-                    context = mapOf("userContext" to context).toJsonObject()
+                    context = mapOf("userContext" to context)
                 )
             )
 
-            AgentCapabilityCategory.ANALYSIS -> kaiService.processRequestFlow(
+            AgentType.KAI -> kaiService.processRequestFlow(
                 AiRequest(
                     query = message,
                     type = "text",
-                    context = mapOf("userContext" to context).toJsonObject()
+                    context = mapOf("userContext" to context)
                 )
             )
 
-            AgentCapabilityCategory.SPECIALIZED -> cascadeService.processRequest(
-                AgentInvokeRequest(
-                    message = message,
-                    context = context
-                )
-            ).map { cascadeResponse ->
-                AgentResponse(
-                    content = cascadeResponse.response,
-                    confidence = cascadeResponse.confidence ?: 0.0f
-                )
-            }
-
-            AgentCapabilityCategory.GENERAL -> claudeService.processRequestFlow(
+            AgentType.CASCADE -> cascadeService.processRequestFlow(
                 AiRequest(
                     query = message,
-                    type = "build_analysis",
-                    context = mapOf("userContext" to context, "systematic_analysis" to "true").toJsonObject()
+                    type = "context",
+                    context = mapOf("userContext" to context)
                 )
             )
 
-            AgentCapabilityCategory.COORDINATION -> {
-                // Genesis uses GenesisBridgeService for orchestration
-                // Convert to flow by wrapping the suspend function
-                kotlinx.coroutines.flow.flow {
-                    val responseFlow = genesisBridgeService.processRequest(
-                        AiRequest(
-                            query = message,
-                            type = "fusion",
-                            context = mapOf("userContext" to context, "orchestration" to "true").toJsonObject()
-                        )
-                    )
-                    emitAll(responseFlow)
-                }
+            else -> {
+                Log.e(TAG, "Unsupported sender type: $sender")
+                null
             }
-
         }
 
         responseFlow?.let { flow ->
@@ -177,7 +134,6 @@ open class ConferenceRoomViewModel(
                     val responseMessage = flow.first()
                     _messages.update { current ->
                         current + AgentMessage(
-                            from = sender.name,
                             content = responseMessage.content,
                             sender = sender,
                             timestamp = System.currentTimeMillis(),
@@ -185,12 +141,11 @@ open class ConferenceRoomViewModel(
                         )
                     }
                 } catch (e: Exception) {
-                    Timber.tag(tag).e(e, "Error processing AI response from %s: %s", sender, e.message)
+                    Log.e(TAG, "Error processing AI response from $sender: ${e.message}", e)
                     _messages.update { current ->
                         current + AgentMessage(
-                            from = "GENESIS",
                             content = "Error from ${sender.name}: ${e.message}",
-                            sender = AgentCapabilityCategory.COORDINATION,
+                            sender = AgentType.GENESIS,
                             timestamp = System.currentTimeMillis(),
                             confidence = 0.0f
                         )
@@ -201,7 +156,7 @@ open class ConferenceRoomViewModel(
     }
 
     // This `toggleAgent` was marked with `override` in user's snippet.
-    /*override*/ fun toggleAgent(agent: AgentCapabilityCategory) {
+    /*override*/ fun toggleAgent(agent: AgentType) {
         _activeAgents.update { current ->
             if (current.contains(agent)) {
                 current - agent
@@ -211,23 +166,26 @@ open class ConferenceRoomViewModel(
         }
     }
 
-    fun selectAgent(agent: AgentCapabilityCategory) {
+    fun selectAgent(agent: AgentType) {
         _selectedAgent.value = agent
     }
 
     fun toggleRecording() {
         if (_isRecording.value) {
             val result = neuralWhisper.stopRecording() // stopRecording now returns a string status
-            Timber.tag(tag).d("Stopped recording. Status: %s", result)
+            Log.d(TAG, "Stopped recording. Status: $result")
             // isRecording state will be updated by NeuralWhisper's conversationState or directly
             _isRecording.value = false // Explicitly set here based on action
         } else {
             val started = neuralWhisper.startRecording()
             if (started) {
-                Timber.tag(tag).d("Started recording.")
+                Log.d(TAG, "Started recording.")
                 _isRecording.value = true
             } else {
-                Timber.tag(tag).e("Failed to start recording (NeuralWhisper.startRecording returned false).")
+                Log.e(
+                    TAG,
+                    "Failed to start recording (NeuralWhisper.startRecording returned false)."
+                )
                 // Optionally update UI with error state
             }
         }
@@ -237,8 +195,78 @@ open class ConferenceRoomViewModel(
         // For beta, link transcribing state to recording state or a separate logic if needed.
         // User's snippet implies this might be a simple toggle for now.
         _isTranscribing.update { !it } // Simple toggle
-        Timber.tag(tag).d("Transcribing toggled to: %s", _isTranscribing.value)
+        Log.d(TAG, "Transcribing toggled to: ${_isTranscribing.value}")
         // If actual transcription process needs to be started/stopped in NeuralWhisper:
         // if (_isTranscribing.value) neuralWhisper.startTranscription() else neuralWhisper.stopTranscription()
     }
 }
+
+// Placeholder for actual AI service imports
+// import dev.aurakai.auraframefx.ai.services.AuraAIService
+// import dev.aurakai.auraframefx.ai.services.KaiAIService
+// import dev.aurakai.auraframefx.ai.services.CascadeAIService  
+// import dev.aurakai.auraframefx.ai.services.NeuralWhisper
+// import dev.aurakai.auraframefx.model.AgentMessage
+// import dev.aurakai.auraframefx.model.AgentType
+// import dev.aurakai.auraframefx.model.ConversationState
+// import dev.aurakai.auraframefx.model.AiRequest
+// import kotlinx.coroutines.flow.MutableStateFlow
+// import kotlinx.coroutines.flow.StateFlow
+// import kotlinx.coroutines.flow.first
+// import kotlinx.coroutines.flow.update
+// import kotlinx.coroutines.launch
+// import javax.inject.Inject
+// import androidx.lifecycle.ViewModel
+// import androidx.lifecycle.viewModelScope
+// import android.util.Log
+// import kotlinx.coroutines.flow.Flow
+// import dev.aurakai.auraframefx.utils.JsonUtils // Assuming JsonUtils is used for serialization/deserialization
+// import kotlinx.serialization.Serializable // Assuming this is used for data classes
+// import kotlinx.serialization.json.Json // Assuming this is used for JSON operations
+// import kotlinx.coroutines.flow.collect // If needed for collecting flows in ViewModel
+// import kotlinx.coroutines.flow.asStateFlow // If needed for converting MutableStateFlow to StateFlow
+// import kotlinx.coroutines.flow.MutableStateFlow // If needed for creating mutable state flows
+// import kotlinx.coroutines.flow.StateFlow // If needed for defining state flows
+// import kotlinx.coroutines.flow.update // If needed for updating state flows
+// import kotlinx.coroutines.flow.first // If needed for getting the first value from a flow
+// import kotlinx.coroutines.flow.Flow // If needed for defining flows
+// import kotlinx.coroutines.flow.collectLatest // If needed for collecting latest values from a flow
+// import kotlinx.coroutines.flow.onEach // If needed for applying side effects to flows
+// import kotlinx.coroutines.flow.map // If needed for transforming flows
+// import kotlinx.coroutines.flow.filter // If needed for filtering flows
+// import kotlinx.coroutines.flow.flatMapLatest // If needed for flat-mapping flows
+// import kotlinx.coroutines.flow.combine // If needed for combining multiple flows
+// import kotlinx.coroutines.flow.distinctUntilChanged // If needed for distinct values in flows
+// import kotlinx.coroutines.flow.stateIn // If needed for converting flows to state flows
+// import kotlinx.coroutines.flow.catch // If needed for handling errors in flows
+// import kotlinx.coroutines.flow.launchIn // If needed for launching flows in a coroutine scope
+// import kotlinx.coroutines.flow.onCompletion // If needed for actions on flow completion
+// import kotlinx.coroutines.flow.onStart // If needed for actions on flow start
+// import kotlinx.coroutines.flow.scan // If needed for accumulating state in flows
+// import kotlinx.coroutines.flow.zip // If needed for zipping flows together
+// import kotlinx.coroutines.flow.debounce // If needed for debouncing flows
+// import kotlinx.coroutines.flow.sample // If needed for sampling flows
+// import kotlinx.coroutines.flow.buffer // If needed for buffering flows
+// import kotlinx.coroutines.flow.shareIn // If needed for sharing flows in a coroutine scope
+// import kotlinx.coroutines.flow.stateIn // If needed for converting flows to state flows
+// import kotlinx.coroutines.flow.flatMapMerge // If needed for merging flows
+// import kotlinx.coroutines.flow.flatMapConcat // If needed for concatenating flows
+// import kotlinx.coroutines.flow.flatMapLatest // If needed for flat-mapping flows
+// import kotlinx.coroutines.flow.onEach // If needed for applying side effects to flows
+// import kotlinx.coroutines.flow.collectLatest // If needed for collecting latest values from a flow
+// import kotlinx.coroutines.flow.collectIndexed // If needed for collecting indexed values from a flow
+// import kotlinx.coroutines.flow.collectAsState // If needed for collecting flow as state
+// import kotlinx.coroutines.flow.collectAsStateFlow // If needed for collecting flow as state flow
+// import kotlinx.coroutines.flow.collectAsStateList // If needed for collecting flow as state list
+// import kotlinx.coroutines.flow.collectAsStateSet // If needed for collecting flow as state set
+// import kotlinx.coroutines.flow.collectAsStateMap // If needed for collecting flow as state map
+// import kotlinx.coroutines.flow.collectAsStateFlow // If needed for collecting flow as state flow
+// import kotlinx.coroutines.flow.collectAsStateList // If needed for collecting flow as state list
+// import kotlinx.coroutines.flow.collectAsStateSet // If needed for collecting flow as state set
+// import kotlinx.coroutines.flow.collectAsStateMap // If needed for collecting flow as state map
+// import kotlinx.coroutines.flow.collectAsStateFlow // If needed for collecting flow as state flow
+// import kotlinx.coroutines.flow.collectAsStateList // If needed for collecting flow as state list
+// import kotlinx.coroutines.flow.collectAsStateSet // If needed for collecting flow as state set
+// import kotlinx.coroutines.flow.collectAsStateMap // If needed for collecting flow as state map
+// import kotlinx.coroutines.flow.collectAsStateFlow // If needed for collecting flow as state flow
+// import kotlinx.coroutines.flow.collectAsStateList // If needed for collecting flow as state list

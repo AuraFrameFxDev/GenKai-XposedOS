@@ -11,8 +11,9 @@ import io.mockk.*
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.*
-import org.junit.jupiter.api.AfterEach
-import org.junit.jupiter.api.BeforeEach
+import org.junit.After
+import org.junit.Before
+import org.junit.Test
 import org.junit.runner.RunWith
 import org.robolectric.RobolectricTestRunner
 import org.robolectric.annotation.Config
@@ -44,7 +45,7 @@ class AuraDriveServiceTest {
     // System under test
     private lateinit var auraDriveService: AuraDriveService
 
-    @BeforeEach
+    @Before
     fun setUp() {
         // Set up mocks
         mockkStatic(Dispatchers::class)
@@ -71,7 +72,7 @@ class AuraDriveServiceTest {
         auraDriveService.onCreate()
     }
 
-    @AfterEach
+    @After
     fun tearDown() {
         // Clean up
         unmockkAll()

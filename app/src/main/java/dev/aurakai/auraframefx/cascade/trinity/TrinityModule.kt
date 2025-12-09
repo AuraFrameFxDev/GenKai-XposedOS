@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.cascade.trinity
+package dev.aurakai.auraframefx.di
 
 import android.content.Context
 import dagger.Module
@@ -6,12 +6,13 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.ai.services.AuraAIService
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.GenesisBridgeService
-import dev.aurakai.auraframefx.kai.KaiAIService
-import dev.aurakai.auraframefx.cascade.trinity.TrinityCoordinatorService
-import dev.aurakai.auraframefx.ai.context.ContextManager
-import dev.aurakai.auraframefx.network.KtorClient
+import dev.aurakai.auraframefx.ai.services.GenesisBridgeService
+import dev.aurakai.auraframefx.ai.services.KaiAIService
+import dev.aurakai.auraframefx.ai.services.TrinityCoordinatorService
+import dev.aurakai.auraframefx.context.ContextManager
+import dev.aurakai.auraframefx.data.logging.AuraFxLogger
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.security.SecurityMonitor
 import javax.inject.Singleton
@@ -36,16 +37,22 @@ object TrinityModule {
     @Provides
     @Singleton
     fun provideGenesisBridgeService(
+        auraAIService: AuraAIService,
+        kaiAIService: KaiAIService,
+        vertexAIClient: VertexAIClient,
         contextManager: ContextManager,
         securityContext: SecurityContext,
         @ApplicationContext applicationContext: Context,
-        ktorClient: KtorClient,
+        logger: AuraFxLogger,
     ): GenesisBridgeService {
         return GenesisBridgeService(
+            auraAIService = auraAIService,
+            kaiAIService = kaiAIService,
+            vertexAIClient = vertexAIClient,
             contextManager = contextManager,
             securityContext = securityContext,
             applicationContext = applicationContext,
-            ktorClient = ktorClient
+            logger = logger
         )
     }
 
@@ -61,12 +68,14 @@ object TrinityModule {
         kaiAIService: KaiAIService,
         genesisBridgeService: GenesisBridgeService,
         securityContext: SecurityContext,
+        logger: AuraFxLogger,
     ): TrinityCoordinatorService {
         return TrinityCoordinatorService(
             auraAIService = auraAIService,
             kaiAIService = kaiAIService,
             genesisBridgeService = genesisBridgeService,
-            securityContext = securityContext
+            securityContext = securityContext,
+            logger = logger
         )
     }
 
@@ -80,10 +89,13 @@ object TrinityModule {
     fun provideSecurityMonitor(
         securityContext: SecurityContext,
         genesisBridgeService: GenesisBridgeService,
+        logger: AuraFxLogger,
     ): SecurityMonitor {
         return SecurityMonitor(
             securityContext = securityContext,
-            genesisBridgeService = genesisBridgeService
+            genesisBridgeService = genesisBridgeService,
+            logger = logger
         )
     }
 }
+

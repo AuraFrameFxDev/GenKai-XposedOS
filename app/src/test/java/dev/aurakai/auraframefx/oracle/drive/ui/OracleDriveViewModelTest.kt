@@ -11,8 +11,9 @@ import io.mockk.junit4.MockKRule
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.flow.flowOf
 import kotlinx.coroutines.test.runTest
+import org.junit.Before
 import org.junit.Rule
-import org.junit.jupiter.api.BeforeEach
+import org.junit.Test
 import java.io.IOException
 import java.time.Instant
 import kotlin.time.Duration.Companion.seconds
@@ -60,7 +61,7 @@ class OracleDriveViewModelTest {
         lastUpdated = Instant.now().toEpochMilli()
     )
 
-    @BeforeEach
+    @Before
     fun setUp() {
         MockKAnnotations.init(this)
 

@@ -15,7 +15,6 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -47,11 +46,24 @@ fun AgentChatBubble(
         isVisible = true
         delay(5000) // Auto-dismiss after 5 seconds
         isVisible = false
-        delay(150)
+        delay(300)
         onDismiss()
     }
 
-    if (isVisible) {
+    AnimatedVisibility(
+        visible = isVisible,
+        enter = slideInHorizontally(
+            initialOffsetX = { it },
+            animationSpec = spring(
+                dampingRatio = Spring.DampingRatioMediumBouncy,
+                stiffness = Spring.StiffnessLow
+            )
+        ) + fadeIn(),
+        exit = slideOutHorizontally(
+            targetOffsetX = { it },
+            animationSpec = tween(300)
+        ) + fadeOut()
+    ) {
         Box(
             modifier = modifier
                 .fillMaxWidth()
@@ -65,7 +77,7 @@ fun AgentChatBubble(
                     onClick()
                     scope.launch {
                         isVisible = false
-                        delay(150)
+                        delay(300)
                         onDismiss()
                     }
                 }
@@ -165,11 +177,11 @@ fun NotificationActionIcon(
     modifier: Modifier = Modifier
 ) {
     val (icon, color) = when (action) {
-        NotificationAction.INFO -> "ℹ" to Color.Cyan
-        NotificationAction.TASK_COMPLETE -> "✓" to Color.Green
-        NotificationAction.WARNING -> "⚠" to Color.Yellow
-        NotificationAction.DISCOVERY -> "💡" to Color.Magenta
-        NotificationAction.RND_READY -> "🔬" to Color.Cyan
+        NotificationAction.INFO -> "?" to Color.Cyan
+        NotificationAction.TASK_COMPLETE -> "?" to Color.Green
+        NotificationAction.WARNING -> "?" to Color.Yellow
+        NotificationAction.DISCOVERY -> "??" to Color.Magenta
+        NotificationAction.RND_READY -> "??" to Color.Cyan
     }
 
     Box(
@@ -265,3 +277,4 @@ fun AgentNotificationOverlay(
         }
     }
 }
+

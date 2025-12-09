@@ -192,7 +192,7 @@ private fun generateSphereGrid(config: SphereGridConfig): GridData {
             val y = config.centerY + sin(angle).toFloat() * ringRadius
 
             val nodeId = "node_${ring}_$i"
-            val type = NodeType.entries.toTypedArray().random()
+            val type = NodeType.values().random()
 
             // Generate meaningful tags for nodes
             val tag = generateNodeTag(type, ring, i)

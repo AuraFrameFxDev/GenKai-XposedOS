@@ -15,7 +15,6 @@
 
 package dev.aurakai.auraframefx.api.client.models
 
-import dev.aurakai.auraframefx.models.AgentCapabilityCategory
 import kotlinx.serialization.Contextual
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
@@ -35,7 +34,7 @@ data class AgentStatus(
 
     /* The type of the AI agent. */
     @Contextual @SerialName(value = "agentType")
-    val agentType: AgentCapabilityCategory,
+    val agentType: AgentType,
 
     /* Current processing state of the agent (e.g., \"IDLE\", \"PROCESSING\", \"ERROR\"). */
     @SerialName(value = "processingState")

@@ -7,7 +7,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.cascade.memory.AgentMemoryDao
+import dev.aurakai.auraframefx.data.room.AgentMemoryDao
 import dev.aurakai.auraframefx.data.room.AppDatabase
 import dev.aurakai.auraframefx.data.room.TaskHistoryDao
 import javax.inject.Singleton
@@ -33,7 +33,7 @@ object DatabaseModule {
         )
             // Add migrations here if/when schema changes:
             // .addMigrations(MIGRATION_1_2, MIGRATION_2_3)
-            .fallbackToDestructiveMigration(false) // Placeholder: Consider proper migration strategies for production
+            .fallbackToDestructiveMigration() // Placeholder: Consider proper migration strategies for production
             .build()
     }
 

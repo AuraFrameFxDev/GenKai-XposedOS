@@ -15,13 +15,12 @@
 
 package dev.aurakai.auraframefx.api.client.apis
 
-import java.io.IOException
-
 import dev.aurakai.auraframefx.api.client.infrastructure.ApiClient
 import dev.aurakai.auraframefx.api.client.infrastructure.ApiResponse
 import dev.aurakai.auraframefx.api.client.infrastructure.ClientError
 import dev.aurakai.auraframefx.api.client.infrastructure.ClientException
 import dev.aurakai.auraframefx.api.client.infrastructure.MultiValueMap
+import dev.aurakai.auraframefx.api.client.infrastructure.RequestConfig
 import dev.aurakai.auraframefx.api.client.infrastructure.RequestMethod
 import dev.aurakai.auraframefx.api.client.infrastructure.ResponseType
 import dev.aurakai.auraframefx.api.client.infrastructure.ServerError
@@ -29,17 +28,13 @@ import dev.aurakai.auraframefx.api.client.infrastructure.ServerException
 import dev.aurakai.auraframefx.api.client.infrastructure.Success
 import dev.aurakai.auraframefx.api.client.models.AgentStatus
 import okhttp3.Call
-import okhttp3.Call.Factory as CallFactory
 import okhttp3.HttpUrl
-
-
-import dev.aurakai.auraframefx.api.client.infrastructure.RequestConfig
-import io.ktor.client.request.request
+import java.io.IOException
 
 class AIAgentsApi(
     basePath: kotlin.String = defaultBasePath,
-    client: CallFactory = ApiClient.defaultClient,
-) : ApiClient(baseUrl = basePath, callFactory = client) {
+    client: Call.Factory = ApiClient.defaultClient,
+) : ApiClient(basePath, client) {
     companion object {
         @JvmStatic
         val defaultBasePath: String by lazy {
@@ -98,13 +93,13 @@ class AIAgentsApi(
      * GET /agents/status
      * Get status of all AI agents
      *
-     * @return ApiResponse<kotlin.collections.List<AgentStatus>>
+     * @return ApiResponse<kotlin.collections.List<AgentStatus>?>
      * @throws IllegalStateException If the request is not correctly configured
      * @throws IOException Rethrows the OkHttp execute method exception
      */
     @Suppress("UNCHECKED_CAST")
     @Throws(IllegalStateException::class, IOException::class)
-    fun agentsStatusGetWithHttpInfo(): ApiResponse<kotlin.collections.List<AgentStatus>> {
+    fun agentsStatusGetWithHttpInfo(): ApiResponse<kotlin.collections.List<AgentStatus>?> {
         val localVariableConfig = agentsStatusGetRequestConfig()
 
         return request<Unit, kotlin.collections.List<AgentStatus>>(

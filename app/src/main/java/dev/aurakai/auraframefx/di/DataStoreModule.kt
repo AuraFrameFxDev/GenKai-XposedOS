@@ -14,23 +14,27 @@ import javax.inject.Singleton
 
 /**
  * Hilt Module for providing DataStore related dependencies.
- *
- * This module is automatically processed by Hilt and provides
- * a singleton DataStore instance for application-wide preferences.
+ * TODO: Reported as unused declaration. Ensure Hilt is set up and this module is processed.
+ * TODO: Property dataStore$delegate reported as unused; typically not part of Hilt provider methods.
  */
 @Module
 @InstallIn(SingletonComponent::class)
 object DataStoreModule {
 
     /**
+     * Placeholder for a property that might be related to DataStore instance creation or name.
+     * The error "unused declaration dataStore$delegate" implies a delegated property.
+     * For Hilt, direct provision via @Provides is more common.
+     * This is acknowledged by the module-level TODO regarding dataStore$delegate.
+     */
+    // private val dataStoreDelegate: Any? = null // TODO: Reported as unused. Remove or implement if this was a specific pattern.
+
+    /**
      * Provides a singleton DataStore instance for managing application preferences.
      *
-     * The DataStore persists preferences in a file named "aura_settings" within
-     * the application's storage directory, providing type-safe preference access
-     * with Kotlin Flows.
+     * The DataStore persists preferences in a file named "aura_settings" within the application's storage directory.
      *
-     * @param context Application context provided by Hilt
-     * @return A singleton DataStore for application preferences
+     * @return A singleton DataStore for application preferences.
      */
     @Provides
     @Singleton

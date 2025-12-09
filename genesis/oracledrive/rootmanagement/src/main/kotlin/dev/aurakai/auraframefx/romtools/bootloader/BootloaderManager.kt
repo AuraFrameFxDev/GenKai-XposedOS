@@ -28,155 +28,61 @@ interface BootloaderManager {
 }
 
 /**
- * Implementation of bootloader management with integrated safety checks.
+ * Implementation of bootloader management.
  *
- * **SAFETY-FIRST ARCHITECTURE:**
- * This implementation integrates with BootloaderSafetyManager to ensure all operations
- * work WITH the system, not AGAINST it. Every operation undergoes pre-flight checks.
+ * ⚠️ **IMPORTANT: STUB IMPLEMENTATION - NOT YET FUNCTIONAL**
  *
- * **Key Features:**
- * 1. **Device-specific compatibility checks**: Validates device support before operations
- * 2. **Non-destructive verification**: Checks bootloader state without modifications
- * 3. **System integration**: Respects OEM unlock policies and SELinux state
- * 4. **Safety checkpoints**: Creates restore points before destructive operations
- * 5. **User guidance**: Provides step-by-step instructions for manual procedures
+ * This implementation currently returns placeholder values and does not perform
+ * actual bootloader operations. Bootloader management requires:
  *
- * **Implementation Status**: Safe read-only operations functional, write operations guided-only
+ * 1. **Device-specific implementation**: Each OEM has different fastboot commands
+ * 2. **Root access**: Required to execute bootloader commands
+ * 3. **Fastboot binary**: Need to bundle or detect fastboot tool
+ * 4. **Legal considerations**: Bootloader unlocking may void warranty
+ * 5. **Safety checks**: Must verify device compatibility to prevent bricking
+ *
+ * **Planned Implementation**:
+ * - Detect fastboot availability
+ * - Check device bootloader state via `adb shell getprop ro.boot.flash.locked`
+ * - Guide users through manufacturer-specific unlock procedures
+ * - Integrate with OEM unlock websites (e.g., Xiaomi, OnePlus)
+ *
+ * **Current Status**: All methods return safe defaults (false/failure)
  *
  * @see <a href="https://source.android.com/docs/core/architecture/bootloader">Android Bootloader Documentation</a>
  */
 @Singleton
-class BootloaderManagerImpl @Inject constructor(
-    private val safetyManager: BootloaderSafetyManager
-) : BootloaderManager {
+class BootloaderManagerImpl @Inject constructor() : BootloaderManager {
     override fun checkBootloaderAccess(): Boolean {
-        return try {
-            // Perform safety checks first to ensure we can safely query bootloader state
-            val safetyStatus = safetyManager.safetyStatus.value
-
-            // Check if we can read bootloader-related system properties via getprop
-            // This indicates the device exposes bootloader information
-            val flashLocked = executeGetProp("ro.boot.flash.locked")
-            val oemUnlock = executeGetProp("ro.oem_unlock_supported")
-            val verifiedBoot = executeGetProp("ro.boot.verifiedbootstate")
-
-            // If any property exists, bootloader access is available
-            // Also check if device is compatible according to safety manager
-            (flashLocked != null || oemUnlock != null || verifiedBoot != null) &&
-            safetyStatus.deviceCompatible
-        } catch (e: Exception) {
-            // If we can't read properties, no bootloader access
-            false
-        }
+        // ⚠️ NOT IMPLEMENTED: Always returns false for safety
+        // TODO: Check for fastboot binary and ADB access
+        // TODO: Verify device supports bootloader commands
+        return false
     }
 
     override fun isBootloaderUnlocked(): Boolean {
-        return try {
-            // Read the bootloader lock status from system property via getprop
-            // "0" = unlocked, "1" = locked, null = unknown
-            val flashLocked = executeGetProp("ro.boot.flash.locked")
-
-            when (flashLocked) {
-                "0" -> true  // Bootloader is unlocked
-                "1" -> false // Bootloader is locked
-                else -> {
-                    // Property doesn't exist or has unexpected value
-                    // Check alternative property as fallback
-                    val verified = executeGetProp("ro.boot.verifiedbootstate")
-                    verified == "orange" // Orange state indicates unlocked bootloader
-                }
-            }
-        } catch (e: Exception) {
-            // Default to false (locked) if we can't determine status
-            false
-        }
+        // ⚠️ NOT IMPLEMENTED: Always returns false for safety
+        // TODO: Execute: adb shell getprop ro.boot.flash.locked
+        // TODO: Parse response: "1" = locked, "0" = unlocked
+        return false
     }
 
     override suspend fun unlockBootloader(): Result<Unit> {
-        // 🔐 SAFETY-FIRST APPROACH: Perform comprehensive pre-flight checks
-        val safetyCheck = safetyManager.performPreFlightChecks(BootloaderOperation.UNLOCK)
-
-        if (!safetyCheck.passed) {
-            // Critical issues detected - operation cannot proceed
-            val errorMessage = buildString {
-                append("❌ Pre-flight safety checks FAILED. Cannot proceed:\n\n")
-                safetyCheck.criticalIssues.forEachIndexed { index, issue ->
-                    append("${index + 1}. $issue\n")
-                }
-                append("\n⚠️ Please resolve these issues before attempting bootloader unlock.")
-            }
-            return Result.failure(IllegalStateException(errorMessage))
-        }
-
-        if (safetyCheck.warnings.isNotEmpty()) {
-            // Warnings present - user should be aware but can proceed
-            val warningMessage = buildString {
-                append("⚠️ Safety warnings detected:\n\n")
-                safetyCheck.warnings.forEachIndexed { index, warning ->
-                    append("${index + 1}. $warning\n")
-                }
-            }
-            // In a real implementation, you'd show this to the user via UI
-            println(warningMessage)
-        }
-
-        // ⚠️ GUIDED APPROACH: Provide step-by-step instructions
-        // Bootloader unlocking is intentionally NOT automated to prevent:
-        // 1. Accidental data loss (bootloader unlock wipes all data)
-        // 2. Warranty voiding without user knowledge
-        // 3. Device bricking due to interrupted operations
-        // 4. Security bypass attempts
+        // ⚠️ NOT IMPLEMENTED: This is a critical operation that should not be automated
+        // Bootloader unlocking typically requires:
+        // 1. User to enable OEM unlock in Developer Options
+        // 2. Device-specific unlock codes from manufacturer
+        // 3. Manual reboot to bootloader mode
+        // 4. User confirmation (data wipe warning)
         //
-        // Instead, we guide users through the manufacturer's official process
-
-        val guidedInstructions = buildString {
-            append("🔓 BOOTLOADER UNLOCK GUIDE\n\n")
-            append("IMPORTANT: Bootloader unlocking will ERASE ALL DATA on your device!\n\n")
-            append("✅ Pre-flight checks passed. Your device is ready for unlock.\n\n")
-            append("📋 OFFICIAL UNLOCK PROCEDURE:\n\n")
-            append("1. ✅ ALREADY DONE: OEM Unlock is enabled in Developer Options\n")
-            append("2. Backup all important data (THIS STEP WILL WIPE EVERYTHING!)\n")
-            append("3. Obtain unlock code from your device manufacturer:\n")
-            append("   - OnePlus: https://www.oneplus.com/unlock\n")
-            append("   - Xiaomi: https://en.miui.com/unlock/\n")
-            append("   - Google Pixel: No code needed, use fastboot\n")
-            append("   - Samsung: Not officially supported by manufacturer\n")
-            append("4. Reboot to bootloader mode:\n")
-            append("   - Power off device\n")
-            append("   - Hold Volume Down + Power until bootloader menu appears\n")
-            append("5. Connect device to PC with USB cable\n")
-            append("6. Run command: fastboot flashing unlock\n")
-            append("7. Confirm on device screen (⚠️ THIS WIPES ALL DATA!)\n")
-            append("8. Device will reboot with unlocked bootloader\n\n")
-            append("🔐 SAFETY REMINDER:\n")
-            append("- This operation is irreversible without re-locking (which also wipes data)\n")
-            append("- Your device will show 'Bootloader unlocked' warning on every boot\n")
-            append("- Some banking/payment apps may not work with unlocked bootloader\n")
-            append("- Device warranty may be voided (check manufacturer policy)\n\n")
-            append("For automated unlock assistance, use Genesis ROM Tools > Bootloader Manager UI")
-        }
-
+        // RECOMMENDATION: Provide guided instructions rather than automation
         return Result.failure(
-            UnsupportedOperationException(guidedInstructions)
+            UnsupportedOperationException(
+                "Bootloader unlocking is not implemented. " +
+                "Please follow your device manufacturer's official unlock procedure. " +
+                "Automated bootloader unlocking is dangerous and may brick your device."
+            )
         )
     }
-
-    /**
-     * Executes getprop command to read Android system property.
-     * @param property The system property name to read
-     * @return The property value, or null if the property doesn't exist or can't be read
-     */
-    private fun executeGetProp(property: String): String? {
-        return try {
-            val process = Runtime.getRuntime().exec(arrayOf("getprop", property))
-            val output = process.inputStream.bufferedReader().use { it.readText().trim() }
-            process.waitFor()
-
-            // Return null if the output is empty (property doesn't exist)
-            output.ifEmpty { null }
-        } catch (e: Exception) {
-            // Return null if we can't execute getprop
-            null
-        }
-    }
 }
+
