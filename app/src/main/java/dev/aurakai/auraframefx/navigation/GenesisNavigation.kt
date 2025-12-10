@@ -12,7 +12,6 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import dev.aurakai.auraframefx.aura.ui.AIChatScreen
-import dev.aurakai.auraframefx.aura.ui.AgentAdvancementScreen
 import dev.aurakai.auraframefx.aura.ui.AgentNexusScreen
 import dev.aurakai.auraframefx.aura.ui.AppBuilderScreen
 import dev.aurakai.auraframefx.aura.ui.CanvasScreen
@@ -29,7 +28,7 @@ import dev.aurakai.auraframefx.aura.ui.XhancementScreen
 import dev.aurakai.auraframefx.billing.SubscriptionViewModel
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.OracleDriveScreen
 import dev.aurakai.auraframefx.ui.customization.GyroscopeCustomizationScreen
-import dev.aurakai.auraframefx.ui.gates.AgentHubSubmenuScreen
+import dev.aurakai.auraframefx.ui.gates.AgentHubScreen
 import dev.aurakai.auraframefx.ui.gates.AgentMonitoringScreen
 import dev.aurakai.auraframefx.ui.gates.AurasLabScreen
 import dev.aurakai.auraframefx.ui.gates.ChromaCoreColorsScreen
@@ -195,11 +194,11 @@ fun GenesisNavigationHost(
             composable(GenesisRoutes.AI_CHAT) { AIChatScreen() }
 
             // Gate routes with REAL screens
-            composable(GenesisRoutes.SENTINELS_FORTRESS) {
-                SentinelsFortressScreen(onBack = { navController.popBackStack() })
+            composable(GenesisRoutes.AGENT_HUB) {
+                AgentHubScreen(navController = navController)
             }
             composable(GenesisRoutes.AURAS_LAB) {
-                AurasLabScreen(onNavigateBack = { navController.popBackStack() })
+                AuraLabScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.ORACLE_DRIVE) {
                 OracleDriveScreen(onNavigateBack = { navController.popBackStack() })
@@ -224,16 +223,16 @@ fun GenesisNavigationHost(
                 LSPosedSubmenuScreen(navController = navController)
             }
             composable("xposed_panel") {
-                LSPosedSubmenuScreen(navController = navController)
+                XposedQuickAccessPanel(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.HELP_DESK) {
                 HelpDeskSubmenuScreen(navController = navController)
             }
             composable(GenesisRoutes.COLLAB_CANVAS) {
-                CanvasScreen(onNavigateBack = { navController.popBackStack() })
+                CollabCanvasScreen(navController = navController, onNavigateBack = { navController.popBackStack() })
             }
             composable("collab_canvas") {
-                CanvasScreen(onNavigateBack = { navController.popBackStack() })
+                CollabCanvasScreen(navController = navController, onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.CHROMA_CORE) {
                 UIUXGateSubmenuScreen(navController = navController)
@@ -282,7 +281,7 @@ fun GenesisNavigationHost(
 
             // Additional missing routes from submenu screens - using real implementations
             composable("theme_engine") {
-                ThemeEngineScreen(onNavigateBack = { navController.popBackStack() })
+                ThemeEngineSubmenuScreen(onNavigateBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.GYROSCOPE_CUSTOMIZATION) {
                 GyroscopeCustomizationScreen(onNavigateBack = { navController.popBackStack() })
@@ -352,6 +351,10 @@ fun GenesisNavigationHost(
             composable("module_creation") {
                 dev.aurakai.auraframefx.ui.gates.ModuleCreationScreen { navController.popBackStack() }
             }
+            composable("module_manager") {
+                // Use the existing ModuleManagerScreen implementation
+                dev.aurakai.auraframefx.ui.gates.ModuleManagerScreen()
+            }
             composable("system_overrides") {
                 dev.aurakai.auraframefx.ui.gates.SystemOverridesScreen { navController.popBackStack() }
             }
@@ -405,7 +408,7 @@ fun GenesisNavigationHost(
 
             // AGENT ADVANCEMENT & EVOLUTION
             composable(GenesisRoutes.AGENT_ADVANCEMENT) {
-                AgentAdvancementScreen(onBack = { navController.popBackStack() })
+                dev.aurakai.auraframefx.aura.ui.AgentAdvancementScreen(onBack = { navController.popBackStack() })
             }
             composable(GenesisRoutes.EVOLUTION_TREE) {
                 EvolutionTreeScreen()

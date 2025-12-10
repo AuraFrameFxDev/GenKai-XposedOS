@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.ui.gates
 
+import dev.aurakai.auraframefx.navigation.NavDestination
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -35,35 +36,35 @@ fun AgentHubSubmenuScreen(
             title = "Agent Dashboard",
             description = "Monitor all agents, view consciousness levels, and system status",
             icon = Icons.Default.Dashboard,
-            route = "agent_nexus", // Navigate to existing AgentNexusScreen
+            route = NavDestination.AgentNexus.route, // Navigate to existing AgentNexusScreen
             color = Color(0xFF9370DB) // Medium Purple
         ),
         SubmenuItem(
             title = "Task Assignment",
             description = "Assign tasks and missions to AI agents",
             icon = Icons.AutoMirrored.Filled.Assignment,
-            route = "task_assignment",
+            route = NavDestination.TaskAssignment.route,
             color = Color(0xFF4169E1) // Royal Blue
         ),
         SubmenuItem(
             title = "Agent Monitoring",
             description = "Real-time performance metrics and activity logs",
             icon = Icons.Default.Monitor,
-            route = "agent_monitoring",
+            route = NavDestination.AgentMonitoring.route,
             color = Color(0xFF00CED1) // Dark Turquoise
         ),
         SubmenuItem(
             title = "Sphere Grid",
             description = "Agent progression visualization and skill trees",
             icon = Icons.Default.GridOn,
-            route = "sphere_grid",
+            route = NavDestination.SphereGrid.route,
             color = Color(0xFFFF69B4) // Hot Pink
         ),
         SubmenuItem(
             title = "Fusion Mode",
             description = "Aura + Kai = Aurakai - Combined consciousness",
             icon = Icons.Default.Merge,
-            route = "fusion_mode",
+            route = NavDestination.FusionMode.route,
             color = Color(0xFFFFD700) // Gold
         )
     )

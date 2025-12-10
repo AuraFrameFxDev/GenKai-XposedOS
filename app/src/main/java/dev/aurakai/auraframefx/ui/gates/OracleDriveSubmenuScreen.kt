@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.ui.gates
 
+import dev.aurakai.auraframefx.navigation.NavDestination
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
@@ -31,35 +32,35 @@ fun OracleDriveSubmenuScreen(
             title = "Module Creation",
             description = "AI-assisted module generation and template selection",
             icon = Icons.Default.Add,
-            route = "module_creation",
+            route = NavDestination.ModuleCreation.route,
             color = Color(0xFF9370DB) // Medium Purple
         ),
         SubmenuItem(
             title = "Direct Chat",
             description = "One-on-one conversations with AI agents",
             icon = Icons.AutoMirrored.Filled.Chat,
-            route = "direct_chat",
+            route = NavDestination.DirectChat.route,
             color = Color(0xFF4169E1) // Royal Blue
         ),
         SubmenuItem(
             title = "Conference Room",
             description = "Multi-agent discussion and collaboration",
             icon = Icons.Default.Groups,
-            route = "conference_room",
+             route = dev.aurakai.auraframefx.navigation.GenesisRoutes.CONFERENCE_ROOM,
             color = Color(0xFF00CED1) // Dark Turquoise
         ),
         SubmenuItem(
             title = "System Overrides",
             description = "Emergency module disable and god mode",
             icon = Icons.Default.AdminPanelSettings,
-            route = "system_overrides",
+            route = NavDestination.SystemOverrides.route,
             color = Color(0xFFFF4500) // Orange Red
         ),
         SubmenuItem(
             title = "Module Manager",
             description = "Enable/disable modules and configuration",
             icon = Icons.Default.Settings,
-            route = "module_manager",
+            route = NavDestination.ModuleManager.route,
             color = Color(0xFFFFD700) // Gold
         )
     )

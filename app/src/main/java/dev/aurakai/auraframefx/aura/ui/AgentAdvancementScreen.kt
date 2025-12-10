@@ -1,4 +1,4 @@
-package dev.aurakai.auraframefx.ui.screens.agents
+package dev.aurakai.auraframefx.aura.ui
 
 import androidx.compose.animation.core.LinearEasing
 import androidx.compose.animation.core.RepeatMode
@@ -509,3 +509,5 @@ fun NodeDetailsCard(
     }
 }
 
+// End of AgentAdvancementScreen implementation
+// (removed accidental interface that conflicted with the composable name)

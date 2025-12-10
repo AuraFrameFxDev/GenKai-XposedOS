@@ -38,10 +38,10 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import dev.aurakai.auraframefx.navigation.GenesisRoutes
 import dev.aurakai.auraframefx.ui.components.NeuralLinkBackground
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
+import timber.log.Timber
 import kotlin.math.absoluteValue
 
 /**
@@ -149,7 +149,7 @@ fun GateNavigationScreen(
                                             }
                                         }
                                     } catch (e: Exception) {
-                                        android.util.Log.e("GateNav", "Failed: ${config.route}", e)
+                                        Timber.tag("GateNav").e(e, "Failed: ${config.route}")
                                     } finally {
                                         isTransitioning = false
                                     }
@@ -193,7 +193,6 @@ private fun TeleportingGateCard(
         if (showEnterOverlay) {
             // Hide shortly before navigation occurs (navigation delay is 800ms)
             delay(700)
-            showEnterOverlay = false
         }
     }
     Box(
@@ -315,7 +314,7 @@ private fun GatePageIndicator(
                                         launchSingleTop = true
                                     }
                                 } catch (e: Exception) {
-                                    android.util.Log.e("GateNav", "Failed to navigate: ${gate.route}", e)
+                                    Timber.tag("GateNav").e(e, "Failed to navigate: ${gate.route}")
                                 }
                             } else {
                                 // TODO: Show a Snackbar/Toast informing user that feature is coming soon
@@ -344,7 +343,7 @@ private fun GatePageIndicator(
                                 try {
                                     pagerState.animateScrollToPage(i)
                                 } catch (e: Exception) {
-                                    android.util.Log.e("GateNav", "Failed to scroll to page $i", e)
+                                    Timber.tag("GateNav").e(e, "Failed to scroll to page $i")
                                 }
                             }
                         }
