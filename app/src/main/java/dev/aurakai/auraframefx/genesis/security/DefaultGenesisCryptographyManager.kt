@@ -1,6 +1,6 @@
 package dev.aurakai.auraframefx.genesis.security
 
-import dev.aurakai.genesis.security.CryptographyManager
+
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -19,4 +19,8 @@ override fun encrypt(input: ByteArray): ByteArray = input /**
  * @return The decrypted bytes; in this default implementation the input is returned unchanged.
  */
     override fun decrypt(input: ByteArray): ByteArray = input // placeholder
+
+    override fun generateSecureToken(): String {
+        return java.util.UUID.randomUUID().toString()
+    }
 }
