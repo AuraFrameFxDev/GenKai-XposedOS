@@ -44,7 +44,7 @@ object GenesisJvmConfig {
             // Configure Kotlin JVM toolchain to match Java toolchain (uses foojay-resolver)
             // This automatically sets jvmTarget, making manual jvmTarget.set() redundant
             // CRITICAL: Use afterEvaluate to ensure both Kotlin and Android plugins have been applied
-            // and their extensions are available (required for AGP 9.0 + android.builtInKotlin=false)
+            // and their extensions are available (required for AGP 9.0 with built-in Kotlin)
             afterEvaluate {
                 pluginManager.withPlugin("org.jetbrains.kotlin.android") {
                     try {

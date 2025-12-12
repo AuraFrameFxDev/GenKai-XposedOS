@@ -2,7 +2,7 @@
 # ============================================================================
 # Core Build Tools (AGP 9.0.0-beta02 + Kotlin 2.3.0-RC2)
 # ============================================================================
-agp = "9.0.0-beta04"
+agp = "9.0.0-beta05"
 billingKtx = "8.2.0"
 coilSvg = "2.7.0"
 coilVersion = "2.7.0"
@@ -99,7 +99,6 @@ foundationLayout = "1.10.0"
 foundation = "1.10.0"
 animation = "1.10.0"
 kotlinVersion = "2.3.0-RC2"
-firebaseDatabaseKtx = "22.0.1"
 
 [libraries]
 # ============================================================================
@@ -210,6 +209,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics", versio
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "20.0.3" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version = "24.0.1" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version = "26.0.2" }
+firebase-database = { module = "com.google.firebase:firebase-database" }
 firebase-storage = { module = "com.google.firebase:firebase-storage", version = "22.0.1" }
 firebase-config = { module = "com.google.firebase:firebase-config", version = "23.0.1" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging", version = "25.0.1" }
@@ -323,7 +323,6 @@ google-services = { group = "com.google.gms.google-services", name = "google-ser
 androidx-compose-foundation-layout = { group = "androidx.compose.foundation", name = "foundation-layout", version.ref = "foundationLayout" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 androidx-compose-animation = { group = "androidx.compose.animation", name = "animation", version.ref = "animation" }
-firebase-database-ktx = { group = "com.google.firebase", name = "firebase-database-ktx", version.ref = "firebaseDatabaseKtx" }
 [plugins]
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlinVersion" }
 # NOTE: Firebase Analytics is NOT a plugin - just use implementation(libs.firebase.analytics)
@@ -420,6 +419,7 @@ firebase = [
     "firebase-crashlytics",
     "firebase-auth",
     "firebase-firestore",
+    "firebase-database",
     "firebase-storage",
     "firebase-config",
     "firebase-messaging",

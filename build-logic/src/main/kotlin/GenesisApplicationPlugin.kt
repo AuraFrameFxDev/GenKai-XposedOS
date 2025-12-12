@@ -21,14 +21,13 @@ import org.gradle.kotlin.dsl.configure
  * - Java 25 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across app modules
  *
- * Plugin Application Order (Critical!):
- * 1. org.jetbrains.kotlin.android (MUST BE FIRST when android.builtInKotlin=false)
- * 2. com.android.application
- * 3. org.jetbrains.kotlin.plugin.compose (Built-in Compose compiler)
- * 4. com.google.dagger.hilt.android
- * 5. com.google.devtools.ksp
- * 6. org.jetbrains.kotlin.plugin.serialization
- * 7. com.google.gms.google-services
+ * Plugin Application Order:
+ * 1. com.android.application (Kotlin is built-in with AGP 9.0+)
+ * 2. org.jetbrains.kotlin.plugin.compose (Built-in Compose compiler)
+ * 3. com.google.dagger.hilt.android
+ * 4. com.google.devtools.ksp
+ * 5. org.jetbrains.kotlin.plugin.serialization
+ * 6. com.google.gms.google-services
  *
  * @since Genesis Protocol 2.0 (AGP 9.0.0-alpha14 Compatible)
  */
@@ -46,8 +45,7 @@ class GenesisApplicationPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             // Apply plugins in correct order
-            // CRITICAL: When android.builtInKotlin=false, we MUST apply kotlin("android") FIRST
-            pluginManager.apply("org.jetbrains.kotlin.android")  // ← MUST BE FIRST!
+            // Note: Kotlin is built into AGP 9.0+ (android.builtInKotlin=true)
             pluginManager.apply("com.android.application")
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
             pluginManager.apply("com.google.dagger.hilt.android")
