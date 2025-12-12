@@ -150,6 +150,7 @@ dependencies {
     implementation(libs.androidx.compose.foundation.layout)
     implementation(libs.androidx.compose.foundation)
     implementation(libs.androidx.compose.animation)
+    implementation(libs.firebase.database.ktx)
     ksp(libs.moshi.kotlin.codegen)
 
     // Logging

@@ -14,7 +14,7 @@ import dev.aurakai.auraframefx.ui.theme.NeonTeal
 fun AuraSparkleButton(
     onClick: () -> Unit,
     modifier: Modifier = Modifier,
-    text: String = "Sparkle",
+    text: @Composable () -> Unit = "Sparkle",
 ) { // Renamed to auraSparkleButton
     // TODO: Implement the actual Aura Sparkle Button with custom animation/effects
     Button(
