@@ -2,7 +2,6 @@ plugins {
     id("com.android.application")
     id("org.jetbrains.kotlin.android")
     id("com.google.devtools.ksp")
-    id("com.google.dagger.hilt.android")
     id("org.jetbrains.kotlin.plugin.compose")
     id("org.jetbrains.kotlin.plugin.serialization")
     // NOTE: Do not apply `genesis.android.application` here because some plugins
@@ -401,6 +400,8 @@ tasks.register("aegenesisAppStatus") {
 }
 
 apply(from = "cleanup-tasks.gradle.kts")
+
+apply(plugin = "genesis.android.application")
 
 kotlin {
     compilerOptions {
