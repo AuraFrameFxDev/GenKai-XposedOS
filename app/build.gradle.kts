@@ -1,7 +1,5 @@
 plugins {
     id("genesis.android.application")
-
-    // NOTE: Do not apply `genesis.android.application` here because some plugins
     // (like Hilt applied by genesis) expect the Android BaseExtension to exist
     // before they run. We'll apply it after the Android plugin is configured.
 }
@@ -293,6 +291,10 @@ dependencies {
     // ═══════════════════════════════════════════════════════════════════════════
     // Internal Project Modules - Core
     // ═══════════════════════════════════════════════════════════════════════════
+    implementation(project(":aura"))
+    implementation(project(":list"))
+    implementation(project(":utilities"))
+
     implementation(project(":genesis"))
     implementation(project(":kai:sentinelsfortress:security"))
     implementation(project(":kai:sentinelsfortress:threatmonitor"))
