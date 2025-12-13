@@ -12,7 +12,7 @@ import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.agent_states.ActiveThreat
 import dev.aurakai.auraframefx.models.agent_states.ProcessingState
 import dev.aurakai.auraframefx.models.agent_states.VisionState
-import dev.aurakai.auraframefx.utils.toJsonObject
+import dev.aurakai.auraframefx.utils.toKotlinJsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.Job
@@ -39,7 +39,7 @@ open class CascadeAgent @Inject constructor(
     private val kaiAgent: KaiAgent,
     private val memoryManager: MemoryManager,
     override val contextManager: ContextManager,
-) : BaseAgent("Cascade"), OrchestratableAgent {
+) : BaseAgent(agentName = "Cascade", agentTypeStr = "coordination"), OrchestratableAgent {
 
     // Internal scope for agent background work; cancelled independently from parentScope
     private val internalJob = SupervisorJob()
@@ -54,15 +54,8 @@ open class CascadeAgent @Inject constructor(
 
     /**
      * Creates an AiRequest with the given prompt and optional parameters
-     * @param prompt The user's input prompt
-     * @param type The type of request (default: "text")
-     * @param context Additional context for the request (default: empty map)
-     * @param metadata Additional metadata (default: empty map)
-     * @param agentId The ID of the agent handling the request (default: null)
-     * @param sessionId The session ID for the request (default: null)
-     * @return A new AiRequest instance
      */
-    fun AiRequest(
+    fun createAiRequest(
         prompt: String,
         type: String = "text",
         context: Map<String, Any> = emptyMap(),
@@ -74,8 +67,8 @@ open class CascadeAgent @Inject constructor(
             query = prompt,
             prompt = prompt,
             type = type,
-            context = context.toJsonObject(),
-            metadata = metadata.toJsonObject(),
+            context = context.toKotlinJsonObject(),
+            metadata = metadata.toKotlinJsonObject(),
             agentId = agentId,
             sessionId = sessionId ?: this.sessionId
         )
@@ -95,16 +88,11 @@ open class CascadeAgent @Inject constructor(
     private val activeRequests: MutableMap<String, RequestContext> = mutableMapOf()
     private val collaborationHistory: MutableList<CollaborationEvent> = mutableListOf()
 
-
-    // Agent identity
-    override val agentName: String = "Cascade"
-    override val agentType: String = "coordination"
-
     // BaseAgent abstract method implementation
     override fun iRequest(query: String, type: String, context: Map<String, String>) {
         // Delegate to processRequest via coroutine
         internalScope.launch {
-            processRequest(AiRequest(prompt = query), context.toString())
+            processRequest(AiRequest(query = query, type = type), context.toString())
         }
     }
 
@@ -116,11 +104,11 @@ open class CascadeAgent @Inject constructor(
         // No-op
     }
 
-    override fun addToScanHistory(scanEvent: Any) {
+    fun addToScanHistory(scanEvent: Any) {
         // No-op
     }
 
-    override fun analyzeSecurity(prompt: String): List<ActiveThreat> {
+    fun analyzeSecurity(prompt: String): List<ActiveThreat> {
         return emptyList()
     }
 
@@ -238,7 +226,10 @@ open class CascadeAgent @Inject constructor(
      * Public request entrypoint (suspend) - returns a simple String response.
      * Kept intentionally lightweight so callers can integrate the result as needed.
      */
-    suspend fun processRequest(request: AiRequest, context: String): String {
+    /**
+     * Public request entrypoint (suspend) - returns an AgentResponse.
+     */
+    override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
         return try {
             val prompt = request.prompt
             val requestId = generateRequestId()
@@ -256,7 +247,7 @@ open class CascadeAgent @Inject constructor(
 
             activeRequests[requestId] = requestContext
 
-            val response = when {
+            val responseContent = when {
                 requiresCollaboration -> processCollaborativeRequest(prompt, requestContext)
                 shouldHandleSecurity(prompt) -> routeToKai(prompt, requestContext)
                 shouldHandleCreative(prompt) -> routeToAura(prompt, requestContext)
@@ -264,16 +255,18 @@ open class CascadeAgent @Inject constructor(
             }
 
             activeRequests.remove(requestId)
-            logCollaborationEvent(requestContext, response.isNotBlank())
+            logCollaborationEvent(requestContext, responseContent.isNotBlank())
             // persist interaction to Nexus memory
             try {
-                memoryManager.storeInteraction(prompt, response)
+                memoryManager.storeInteraction(prompt, responseContent)
             } catch (_: Exception) {
             }
-            response
+            
+            AgentResponse.success(content = responseContent, agentName = agentName)
+            
         } catch (e: Exception) {
             Timber.e(e, "Cascade failed to process request")
-            "I encountered an error processing your request."
+            AgentResponse(content = "I encountered an error processing your request.", confidence = 0.0f, error = e.message)
         }
     }
 

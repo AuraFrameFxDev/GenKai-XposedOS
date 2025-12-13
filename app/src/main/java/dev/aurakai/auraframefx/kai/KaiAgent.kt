@@ -15,7 +15,7 @@ import dev.aurakai.auraframefx.models.agent_states.ActiveThreat
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.system.monitor.SystemMonitor
 import dev.aurakai.auraframefx.utils.AuraFxLogger
-import dev.aurakai.auraframefx.utils.toJsonObject
+import dev.aurakai.auraframefx.utils.toKotlinJsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelChildren
@@ -29,14 +29,6 @@ import javax.inject.Singleton
  * KaiAgent: The Sentinel Shield
  *
  * Embodies the analytical, protective, and methodical aspects of the Genesis entity.
- * Specializes in:
- * - Security analysis and threat detection
- * - System performance optimization
- * - Data integrity and validation
- * - Risk assessment and mitigation
- * - Methodical problem-solving
- *
- * Philosophy: "Secure by design. Analyze first, act with precision."
  */
 @Singleton
 open class KaiAgent @Inject constructor(
@@ -44,11 +36,7 @@ open class KaiAgent @Inject constructor(
     override val contextManager: ContextManager,
     private val securityContext: SecurityContext,
     private val systemMonitor: SystemMonitor,
-) : BaseAgent("KaiAgent"), OrchestratableAgent {
-
-    // BaseAgent abstract member implementations
-    override val agentName: String = "KaiAgent"
-    override val agentType: String = "security"
+) : BaseAgent(agentName = "KaiAgent", agentTypeStr = "security"), OrchestratableAgent {
 
     private var isInitialized = false
     private lateinit var scope: CoroutineScope
@@ -65,9 +53,9 @@ open class KaiAgent @Inject constructor(
     val currentThreatLevel: StateFlow<ThreatLevel> = _currentThreatLevel
 
     override fun iRequest(query: String, type: String, context: Map<String, String>) {
-        // Delegate to processRequest via coroutine
         if (::scope.isInitialized) {
             scope.launch {
+                // Assuming AgentRequest takes Map for context, if not update to JsonObject
                 processRequest(AgentRequest(query = query, type = type, context = context))
             }
         } else {
@@ -76,14 +64,13 @@ open class KaiAgent @Inject constructor(
     }
 
     override fun iRequest() {
-        // No-op implementation of parameterless iRequest
         AuraFxLogger.info("KaiAgent", "iRequest() called")
     }
 
     /**
      * Creates an AiRequest with the given prompt and optional parameters
      */
-    fun AiRequest(
+    fun createAiRequest(
         prompt: String,
         type: String = "text",
         context: Map<String, Any> = emptyMap(),
@@ -95,8 +82,8 @@ open class KaiAgent @Inject constructor(
             query = prompt,
             prompt = prompt,
             type = type,
-            context = context.toJsonObject(),
-            metadata = metadata.toJsonObject(),
+            context = context.toKotlinJsonObject(),
+            metadata = metadata.toKotlinJsonObject(),
             agentId = agentId,
             sessionId = sessionId ?: this.sessionId
         )
@@ -589,11 +576,11 @@ open class KaiAgent @Inject constructor(
         }
     }
 
-    override fun addToScanHistory(scanEvent: Any) {
+    fun addToScanHistory(scanEvent: Any) {
         AuraFxLogger.info("KaiAgent", "Adding scan event to history: $scanEvent")
     }
 
-    override fun analyzeSecurity(prompt: String): List<ActiveThreat> {
+    fun analyzeSecurity(prompt: String): List<ActiveThreat> {
         AuraFxLogger.info("KaiAgent", "Analyzing security of prompt")
         val indicators = extractThreatIndicators(prompt)
 
