@@ -1,17 +1,19 @@
 package dev.aurakai.auraframefx.ai.context
 
+// import kotlinx.serialization.Contextual // No longer needed for Instant here
+// dev.aurakai.auraframefx.model.AgentType is already imported by line 4, removing duplicate
 import dev.aurakai.auraframefx.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.cascade.pipeline.AIPipelineConfig
 import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.time.Clock
-import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 @Singleton
 class ContextManager @Inject constructor(
