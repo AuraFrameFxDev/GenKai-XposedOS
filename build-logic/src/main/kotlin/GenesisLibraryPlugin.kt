@@ -19,12 +19,12 @@ import org.gradle.kotlin.dsl.configure
  * - Consistent build configuration across library modules
  *
  * Plugin Application Order:
- * 1. org.jetbrains.kotlin.android (MUST BE FIRST when android.builtInKotlin=false)
+ * 1. org.jetbrains.kotlin.android (Explicit for consistency and Kotlin hooks)
  * 2. com.android.library
  * 3. org.jetbrains.kotlin.plugin.compose
  * 4. org.jetbrains.kotlin.plugin.serialization
  *
- * Note: Kotlin is built into AGP 9.0.0-alpha14+ (android.builtInKotlin=true)
+ * Note: Kotlin is built into AGP 9.0+ but applied explicitly for consistency.
  * Note: Hilt and KSP are NOT applied - use genesis.android.library.hilt for DI
  *
  * @since Genesis Protocol 2.0 (AGP 9.0.0-alpha14 Compatible)
@@ -46,9 +46,9 @@ class GenesisLibraryPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             // Apply plugins in correct order
-            // CRITICAL: When android.builtInKotlin=false, we MUST apply kotlin("android") FIRST
-            // Note: Hilt NOT applied - use genesis.android.library.hilt for DI
-            pluginManager.apply("org.jetbrains.kotlin.android")  // ← MUST BE FIRST!
+            // Note: Kotlin Android plugin applied explicitly for consistency with Hilt modules
+            // Even with built-in Kotlin, explicit plugin ensures proper Kotlin hooks
+            pluginManager.apply("org.jetbrains.kotlin.android")
             pluginManager.apply("com.android.library")
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
             pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")

@@ -21,14 +21,17 @@ import org.gradle.kotlin.dsl.configure
  * - Java 25 bytecode target (Firebase + AGP 9.0 compatible)
  * - Consistent build configuration across app modules
  *
- * Plugin Application Order (Critical!):
- * 1. org.jetbrains.kotlin.android (MUST BE FIRST when android.builtInKotlin=false)
+ * Plugin Application Order:
+ * 1. org.jetbrains.kotlin.android (Required for Hilt even with built-in Kotlin)
  * 2. com.android.application
- * 3. org.jetbrains.kotlin.plugin.compose (Built-in Compose compiler)
+ * 3. org.jetbrains.kotlin.plugin.compose
  * 4. com.google.dagger.hilt.android
  * 5. com.google.devtools.ksp
  * 6. org.jetbrains.kotlin.plugin.serialization
  * 7. com.google.gms.google-services
+ *
+ * Note: AGP 9.0+ has built-in Kotlin, but Hilt requires explicit plugin application.
+ * This hybrid approach provides maximum compatibility.
  *
  * @since Genesis Protocol 2.0 (AGP 9.0.0-alpha14 Compatible)
  */
@@ -46,8 +49,9 @@ class GenesisApplicationPlugin : Plugin<Project> {
     override fun apply(project: Project) {
         with(project) {
             // Apply plugins in correct order
-            // CRITICAL: When android.builtInKotlin=false, we MUST apply kotlin("android") FIRST
-            pluginManager.apply("org.jetbrains.kotlin.android")  // ← MUST BE FIRST!
+            // CRITICAL: Hilt requires explicit Kotlin Android plugin even with built-in Kotlin
+            // See: https://github.com/google/dagger/issues/4049
+            pluginManager.apply("org.jetbrains.kotlin.android")  // Required for Hilt!
             pluginManager.apply("com.android.application")
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
             pluginManager.apply("com.google.dagger.hilt.android")
@@ -88,8 +92,8 @@ class GenesisApplicationPlugin : Plugin<Project> {
 
                 // Java 24 bytecode (Firebase + AGP 9.0 compatible)
                 compileOptions {
-                    sourceCompatibility = JavaVersion.VERSION_25
-                    targetCompatibility = JavaVersion.VERSION_25
+                    sourceCompatibility = JavaVersion.VERSION_24
+                    targetCompatibility = JavaVersion.VERSION_24
 
                     isCoreLibraryDesugaringEnabled = true
                 }

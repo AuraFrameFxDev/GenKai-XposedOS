@@ -2,8 +2,8 @@
 # ============================================================================
 # Core Build Tools (AGP 9.0.0-beta02 + Kotlin 2.3.0-RC2)
 # ============================================================================
-agp = "9.0.0-beta03"
-billingKtx = "8.1.0"
+agp = "9.0.0-beta05"
+billingKtx = "8.2.0"
 coilSvg = "2.7.0"
 coilVersion = "2.7.0"
 core = "1.7.0"
@@ -209,6 +209,7 @@ firebase-analytics = { module = "com.google.firebase:firebase-analytics", versio
 firebase-crashlytics = { module = "com.google.firebase:firebase-crashlytics", version = "20.0.3" }
 firebase-auth = { module = "com.google.firebase:firebase-auth", version = "24.0.1" }
 firebase-firestore = { module = "com.google.firebase:firebase-firestore", version = "26.0.2" }
+firebase-database = { module = "com.google.firebase:firebase-database" }
 firebase-storage = { module = "com.google.firebase:firebase-storage", version = "22.0.1" }
 firebase-config = { module = "com.google.firebase:firebase-config", version = "23.0.1" }
 firebase-messaging = { module = "com.google.firebase:firebase-messaging", version = "25.0.1" }
@@ -418,6 +419,7 @@ firebase = [
     "firebase-crashlytics",
     "firebase-auth",
     "firebase-firestore",
+    "firebase-database",
     "firebase-storage",
     "firebase-config",
     "firebase-messaging",

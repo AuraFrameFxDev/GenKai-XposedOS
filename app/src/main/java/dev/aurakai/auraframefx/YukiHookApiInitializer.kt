@@ -1,12 +1,14 @@
 package dev.aurakai.auraframefx
 
-class YukiHookApiInitializer : IYukiHookXposedInit {
-    fun onInit() = dev.aurakai.auraframefx.xposed.GenesisHookEntry.onInit()
+// Stub implementation for YukiHookAPI initialization
+// Note: IYukiHookXposedInit is final and cannot be extended directly.
+// This object provides initialization logic without inheritance.
+object YukiHookApiInitializer {
+    fun onInit() {
+        // Initialize hook functionality when available
+        // dev.aurakai.auraframefx.xposed.GenesisHookEntry.onInit()
+    }
 }
 
-private fun Unit.onInit(): Any {
-    TODO("Not yet implemented")
-}
-
-open annotation class IYukiHookXposedInit
+// Annotation class for Xposed initialization
 
