@@ -25,8 +25,8 @@ android {
         // Add to local.properties: GEMINI_API_KEY=your_key_here
         // Get key from: https://aistudio.google.com/app/apikey
         val geminiApiKey = project.findProperty("GEMINI_API_KEY")?.toString() ?: ""
-        buildConfigField("String", "GEMINI_API_KEY", ""$geminiApiKey"")
-        buildConfigField("String", "API_BASE_URL", ""https://api.aurakai.dev/v1/"")
+        buildConfigField("String", "GEMINI_API_KEY", "\"$geminiApiKey\"")
+        buildConfigField("String", "API_BASE_URL", "\"https://api.aurakai.dev/v1/\"")
 
         vectorDrawables {
             useSupportLibrary = true
@@ -304,12 +304,9 @@ dependencies {
     implementation(project(":aura:reactivedesign:customization"))
 
     // Kai → SentinelsFortress (Security & Threat Monitoring)
-    implementation(project(":kai:sentinelsfortress:security"))
     implementation(project(":kai:sentinelsfortress:systemintegrity"))
-    implementation(project(":kai:sentinelsfortress:threatmonitor"))
 
     // Genesis → OracleDrive (System & Root Management)
-    implementation(project(":genesis"))
     implementation(project(":genesis:oracledrive"))
     implementation(project(":genesis:oracledrive:rootmanagement"))
     implementation(project(":genesis:oracledrive:datavein"))
