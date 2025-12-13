@@ -1,2 +1,7 @@
-// Parent project for Aura modules
-// This file is intentionally minimal - all configuration is in subprojects
+plugins {
+    id("genesis.android.library")
+}
+
+android {
+    namespace = "dev.aurakai.aura"
+}
