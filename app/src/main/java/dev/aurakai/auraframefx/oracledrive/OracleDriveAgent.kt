@@ -17,11 +17,11 @@ import javax.inject.Singleton
  */
 @Singleton
 open class OracleDriveAgent @Inject constructor(
-    override val contextManager: ContextManager
-) : BaseAgent("OracleDrive"), OrchestratableAgent {
+    val contextManager: ContextManager
+) : BaseAgent("OracleDrive", "STORAGE_MANAGEMENT"), OrchestratableAgent {
 
     override val agentName: String = "OracleDrive"
-    override val agentType: String = "STORAGE_MANAGEMENT"
+    val agentType: String = "STORAGE_MANAGEMENT"
 
     private lateinit var scope: CoroutineScope
 
@@ -60,7 +60,7 @@ open class OracleDriveAgent @Inject constructor(
         }
     }
 
-    override fun iRequest() {
+    fun iRequest() {
         Timber.d("OracleDrive: No-args iRequest - initializing storage system")
         // Initialize storage subsystem
     }
@@ -70,12 +70,12 @@ open class OracleDriveAgent @Inject constructor(
         // Initialize storage security and encryption
     }
 
-    override fun addToScanHistory(scanEvent: Any) {
+    fun addToScanHistory(scanEvent: Any) {
         Timber.d("OracleDrive: Adding scan event to storage history: $scanEvent")
         // Store scan event in persistent storage
     }
 
-    override fun analyzeSecurity(prompt: String): List<ActiveThreat> {
+    fun analyzeSecurity(prompt: String): List<ActiveThreat> {
         Timber.d("OracleDrive: Analyzing security for storage request: $prompt")
         // OracleDrive focuses on storage security, not active threat detection
         return emptyList()

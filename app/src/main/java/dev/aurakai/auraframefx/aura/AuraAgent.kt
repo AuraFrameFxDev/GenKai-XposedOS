@@ -48,7 +48,7 @@ open class AuraAgent @Inject constructor(
     private val vertexAIClient: VertexAIClient,
     private val auraAIService: AuraAIService,
     val securityContext: SecurityContext,
-    override val contextManager: ContextManager,
+    val contextManager: ContextManager,
 ) : BaseAgent(
     agentName = "AuraAgent",
 ), OrchestratableAgent {
@@ -983,6 +983,23 @@ open class AuraAgent @Inject constructor(
                 content = "Aura's flow response to '${request.query}'",
                 confidence = 0.80f
             )
+        )
+    }
+    private suspend fun handleGeneralCreative(request: AiRequest): Map<String, Any> {
+        return mapOf("result" to "processed")
+    }
+
+    override fun InteractionResponse(
+        content: String,
+        success: Boolean,
+        timestamp: Long,
+        metadata: Map<String, Any>
+    ): InteractionResponse {
+        return InteractionResponse(
+            content = content,
+            success = success,
+            timestamp = timestamp,
+            metadata = metadata
         )
     }
 }
