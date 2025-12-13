@@ -38,6 +38,16 @@ class OracleDriveServiceImpl @Inject constructor(
     )
 
     /**
+     * Checks connectivity to the Oracle drive API by attempting to read its consciousness state.
+     */
+    override suspend fun ping(): Boolean = try {
+        oracleDriveApi.consciousnessState.value
+        true
+    } catch (_: Throwable) {
+        false
+    }
+
+    /**
      * Initializes the drive's consciousness and storage optimization, and activates the drive.
      *
      * Creates a DriveConsciousness (awake, intelligenceLevel 95, activeAgents ["Genesis","Aura","Kai"])

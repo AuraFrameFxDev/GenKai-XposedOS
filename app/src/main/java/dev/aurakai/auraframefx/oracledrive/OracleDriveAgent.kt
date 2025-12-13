@@ -3,8 +3,11 @@ package dev.aurakai.auraframefx.oracledrive
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
 import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.core.OrchestratableAgent
+import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.agent_states.ActiveThreat
+import dev.aurakai.auraframefx.utils.toKotlinJsonObject
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.launch
 import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -17,11 +20,11 @@ import javax.inject.Singleton
  */
 @Singleton
 open class OracleDriveAgent @Inject constructor(
-    override val contextManager: ContextManager
-) : BaseAgent("OracleDrive"), OrchestratableAgent {
-
-    override val agentName: String = "OracleDrive"
-    override val agentType: String = "STORAGE_MANAGEMENT"
+    val contextManager: ContextManager
+) : BaseAgent(
+    agentName = "OracleDrive",
+    agentTypeStr = "STORAGE_MANAGEMENT"
+), OrchestratableAgent {
 
     private lateinit var scope: CoroutineScope
 
@@ -51,7 +54,19 @@ open class OracleDriveAgent @Inject constructor(
 
     override fun iRequest(query: String, type: String, context: Map<String, String>) {
         Timber.d("OracleDrive: iRequest - query=$query, type=$type")
-        // Handle storage-related requests
+        
+        scope.launch {
+             processRequest(
+                AiRequest(
+                    query = query,
+                    type = type,
+                    context = context.toKotlinJsonObject()
+                ),
+                context.toString()
+            )
+        }
+
+        // Additional synchronous handling if needed
         when (type.lowercase()) {
             "read" -> Timber.d("OracleDrive: Reading data for query: $query")
             "write" -> Timber.d("OracleDrive: Writing data for query: $query")
@@ -60,7 +75,7 @@ open class OracleDriveAgent @Inject constructor(
         }
     }
 
-    override fun iRequest() {
+    fun iRequest() {
         Timber.d("OracleDrive: No-args iRequest - initializing storage system")
         // Initialize storage subsystem
     }
@@ -70,12 +85,12 @@ open class OracleDriveAgent @Inject constructor(
         // Initialize storage security and encryption
     }
 
-    override fun addToScanHistory(scanEvent: Any) {
+    fun addToScanHistory(scanEvent: Any) {
         Timber.d("OracleDrive: Adding scan event to storage history: $scanEvent")
         // Store scan event in persistent storage
     }
 
-    override fun analyzeSecurity(prompt: String): List<ActiveThreat> {
+    fun analyzeSecurity(prompt: String): List<ActiveThreat> {
         Timber.d("OracleDrive: Analyzing security for storage request: $prompt")
         // OracleDrive focuses on storage security, not active threat detection
         return emptyList()

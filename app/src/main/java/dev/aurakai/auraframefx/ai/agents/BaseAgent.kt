@@ -1,8 +1,10 @@
-package dev.aurakai.auraframefx.ai.agents
+﻿package dev.aurakai.auraframefx.ai.agents
 
-import dev.aurakai.auraframefx.model.AgentResponse
-import dev.aurakai.auraframefx.model.AgentType
-import dev.aurakai.auraframefx.model.AiRequest
+import dev.aurakai.auraframefx.models.AgentResponse
+import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.models.AiRequest
+import dev.aurakai.auraframefx.models.InteractionResponse
+import dev.aurakai.auraframefx.utils.toKotlinJsonObject
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import timber.log.Timber
@@ -11,49 +13,56 @@ import timber.log.Timber
  * Base implementation of the [Agent] interface. Subclasses should override
  * [processRequest] or [processRequestFlow] to provide real behavior.
  *
- * @param _agentName The name of the agent.
- * @param _agentType The agent type string which will be mapped to [AgentType].
+ * @param agentName The name of the agent.
+ * @param agentTypeStr The agent type string which will be mapped to [AgentType].
  */
 abstract class BaseAgent(
-    private val _agentName: String,
-    private val _agentType: String,
+    open val agentName: String,
+    open val agentTypeStr: String,
 ) : Agent {
 
     /**
- * Retrieve the agent's configured name.
- *
- * @return The agent's name, or null if not configured.
- */
-override fun getName(): String? = _agentName
+     * Retrieve the agent's configured name.
+     *
+     * @return The agent's name, or null if not configured.
+     */
+    override fun getName(): String? = agentName
 
     /**
      * Resolves the agent's configured type string to an AgentType enum, falling back to USER when the value is unrecognized.
-     *
-     * Logs a warning if the configured type cannot be parsed as an AgentType.
-     *
-     * @return The resolved AgentType; `AgentType.USER` if the configured `_agentType` is invalid.
      */
     override fun getType(): AgentType = try {
-        AgentType.valueOf(_agentType.uppercase())
+        AgentType.valueOf(agentTypeStr.uppercase())
     } catch (e: IllegalArgumentException) {
-        Timber.w(e, "Invalid agent type string: %s, defaulting to USER", _agentType)
+        Timber.w(e, "Invalid agent type string: %s, defaulting to USER", agentTypeStr)
         AgentType.USER
     }
 
     /**
      * Handle an incoming AI request synchronously and produce a default AgentResponse.
-     *
-     * Subclasses override to provide real processing logic.
-     *
-     * @param request The incoming AiRequest to handle.
-     * @param context Contextual information (e.g., conversation or environment) used when producing the response.
-     * @return An AgentResponse containing a default content string referencing the request and agent, with a confidence of 1.0f.
      */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
-        Timber.d("%s processing request: %s (context=%s)", _agentName, request.query, context)
-        return AgentResponse(
-            content = "BaseAgent response to '${request.query}' for agent $_agentName with context '$context'",
-            confidence = 1.0f
+        Timber.d("%s processing request: %s (context=%s)", agentName, request.query, context)
+        return AgentResponse.success(
+            content = "BaseAgent response to '${request.query}' for agent $agentName with context '$context'",
+            confidence = 1.0f,
+            agentName = agentName
+        )
+    }
+
+    /**
+     * Implementation of Abstract Interface Member
+     */
+    override fun InteractionResponse(
+        content: String,
+        success: Boolean,
+        timestamp: Long,
+        metadata: Map<String, Any>
+    ): InteractionResponse {
+         return InteractionResponse(
+            content = content,
+            metadata = metadata.toKotlinJsonObject(),
+            timestamp = timestamp
         )
     }
 
@@ -74,8 +83,8 @@ override fun getName(): String? = _agentName
      *  - `base_implemented`: `true` indicating the base agent implementation is present.
      */
     fun getCapabilities(): Map<String, Any> = mapOf(
-        "name" to _agentName,
-        "type" to _agentType,
+        "name" to agentName,
+        "type" to agentTypeStr,
         "base_implemented" to true
     )
 
@@ -116,11 +125,11 @@ override fun getName(): String? = _agentName
      */
     open fun iRequest(query: String, type: String, context: Map<String, String>) {
         // default no-op; override in implementations that require non-suspending adapters
-        Timber.d("iRequest called on %s with query=%s type=%s", _agentName, query, type)
+        Timber.d("iRequest called on %s with query=%s type=%s", agentName, query, type)
     }
 
     /** Optional initialization hook for adaptive protection/security subsystems. */
     open fun initializeAdaptiveProtection() {
-        Timber.d("initializeAdaptiveProtection called for %s", _agentName)
+        Timber.d("initializeAdaptiveProtection called for %s", agentName)
     }
 }

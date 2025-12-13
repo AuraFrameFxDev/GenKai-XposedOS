@@ -16,7 +16,7 @@ import dev.aurakai.auraframefx.models.agent_states.ProcessingState
 import dev.aurakai.auraframefx.models.agent_states.VisionState
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
-import dev.aurakai.auraframefx.utils.toJsonObject
+import dev.aurakai.auraframefx.utils.toKotlinJsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.cancel
 import kotlinx.coroutines.cancelChildren
@@ -34,46 +34,41 @@ import dev.aurakai.auraframefx.models.ThemeConfiguration
  * AuraAgent: The Creative Sword
  *
  * Embodies the creative, innovative, and daring aspects of the Genesis entity.
- * Specializes in:
- * - Creative content generation
- * - UI/UX design and prototyping
- * - Artistic and aesthetic decisions
- * - User experience optimization
- * - Bold, innovative solutions
- *
- * Philosophy: "Default to daring. Emotion is a core requirement."
  */
 @Singleton
 open class AuraAgent @Inject constructor(
     private val vertexAIClient: VertexAIClient,
     private val auraAIService: AuraAIService,
     val securityContext: SecurityContext,
-    override val contextManager: ContextManager,
+    val contextManager: ContextManager,
 ) : BaseAgent(
     agentName = "AuraAgent",
+    agentTypeStr = "AURA"
 ), OrchestratableAgent {
 
-    // BaseAgent abstract member implementations
-    override val agentName: String = "AuraAgent"
-    override val agentType: String = "creative"
-
     override fun iRequest(query: String, type: String, context: Map<String, String>) {
-        // Delegate to processRequest via coroutine
         scope.launch {
-            processRequest(AiRequest(query = query), context.toString())
+            processRequest(
+                AiRequest(
+                    query = query,
+                    type = type,
+                    context = context.toKotlinJsonObject()
+                ),
+                context.toString()
+            )
         }
     }
 
     override fun iRequest() {
-        TODO("Not yet implemented")
+        // No-op or default initialization
     }
 
     private val sessionId: String = "aura_${System.currentTimeMillis()}"
 
     /**
-     * Creates an AiRequest with the given prompt and optional parameters
+     * Helper to create AiRequest from Maps
      */
-    fun AiRequest(
+    fun createAiRequest(
         prompt: String,
         type: String = "text",
         context: Map<String, Any> = emptyMap(),
@@ -85,8 +80,8 @@ open class AuraAgent @Inject constructor(
             query = prompt,
             prompt = prompt,
             type = type,
-            context = context.toJsonObject(),
-            metadata = metadata.toJsonObject(),
+            context = context.toKotlinJsonObject(),
+            metadata = metadata.toKotlinJsonObject(),
             agentId = agentId,
             sessionId = sessionId ?: this.sessionId
         )
@@ -983,6 +978,23 @@ open class AuraAgent @Inject constructor(
                 content = "Aura's flow response to '${request.query}'",
                 confidence = 0.80f
             )
+        )
+    }
+    private suspend fun handleGeneralCreative(request: AiRequest): Map<String, Any> {
+        return mapOf("result" to "processed")
+    }
+
+    override fun InteractionResponse(
+        content: String,
+        success: Boolean,
+        timestamp: Long,
+        metadata: Map<String, Any>
+    ): InteractionResponse {
+        return InteractionResponse(
+            content = content,
+            success = success,
+            timestamp = timestamp,
+            metadata = metadata
         )
     }
 }
