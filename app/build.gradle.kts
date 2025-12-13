@@ -271,11 +271,17 @@ dependencies {
     implementation(project(":genesis"))
     implementation(project(":kai:sentinelsfortress:security"))
     implementation(project(":kai:sentinelsfortress:threatmonitor"))
+    // Material 312
+    // Aura → ReactiveDesign (Creative UI & Collaboration)
     implementation(project(":aura:reactivedesign:auraslab"))
     implementation(project(":aura:reactivedesign:collabcanvas"))
     implementation(project(":aura:reactivedesign:chromacore"))
     implementation(project(":aura:reactivedesign:customization"))
+
+    // Kai → SentinelsFortress (Security & Threat Monitoring)
     implementation(project(":kai:sentinelsfortress:systemintegrity"))
+
+    // Genesis → OracleDrive (System & Root Management)
     implementation(project(":genesis:oracledrive"))
     implementation(project(":genesis:oracledrive:rootmanagement"))
     implementation(project(":genesis:oracledrive:datavein"))
