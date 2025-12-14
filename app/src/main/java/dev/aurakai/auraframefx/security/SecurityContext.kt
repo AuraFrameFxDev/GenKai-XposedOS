@@ -81,7 +81,7 @@ class SecurityContext @Inject constructor(
     private val _permissionsState = MutableStateFlow<Map<String, Boolean>>(emptyMap())
     val permissionsState: StateFlow<Map<String, Boolean>> = _permissionsState.asStateFlow()
 
-    private val _encryptionStatus = MutableStateFlow(NOT_INITIALIZED)
+    private val _encryptionStatus = MutableStateFlow<EncryptionStatus>(EncryptionStatus.NOT_INITIALIZED)
     val encryptionStatus: StateFlow<EncryptionStatus> = _encryptionStatus.asStateFlow()
 
     init {
