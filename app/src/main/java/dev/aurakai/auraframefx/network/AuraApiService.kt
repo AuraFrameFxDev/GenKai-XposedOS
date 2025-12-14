@@ -7,7 +7,7 @@ import dev.aurakai.auraframefx.BuildConfig
 import dev.aurakai.auraframefx.di.qualifiers.BaseUrl
 import dev.aurakai.auraframefx.network.api.ThemeApi
 import dev.aurakai.auraframefx.network.api.UserApi
-import dev.aurakai.auraframefx.network.qualifiers.BaseUrl
+import dev.aurakai.auraframefx.network.api.AIAgentApi
 import dev.aurakai.auraframefx.utils.AppCoroutineDispatchers
 import kotlinx.coroutines.withContext
 import okhttp3.OkHttpClient
