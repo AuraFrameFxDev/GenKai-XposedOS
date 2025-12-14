@@ -6,19 +6,20 @@ import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
-import kotlin.time.Clock
-import kotlin.time.Instant
 import kotlinx.serialization.Serializable
 import java.util.UUID
 import javax.inject.Inject
 import javax.inject.Singleton
+import kotlin.time.Clock
+import kotlin.time.Instant
 
 @Singleton
 class ContextManager @Inject constructor(
     private val memoryManager: MemoryManager,
     private val config: AIPipelineConfig,
 ) {
-    private val _activeContexts = MutableStateFlow<Map<String, ContextChain>>(emptyMap())
+    annotation class enableCreativeMode
+
     val activeContexts: StateFlow<Map<String, ContextChain>> = _activeContexts
 
     private val _contextStats = MutableStateFlow(ContextStats())
