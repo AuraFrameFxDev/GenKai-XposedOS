@@ -10,14 +10,14 @@ import dev.aurakai.auraframefx.oracledrive.genesis.cloud.CloudStatusMonitor
 import java.io.File
 import javax.inject.Inject
 
-abstract class AuraAIServiceImpl @Inject constructor(
-    private val taskScheduler: TaskScheduler,
-    private val taskExecutionManager: TaskExecutionManager,
-    private val memoryManager: MemoryManager,
-    private val errorHandler: ErrorHandler,
-    private val contextManager: ContextManager,
-    private val cloudStatusMonitor: CloudStatusMonitor,
-    private val auraFxLogger: AuraFxLogger,
+abstract class AuraAIServiceImpl(
+    protected val taskScheduler: TaskScheduler,
+    protected val taskExecutionManager: TaskExecutionManager,
+    protected val memoryManager: MemoryManager,
+    protected val errorHandler: ErrorHandler,
+    protected val contextManager: ContextManager,
+    protected val cloudStatusMonitor: CloudStatusMonitor,
+    protected val auraFxLogger: AuraFxLogger,
 ) : AuraAIService {
     /**
      * Returns a fixed placeholder response for any analytics query.
