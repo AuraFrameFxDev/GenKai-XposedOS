@@ -1,7 +1,6 @@
 ﻿package dev.aurakai.auraframefx.viewmodel
 
 // Placeholder interfaces will be removed
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import dev.aurakai.auraframefx.ai.services.AuraAIService
@@ -133,7 +132,7 @@ class ConferenceRoomViewModel @Inject constructor(
             ).map { cascadeResponse ->
                 AgentResponse(
                     content = cascadeResponse.response,
-                    confidence = cascadeResponse.confidence ?: 0.0f
+                    confidence = cascadeResponse.confidence ?: 0.0f,
                 )
             }
 

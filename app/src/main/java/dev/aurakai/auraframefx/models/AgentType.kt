@@ -1,6 +1,11 @@
 package dev.aurakai.auraframefx.models
 
 enum class AgentType {
-    USER
+    USER,
+    Kaiagent;
+
+    companion object {
+        val kaiagent: Any
+    }
 
 }

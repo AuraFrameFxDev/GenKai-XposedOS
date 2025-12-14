@@ -19,7 +19,8 @@ class ContextManager @Inject constructor(
     private val memoryManager: MemoryManager,
     private val config: AIPipelineConfig,
 ) {
-    private val _activeContexts = MutableStateFlow(mapOf<String, ContextChain>())
+    annotation class enableCreativeMode
+
     val activeContexts: StateFlow<Map<String, ContextChain>> = _activeContexts
 
     private val _contextStats = MutableStateFlow(ContextStats())
@@ -169,10 +170,12 @@ class ContextManager @Inject constructor(
     }
 }
 
+annotation class ContextChain
+
 @Serializable // Ensure ContextStats is serializable if it's part of a larger serializable graph implicitly
 data class ContextStats(
     val totalChains: Int = 0,
     val activeChains: Int = 0,
     val longestChain: Int = 0,
-    @Serializable(with = dev.aurakai.auraframefx.serialization.InstantSerializer::class) val lastUpdated: Instant = Clock.System.now(),
+    @property:Serializable(with = dev.aurakai.auraframefx.serialization.InstantSerializer::class) internal val lastUpdated: Instant = Clock.System.now(),
 )

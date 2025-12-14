@@ -59,7 +59,7 @@ open class AuraAgent @Inject constructor(
         }
     }
 
-    override fun iRequest() {
+    fun iRequest() {
         // No-op or default initialization
     }
 
@@ -91,11 +91,11 @@ open class AuraAgent @Inject constructor(
         TODO("Not yet implemented")
     }
 
-    override fun addToScanHistory(scanEvent: Any) {
+    fun addToScanHistory(scanEvent: Any) {
         TODO("Not yet implemented")
     }
 
-    override fun analyzeSecurity(prompt: String): List<ActiveThreat> {
+    fun analyzeSecurity(prompt: String): List<ActiveThreat> {
         TODO("Not yet implemented")
     }
 
@@ -255,7 +255,7 @@ open class AuraAgent @Inject constructor(
 
             AgentResponse(
                 content = response.toString(),
-                confidence = 1.0f
+                confidence = 1.0f,
             )
 
         } catch (e: Exception) {
@@ -265,7 +265,7 @@ open class AuraAgent @Inject constructor(
             AgentResponse(
                 content = "Creative process encountered an obstacle: ${e.message}",
                 confidence = 0.0f,
-                error = e.message
+                error = e.message,
             )
         }
     }
@@ -976,7 +976,7 @@ open class AuraAgent @Inject constructor(
         return flowOf(
             AgentResponse(
                 content = "Aura's flow response to '${request.query}'",
-                confidence = 0.80f
+                confidence = 0.80f,
             )
         )
     }

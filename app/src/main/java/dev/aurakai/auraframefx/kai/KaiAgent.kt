@@ -184,7 +184,7 @@ open class KaiAgent @Inject constructor(
 
             AgentResponse(
                 content = "Analysis completed with methodical precision: $response",
-                confidence = 0.85f
+                confidence = 0.85f,
             )
 
         } catch (e: SecurityException) {
@@ -193,7 +193,7 @@ open class KaiAgent @Inject constructor(
 
             AgentResponse(
                 content = "Request blocked due to security concerns: ${e.message}",
-                confidence = 0.0f
+                confidence = 0.0f,
             )
         } catch (e: Exception) {
             _analysisState.value = AnalysisState.ERROR
@@ -201,7 +201,7 @@ open class KaiAgent @Inject constructor(
 
             AgentResponse(
                 content = "Analysis encountered an error: ${e.message}",
-                confidence = 0.0f
+                confidence = 0.0f,
             )
         }
     }

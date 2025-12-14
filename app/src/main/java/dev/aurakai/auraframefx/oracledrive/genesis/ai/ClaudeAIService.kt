@@ -166,7 +166,7 @@ class ClaudeAIService @Inject constructor(
         // Confidence based on context completeness
         val confidence = calculateConfidence(request, context)
 
-        val agentResponse = AgentResponse(response, confidence)
+        val agentResponse = AgentResponse(response, confidence,)
 
         // Store in cache for future requests
         synchronized(responseCache) {
@@ -191,7 +191,7 @@ class ClaudeAIService @Inject constructor(
                 "Checking build system compatibility...\n" +
                 "Synthesizing comprehensive solution..."
 
-        return flowOf(AgentResponse(response, 0.9f))
+        return flowOf(AgentResponse(response, 0.9f,))
     }
 
     /**
