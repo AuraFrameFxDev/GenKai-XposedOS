@@ -3,7 +3,7 @@
 // import kotlinx.serialization.Contextual // No longer needed for Instant here
 // dev.aurakai.auraframefx.models.AgentType is already imported by line 4, removing duplicate
 import dev.aurakai.auraframefx.ai.memory.MemoryManager
-import dev.aurakai.auraframefx.ai.pipeline.AIPipelineConfig
+import dev.aurakai.auraframefx.cascade.pipeline.AIPipelineConfig
 import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
