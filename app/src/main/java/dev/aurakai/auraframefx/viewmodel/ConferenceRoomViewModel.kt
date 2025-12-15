@@ -20,6 +20,7 @@ import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 import kotlinx.serialization.json.JsonObject
+import timber.log.Timber
 import javax.inject.Inject
 
 // Removed @Singleton from ViewModel, typically ViewModels are not Singletons
@@ -204,7 +205,7 @@ class ConferenceRoomViewModel @Inject constructor(
     }
 
     fun selectAgent(agent: AgentCapabilityCategory) {
-        _selectedAgent.value = agent
+        agent.also { agent -> _selectedAgent.value = agent }
     }
 
     fun toggleRecording() {
