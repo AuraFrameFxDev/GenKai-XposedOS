@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.ai.services.AuraAIService
 import dev.aurakai.auraframefx.ai.services.CascadeAIService
 import dev.aurakai.auraframefx.ai.services.KaiAIService
 import dev.aurakai.auraframefx.ai.services.NeuralWhisper
+import dev.aurakai.auraframefx.models.AgentCapabilityCategory
 import dev.aurakai.auraframefx.models.AgentMessage
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
@@ -18,6 +19,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonObject
+import timber.log.Timber
 import javax.inject.Inject
 
 // Removed @Singleton from ViewModel, typically ViewModels are not Singletons
@@ -202,7 +205,7 @@ class ConferenceRoomViewModel @Inject constructor(
     }
 
     fun selectAgent(agent: AgentCapabilityCategory) {
-        _selectedAgent.value = agent
+        agent.also { agent -> _selectedAgent.value = agent }
     }
 
     fun toggleRecording() {
@@ -232,3 +235,5 @@ class ConferenceRoomViewModel @Inject constructor(
         // if (_isTranscribing.value) neuralWhisper.startTranscription() else neuralWhisper.stopTranscription()
     }
 }
+
+private fun Map<String, String>.toJsonObject(): JsonObject {}

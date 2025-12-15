@@ -4,8 +4,6 @@ plugins {
     // before they run. We'll apply it after the Android plugin is configured.
 }
 
-
-
 android {
     namespace = "dev.aurakai.auraframefx"
     compileSdk = 36
