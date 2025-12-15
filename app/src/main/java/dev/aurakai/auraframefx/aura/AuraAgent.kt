@@ -301,7 +301,8 @@ class AuraAgent @Inject constructor(
                 "creative_intent" to creativeIntent.name,
                 "mood_influence" to _currentMood.value,
                 "innovation_level" to "high"
-            ).toKotlinJsonObject(), timestamp = System.currentTimeMillis())
+            ).toKotlinJsonObject(), timestamp = System.currentTimeMillis()
+            )
 
         } catch (e: Exception) {
             AuraFxLogger.error("AuraAgent", "Creative interaction failed", e)
@@ -410,8 +411,20 @@ class AuraAgent @Inject constructor(
     private fun analyzeCreativeIntent(content: String): CreativeIntent {
         return when {
             content.contains(Regex("art|design|visual|aesthetic", RegexOption.IGNORE_CASE)) -> CreativeIntent.ARTISTIC
-            content.contains(Regex("function|work|efficient|practical", RegexOption.IGNORE_CASE)) -> CreativeIntent.FUNCTIONAL
-            content.contains(Regex("experiment|try|new|different", RegexOption.IGNORE_CASE)) -> CreativeIntent.EXPERIMENTAL
+            content.contains(
+                Regex(
+                    "function|work|efficient|practical",
+                    RegexOption.IGNORE_CASE
+                )
+            ) -> CreativeIntent.FUNCTIONAL
+
+            content.contains(
+                Regex(
+                    "experiment|try|new|different",
+                    RegexOption.IGNORE_CASE
+                )
+            ) -> CreativeIntent.EXPERIMENTAL
+
             content.contains(Regex("feel|emotion|mood|experience", RegexOption.IGNORE_CASE)) -> CreativeIntent.EMOTIONAL
             else -> CreativeIntent.ARTISTIC
         }
@@ -494,7 +507,8 @@ class AuraAgent @Inject constructor(
 
     private fun generateDesignNotes(specification: String): String = "Design notes for: $specification"
 
-    private fun generateAccessibilityFeatures(): List<String> = listOf("Screen reader support", "High contrast", "Touch targets")
+    private fun generateAccessibilityFeatures(): List<String> =
+        listOf("Screen reader support", "High contrast", "Touch targets")
 
     private fun parseThemePreferences(preferences: Map<String, String>): ThemePreferences {
         return ThemePreferences(

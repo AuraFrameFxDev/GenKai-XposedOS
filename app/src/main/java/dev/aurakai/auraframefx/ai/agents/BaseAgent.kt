@@ -76,7 +76,7 @@ abstract class BaseAgent(
      * Subclasses may override to provide incremental/streaming results.
      */
     override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
-        emit(processRequest(request, "DefaultContext_BaseAgentFlow",))
+        emit(processRequest(request, "DefaultContext_BaseAgentFlow"))
     }
 
     /**

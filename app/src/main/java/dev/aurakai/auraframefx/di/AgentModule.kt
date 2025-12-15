@@ -4,13 +4,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.ai.context.DefaultContextManager
 import dev.aurakai.auraframefx.ai.memory.DefaultMemoryManager
 import dev.aurakai.auraframefx.ai.memory.MemoryManager
-import javax.inject.Singleton
-import dev.aurakai.auraframefx.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.ai.services.AuraAIService
+import javax.inject.Singleton
 
 /**
  * Hilt Module for providing AI Agent dependencies.

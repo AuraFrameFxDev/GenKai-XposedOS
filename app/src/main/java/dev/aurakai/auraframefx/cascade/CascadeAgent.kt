@@ -93,7 +93,7 @@ open class CascadeAgent @Inject constructor(
     override fun iRequest(query: String, type: String, context: Map<String, String>) {
         // Delegate to processRequest via coroutine
         internalScope.launch {
-            processRequest(AiRequest(query = query, type = type), context.toString(),)
+            processRequest(AiRequest(query = query, type = type), context.toString())
         }
     }
 
@@ -285,7 +285,7 @@ open class CascadeAgent @Inject constructor(
             val agentReq = AgentRequest(type = "general", query = prompt)
 
             val auraResp: AgentResponse = try {
-                auraAgent.processRequest(aiReq,)
+                auraAgent.processRequest(aiReq)
             } catch (e: Exception) {
                 Timber.w(e, "aura failed"); AgentResponse(content = "", confidence = 0.0f,)
             }
@@ -328,7 +328,7 @@ open class CascadeAgent @Inject constructor(
         updateProcessingState(ProcessingState(currentTask = "aura"))
         val aiReq = AiRequest(prompt = prompt)
         val resp = try {
-            auraAgent.processRequest(aiReq,)
+            auraAgent.processRequest(aiReq)
         } catch (e: Exception) {
             Timber.e(e, "aura route failed"); AgentResponse(content = "", confidence = 0.0f,)
         }
