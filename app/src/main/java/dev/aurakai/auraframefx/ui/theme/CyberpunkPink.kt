@@ -1,3 +1,5 @@
 package dev.aurakai.auraframefx.ui.theme
 
-interface CyberpunkPink
+import androidx.compose.ui.graphics.Color
+
+val CyberpunkPink = Color(0xFFFF00FF)
