@@ -228,7 +228,7 @@ class ConferenceRoomViewModel @Inject constructor(
         // For beta, link transcribing state to recording state or a separate logic if needed.
         // User's snippet implies this might be a simple toggle for now.
         _isTranscribing.update { !it } // Simple toggle
-        Timber.tag(tag).d("Transcribing toggled to: %s", _isTranscribing.value)
+        Timber.tag(TAG).d("Transcribing toggled to: %s", _isTranscribing.value)
         // If actual transcription process needs to be started/stopped in NeuralWhisper:
         // if (_isTranscribing.value) neuralWhisper.startTranscription() else neuralWhisper.stopTranscription()
     }
