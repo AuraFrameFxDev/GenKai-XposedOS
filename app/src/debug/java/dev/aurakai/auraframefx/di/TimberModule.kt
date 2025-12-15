@@ -1,5 +1,6 @@
 package dev.aurakai.auraframefx.di
 
+import android.app.Application
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,7 +15,9 @@ object TimberModule {
 
     @Provides
     @Singleton
-    fun provideTimberInitializer(): TimberInitializer {
-        return TimberInitializerImpl()
+    fun provideTimberInitializer(app: Application): TimberInitializer {
+        val initializer = TimberInitializerImpl()
+        initializer.init(app)
+        return initializer
     }
 }
