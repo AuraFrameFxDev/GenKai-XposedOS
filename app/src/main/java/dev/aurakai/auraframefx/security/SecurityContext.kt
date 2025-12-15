@@ -332,7 +332,7 @@ class SecurityContext @Inject constructor(
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)
             when (event.severity) {
-                EventSeverity.INFO -> timberInitializer.logHealthMetric("SecurityEvent", eventJson)
+                EventSeverity.INFO -> Timber.tag("HealthTracker").i("SecurityEvent: $eventJson")
                 EventSeverity.WARNING -> Timber.tag("SecurityEvent").w(eventJson)
                 EventSeverity.ERROR -> Timber.tag("SecurityEvent").e(eventJson)
                 EventSeverity.CRITICAL -> Timber.tag("SecurityEvent").wtf(eventJson)

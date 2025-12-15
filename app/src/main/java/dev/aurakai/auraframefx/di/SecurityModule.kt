@@ -23,6 +23,5 @@ object SecurityModule {
     fun provideSecurityContext(
         @ApplicationContext context: Context,
         keystoreManager: KeystoreManager,
-        timberInitializer: TimberInitializer,
-    ): SecurityContext = SecurityContext(context, keystoreManager, timberInitializer)
+    ): SecurityContext = SecurityContext(context, keystoreManager)
 }
