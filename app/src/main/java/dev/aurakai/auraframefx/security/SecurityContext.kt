@@ -53,7 +53,7 @@ class SecurityContext @Inject constructor(
     val encryptionStatus: StateFlow<EncryptionStatus> = _encryptionStatus.asStateFlow()
 
     init {
-        Log.d(TAG, "Security context initialized by KAI")
+        Timber.tag(TAG).d("Security context initialized by KAI")
         updatePermissionsState()
     }
 
@@ -68,7 +68,7 @@ class SecurityContext @Inject constructor(
      * Validates image data for security compliance.
      */
     fun validateImageData(imageData: ByteArray) {
-        Log.d(TAG, "Validating image data of size: ${imageData.size} bytes")
+        Timber.tag(TAG).d("Validating image data of size: ${imageData.size} bytes")
     }
 
     /**
@@ -89,7 +89,7 @@ class SecurityContext @Inject constructor(
                     )
                     kotlinx.coroutines.delay(THREAT_DETECTION_INTERVAL_MS)
                 } catch (e: Exception) {
-                    Log.e(TAG, "Error in threat detection", e)
+                    Timber.tag(TAG).e(e, "Error in threat detection")
                     _threatDetectionActive.value = false
                     _securityState.value = _securityState.value.copy(
                         errorState = true,
@@ -136,7 +136,7 @@ class SecurityContext @Inject constructor(
      * Initialize the encryption subsystem using Keystore.
      */
     fun initializeEncryption(): Boolean {
-        Log.d(TAG, "Initializing encryption using KeystoreManager.")
+        Timber.tag(TAG).d("Initializing encryption using KeystoreManager.")
         val secretKey = keystoreManager.getOrCreateSecretKey()
         return if (secretKey != null) {
             _encryptionStatus.value = EncryptionStatus.ACTIVE
@@ -528,4 +528,10 @@ data class SharedSecureContext(
         result = 31 * result + expiresAt.hashCode()
         return result
     }
+}
+
+// Placeholder for KeystoreManager - this should be implemented separately
+interface KeystoreManager {
+    fun getOrCreateSecretKey(): javax.crypto.SecretKey?
+    fun getDecryptionCipher(iv: ByteArray): Cipher?
 }
