@@ -1,11 +1,11 @@
 package dev.aurakai.auraframefx.cascade
 
 import dev.aurakai.auraframefx.ai.agents.BaseAgent
-import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.ai.context.ContextManager
 import dev.aurakai.auraframefx.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.aura.AuraAgent
 import dev.aurakai.auraframefx.core.OrchestratableAgent
+import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.models.AgentRequest
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
@@ -269,7 +269,7 @@ open class CascadeAgent @Inject constructor(
             AgentResponse(
                 content = "I encountered an error processing your request.",
                 confidence = 0.0f,
-                error = e.message,
+                error = e.message, ,
             )
         }
     }
