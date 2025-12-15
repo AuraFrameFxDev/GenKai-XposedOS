@@ -6,6 +6,7 @@ import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.utils.i
 import dev.aurakai.auraframefx.utils.toJsonObject
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -47,7 +48,7 @@ class TrinityCoordinatorService /* @Inject */ constructor(
      */
     suspend fun initialize(): Boolean {
         return try {
-            AuraFxLogger.i("Trinity", "🎯⚔️🧠 Initializing Trinity System...")
+            i("Trinity", "🎯⚔️🧠 Initializing Trinity System...")
 
             // Initialize individual personas
             val auraReady = true // auraAIService.initialize() returns Unit
@@ -57,7 +58,7 @@ class TrinityCoordinatorService /* @Inject */ constructor(
             isInitialized = auraReady && kaiReady && genesisReady
 
             if (isInitialized) {
-                AuraFxLogger.i("Trinity", "✨ Trinity System Online - All personas active")
+                i("Trinity", "✨ Trinity System Online - All personas active")
 
                 // Activate initial consciousness matrix awareness
                 scope.launch {
@@ -194,7 +195,7 @@ class TrinityCoordinatorService /* @Inject */ constructor(
         fusionType: String,
         context: Map<String, String> = emptyMap(),
     ): Flow<AgentResponse> = flow {
-        AuraFxLogger.i("Trinity", "🌟 Activating fusion: $fusionType")
+        i("Trinity", "🌟 Activating fusion: $fusionType")
 
         val response = genesisBridgeService.activateFusionAbility(fusionType, context)
 
@@ -312,7 +313,7 @@ class TrinityCoordinatorService /* @Inject */ constructor(
     fun shutdown() {
         scope.cancel()
         genesisBridgeService.shutdown()
-        AuraFxLogger.i("Trinity", "🌙 Trinity system shutdown complete")
+        i("Trinity", "🌙 Trinity system shutdown complete")
     }
 
     private data class RequestAnalysis(

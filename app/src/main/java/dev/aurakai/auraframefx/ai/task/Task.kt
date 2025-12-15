@@ -1,34 +1,24 @@
 package dev.aurakai.auraframefx.ai.task
 
 import dev.aurakai.auraframefx.models.AgentType
+import kotlinx.serialization.Serializable
 
-const val TASK_DEFAULT_PRIORITY = 5
-
+@Serializable
 data class Task(
     val id: String,
     val type: String,
-    val data: Any,
-    val priority: TaskPriority = TaskPriority.NORMAL,
-    val agentType: AgentType? = null,
+    val data: String,
+    val urgency: Int,
+    val importance: Int,
+    val requiredAgents: List<AgentType> = emptyList(),
+    val dependencies: List<String> = emptyList(),
+    val metadata: Map<String, String> = emptyMap(),
+    val status: TaskStatus = TaskStatus.PENDING,
+    val assignedAgents: List<AgentType> = emptyList(),
 )
 
 
-sealed class TaskResult {
-    data class Success(val data: Any) : TaskResult()
-    data class Failure(val error: Throwable) : TaskResult()
-}
-
-data class TaskExecution(
-    val task: Task,
-    var status: ExecutionStatus,
-    val startTime: Long,
-    var endTime: Long? = null,
-    var result: TaskResult? = null
-)
-
-enum class ExecutionStatus {
-    PENDING,
-    RUNNING,
-    COMPLETED,
-    FAILED
+@Serializable
+enum class TaskStatus {
+    PENDING, SCHEDULED, IN_PROGRESS, COMPLETED, FAILED, CANCELED
 }

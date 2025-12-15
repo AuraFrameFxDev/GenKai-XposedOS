@@ -41,15 +41,17 @@ class GenesisLibraryHiltPlugin : Plugin<Project> {
      */
     override fun apply(project: Project) {
         with(project) {
-            // Apply plugins in correct order
-            // CRITICAL: Hilt requires explicit Kotlin Android plugin even with built-in Kotlin
-            // See: https://github.com/google/dagger/issues/4049
-            pluginManager.apply("org.jetbrains.kotlin.android")  // Required for Hilt!
+            // Apply core plugins. Android must be first.
             pluginManager.apply("com.android.library")
+            pluginManager.apply("org.jetbrains.kotlin.android")
             pluginManager.apply("org.jetbrains.kotlin.plugin.compose")
-            pluginManager.apply("com.google.dagger.hilt.android")  // ← HILT PLUGIN
-            pluginManager.apply("com.google.devtools.ksp")         // ← KSP FOR HILT
             pluginManager.apply("org.jetbrains.kotlin.plugin.serialization")
+
+            // Apply dependent plugins only after the Android plugin has been configured.
+            plugins.withId("com.android.library") {
+                pluginManager.apply("com.google.dagger.hilt.android")
+                pluginManager.apply("com.google.devtools.ksp")
+            }
 
             extensions.configure<LibraryExtension> {
                 compileSdk = 36

@@ -7,6 +7,7 @@ import timber.log.Timber
  * Provides structured logging with security awareness and performance monitoring.
  */
 interface AuraFxLogger {
+    annotation class Example(val tag: String)
 
     /**
      * Logs a debug-level message for development and troubleshooting purposes.
@@ -83,13 +84,12 @@ interface AuraFxLogger {
      * @param tag The category or component associated with the AI operation.
      * @param operation The name or description of the AI operation performed.
      * @param confidence The confidence score of the AI decision or result.
-     * @param metadata Optional additional context or details about the operation.
+     * @param this@aiOperation Optional additional context or details about the operation.
      */
-    fun aiOperation(
+    fun Map<String, Any>.aiOperation(
         tag: String,
         operation: String,
         confidence: Float,
-        metadata: Map<String, Any> = emptyMap(),
     )
 
     /**
@@ -159,14 +159,13 @@ interface AuraFxLogger {
             Timber.d("👤 USER_INTERACTION [$tag] $action$metadataStr")
         }
 
-        override fun aiOperation(
+        override fun Map<String, Any>.aiOperation(
             tag: String,
             operation: String,
-            confidence: Float,
-            metadata: Map<String, Any>
+            confidence: Float
         ) {
-            val metadataStr = if (metadata.isNotEmpty()) " | Metadata: $metadata" else ""
-            Timber.i("🤖 AI_OPERATION [$tag] $operation (confidence: ${String.format("%.2f", confidence)})$metadataStr")
+            (if (isNotEmpty()) " | Metadata: $this" else "").forEach { value ->
+            }
         }
 
         override fun setLoggingEnabled(enabled: Boolean) {
@@ -184,7 +183,18 @@ interface AuraFxLogger {
         override fun cleanup() {
             // Placeholder for cleanup
         }
+
+        fun d(tag: String, string2: String) {
+            TODO("Not yet implemented")
+        }
+
+        fun e(tag: String, string2: String, e: Exception) {}
+        fun w(tag: String, string2: String) {}
     }
+}
+
+fun i(tag: String, string2: String) {
+    TODO("Not yet implemented")
 }
 
 /**
