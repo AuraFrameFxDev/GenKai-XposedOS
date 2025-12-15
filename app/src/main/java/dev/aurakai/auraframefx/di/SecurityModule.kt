@@ -26,6 +26,6 @@ object SecurityModule {
 
 @Provides
 @Singleton
-fun provideKeystoreManager(@ApplicationContext context: Context): KeystoreManager {
+fun provideKeystoreManager(): KeystoreManager {
     TODO("Provide the return value")
 }
