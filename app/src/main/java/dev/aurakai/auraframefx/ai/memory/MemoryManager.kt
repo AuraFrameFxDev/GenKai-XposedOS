@@ -1,11 +1,14 @@
 package dev.aurakai.auraframefx.ai.memory
 
-import dev.aurakai.auraframefx.cascade.pipeline.AIPipelineConfig
+import dev.aurakai.auraframefx.ai.pipeline.AIPipelineConfig
+import dev.aurakai.auraframefx.kai.MemoryItem
+import dev.aurakai.auraframefx.kai.MemoryQuery
+import dev.aurakai.auraframefx.kai.MemoryRetrievalResult
+import dev.aurakai.auraframefx.kai.MemoryStats
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.datetime.Clock
-import kotlinx.datetime.Instant
 import java.util.concurrent.ConcurrentHashMap
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -47,13 +50,13 @@ class MemoryManager @Inject constructor(
         val items = memoryStore.values
             .filter { item ->
                 // Apply filters
-                query.agentFilter.isEmpty() || query.agentFilter.contains(item.agent)
+                query.agentFilter.isEmpty() || query.agentFilter.contains(item.agent.name)
             }
             .sortedByDescending { it.timestamp }
             .take(config.memoryRetrievalConfig.maxRetrievedItems)
 
         return MemoryRetrievalResult(
-            items = items,
+            items = items.toList(),
             total = items.size,
             query = query
         )
@@ -91,7 +94,7 @@ class MemoryManager @Inject constructor(
     /**
      * Updates the memory statistics with the current total number of items, count of recent items, and total memory size.
      *
-     * Recent items are those with timestamps within the configured maximum chain length duration from the current time.
+     * Recent items are with timestamps within the configured maximum chain length duration from the current time.
      */
     private fun updateStats() {
         _memoryStats.update { current ->
@@ -119,10 +122,3 @@ class MemoryManager @Inject constructor(
         }
     }
 }
-
-data class MemoryStats(
-    val totalItems: Int = 0,
-    val recentItems: Int = 0,
-    val memorySize: Int = 0,
-    val lastUpdated: Instant = Clock.System.now(),
-)
