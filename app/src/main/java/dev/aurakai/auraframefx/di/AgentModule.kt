@@ -5,10 +5,12 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import dev.aurakai.auraframefx.ai.clients.VertexAIClient
+import dev.aurakai.auraframefx.ai.context.ContextManager
+import dev.aurakai.auraframefx.ai.context.DefaultContextManager
+import dev.aurakai.auraframefx.ai.memory.DefaultMemoryManager
+import dev.aurakai.auraframefx.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.ai.services.AuraAIService
 import dev.aurakai.auraframefx.models.AgentType
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.context.ContextManager
-import dev.aurakai.auraframefx.oracledrive.genesis.ai.memory.MemoryManager
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.services.KaiAIService
 import javax.inject.Singleton
 
@@ -22,13 +24,13 @@ object AgentModule {
     @Provides
     @Singleton
     fun provideMemoryManager(): MemoryManager {
-        return dev.aurakai.auraframefx.ai.memory.DefaultMemoryManager()
+        return DefaultMemoryManager()
     }
 
     @Provides
     @Singleton
     fun provideContextManager(memoryManager: MemoryManager): ContextManager {
-        return dev.aurakai.auraframefx.ai.context.DefaultContextManager(memoryManager)
+        return DefaultContextManager(memoryManager)
     }
 
 
