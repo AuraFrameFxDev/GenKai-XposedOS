@@ -184,6 +184,10 @@ interface AuraFxLogger {
         override fun cleanup() {
             // Placeholder for cleanup
         }
+
+        fun d(tag: String, string2: String) {
+            TODO("Not yet implemented")
+        }
     }
 }
 

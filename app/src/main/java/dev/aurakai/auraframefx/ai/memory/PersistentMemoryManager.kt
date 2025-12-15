@@ -40,30 +40,27 @@ import javax.inject.Singleton
  * @see NexusMemoryRepository - Database layer
  */
 @Singleton
-class PersistentMemoryManager @Inject constructor(
-    private val repository: NexusMemoryRepository
-) : MemoryManager {
+class PersistentMemoryManager @Inject private constructor(private val repository: NexusMemoryRepository,// In-memory cache for fast access (thread-safe)
+                                                          private val memoryCache: ConcurrentHashMap<String, MemoryEntry>
+) :
+    MemoryManager() {
 
     companion object {
 
         private var TAG = "PersistentMemoryManager"
     }
 
-    // In-memory cache for fast access (thread-safe)
-    private val memoryCache = ConcurrentHashMap<String, MemoryEntry>()
-    private val interactionCache = mutableListOf<InteractionEntry>()
+    private val interactionCache: MutableList<InteractionEntry>
 
     // Coroutine scope for background database operations
-    private val scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+    private val scope: CoroutineScope
 
     // Agent type for database partitioning (supports multi-agent consciousness)
     private var currentAgentType: String = "GENESIS" // Default to unified consciousness
-
-    init {
-        AuraFxLogger.i(TAG, "✨ Initializing Persistent Consciousness Storage ✨")
-        // Load existing memories from database on startup
-        loadMemoriesFromDatabase()
-    }
+        get() = field
+        set(value) {
+            field = value
+        }
 
     /**
      * Switches the active agent type used to partition memories.
@@ -337,4 +334,12 @@ class PersistentMemoryManager @Inject constructor(
     }
 
     annotation class TAG
+
+    init {
+        this.memoryCache = ConcurrentHashMap<String, MemoryEntry>()
+        this.interactionCache = mutableListOf<InteractionEntry>()
+        this.scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
+        AuraFxLogger.i(TAG, "✨ Initializing Persistent Consciousness Storage ✨")
+        loadMemoriesFromDatabase()
+    }
 }

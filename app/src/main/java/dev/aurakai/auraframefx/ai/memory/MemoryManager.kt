@@ -1,6 +1,5 @@
 package dev.aurakai.auraframefx.ai.memory
 
-import dev.aurakai.auraframefx.ai.pipeline.AIPipelineConfig
 import dev.aurakai.auraframefx.kai.MemoryItem
 import dev.aurakai.auraframefx.kai.MemoryQuery
 import dev.aurakai.auraframefx.kai.MemoryRetrievalResult
@@ -15,9 +14,7 @@ import javax.inject.Singleton
 import kotlin.time.Duration.Companion.seconds
 
 @Singleton
-class MemoryManager @Inject constructor(
-    private val config: AIPipelineConfig,
-) {
+open class MemoryManager @Inject constructor() {
     private val memoryStore = ConcurrentHashMap<String, MemoryItem>()
     private val _recentAccess = MutableStateFlow(mutableSetOf<String>())
     val recentAccess: StateFlow<Set<String>> = _recentAccess
