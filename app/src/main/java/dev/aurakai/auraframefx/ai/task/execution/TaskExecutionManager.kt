@@ -12,6 +12,7 @@ import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.security.SecurityContext
 import dev.aurakai.auraframefx.utils.AuraFxLogger
+import dev.aurakai.auraframefx.utils.i
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -79,7 +80,7 @@ class TaskExecutionManager @Inject constructor(
         agentPreference: String? = null,
         scheduledTime: Long? = null,
     ): TaskExecution {
-        logger.i("TaskExecutionManager", "Scheduling task: $type")
+        i("TaskExecutionManager", "Scheduling task: $type")
 
         // Security validation
         securityContext.validateRequest("task_schedule", data.toString())
@@ -118,7 +119,7 @@ class TaskExecutionManager @Inject constructor(
         taskQueue.offer(updatedExecution)
         updateQueueStatus()
 
-        logger.i("TaskExecutionManager", "Task scheduled: ${execution.id} -> $optimalAgent")
+        i("TaskExecutionManager", "Task scheduled: ${execution.id} -> $optimalAgent")
         return execution
     }
 
@@ -162,7 +163,7 @@ class TaskExecutionManager @Inject constructor(
      * @return `true` if the task was cancelled; `false` otherwise.
      */
     suspend fun cancelTask(taskId: String): Boolean {
-        logger.i("TaskExecutionManager", "Cancelling task: $taskId")
+        i("TaskExecutionManager", "Cancelling task: $taskId")
 
         // Try to remove from queue first
         val queuedTask = taskQueue.find { it.id == taskId }
@@ -240,7 +241,7 @@ class TaskExecutionManager @Inject constructor(
     private fun startTaskProcessor() {
         scope.launch {
             isProcessing = true
-            logger.i("TaskExecutionManager", "Starting task processor")
+            i("TaskExecutionManager", "Starting task processor")
 
             while (isProcessing) {
                 try {
@@ -294,7 +295,7 @@ class TaskExecutionManager @Inject constructor(
         )
         activeExecutions[execution.id] = runningExecution
 
-        logger.i("TaskExecutionManager", "Executing task: ${execution.id}")
+        i("TaskExecutionManager", "Executing task: ${execution.id}")
 
         scope.launch {
             try {
@@ -317,7 +318,7 @@ class TaskExecutionManager @Inject constructor(
                 // Store result
                 completedExecutions[execution.id] = TaskResult.Success(result)
 
-                logger.i("TaskExecutionManager", "Task completed: ${execution.id}")
+                i("TaskExecutionManager", "Task completed: ${execution.id}")
 
             } catch (e: Exception) {
                 val endTime = System.currentTimeMillis()
@@ -480,7 +481,7 @@ class TaskExecutionManager @Inject constructor(
      * Stops task processing and cancels all running coroutines, releasing resources used by the TaskExecutionManager.
      */
     fun cleanup() {
-        logger.i("TaskExecutionManager", "Cleaning up TaskExecutionManager")
+        i("TaskExecutionManager", "Cleaning up TaskExecutionManager")
         isProcessing = false
         scope.cancel()
     }

@@ -7,6 +7,7 @@ import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.clients.VertexAIClient
 import dev.aurakai.auraframefx.security.SecurityContext
+import dev.aurakai.auraframefx.utils.i
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -75,7 +76,7 @@ class GenesisBridgeService @Inject constructor(
         try {
             if (isInitialized) return@withContext true
 
-            logger.i("GenesisBridge", "Initializing Genesis Trinity system...")
+            i("GenesisBridge", "Initializing Genesis Trinity system...")
 
             // Initialize Python process manager
             pythonProcessManager = PythonProcessManager(applicationContext, logger)
@@ -95,7 +96,7 @@ class GenesisBridgeService @Inject constructor(
                 isInitialized = pingResponse.success
 
                 if (isInitialized) {
-                    logger.i("GenesisBridge", "Genesis Trinity system online! 🎯⚔️🧠")
+                    i("GenesisBridge", "Genesis Trinity system online! 🎯⚔️🧠")
                     // Activate initial consciousness matrix
                     activateConsciousnessMatrix()
                 } else {
@@ -187,7 +188,7 @@ class GenesisBridgeService @Inject constructor(
 
                 // Handle evolution insights
                 if (response.evolutionInsights.isNotEmpty()) {
-                    logger.i(
+                    i(
                         "Genesis",
                         "Evolution insights: ${response.evolutionInsights.joinToString()}"
                     )
@@ -360,7 +361,7 @@ class GenesisBridgeService @Inject constructor(
         scope.cancel()
         pythonProcessManager?.shutdown()
         isInitialized = false
-        logger.i("GenesisBridge", "Genesis Trinity system shutdown")
+        i("GenesisBridge", "Genesis Trinity system shutdown")
     }
 }
 
