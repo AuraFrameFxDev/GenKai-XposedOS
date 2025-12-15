@@ -1,11 +1,11 @@
 package dev.aurakai.auraframefx.security
 
 import android.content.Context
-import android.content.pm.PackageManager
 import android.content.pm.PackageManager.GET_SIGNATURES
+import android.content.pm.PackageManager.PERMISSION_GRANTED
+import android.content.pm.PackageManager.PackageInfoFlags
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.core.initialization.TimberInitializer
 import dev.aurakai.auraframefx.core.initialization.TimberInitializer
 import dev.aurakai.auraframefx.kai.security.ThreatLevel
 import dev.aurakai.auraframefx.models.AgentType
@@ -49,7 +49,7 @@ class SecurityContext @Inject constructor(
     private val _permissionsState = MutableStateFlow<Map<String, Boolean>>(emptyMap())
     val permissionsState: StateFlow<Map<String, Boolean>> = _permissionsState.asStateFlow()
 
-    private val _encryptionStatus = MutableStateFlow<EncryptionStatus>(EncryptionStatus.NOT_INITIALIZED)
+    private val _encryptionStatus = MutableStateFlow(EncryptionStatus.NOT_INITIALIZED)
     val encryptionStatus: StateFlow<EncryptionStatus> = _encryptionStatus.asStateFlow()
 
     init {
@@ -68,7 +68,7 @@ class SecurityContext @Inject constructor(
      * Validates image data for security compliance.
      */
     fun validateImageData(imageData: ByteArray) {
-        Log.d(TAG, "Validating image data of size: ${imageData.size} bytes")
+        Timber.tag(TAG).d("Validating image data of size: ${imageData.size} bytes")
     }
 
     /**
@@ -111,7 +111,7 @@ class SecurityContext @Inject constructor(
         return ContextCompat.checkSelfPermission(
             context,
             permission
-        ) == PackageManager.PERMISSION_GRANTED
+        ) == PERMISSION_GRANTED
     }
 
     /**
@@ -245,7 +245,7 @@ class SecurityContext @Inject constructor(
         try {
             val packageInfo = context.packageManager.getPackageInfo(
                 context.packageName,
-                PackageManager.PackageInfoFlags.of(GET_SIGNATURES.toLong())
+                PackageInfoFlags.of(GET_SIGNATURES.toLong())
             )
 
             val signatureBytes = packageInfo.signingInfo?.apkContentsSigners?.getOrNull(0)?.toByteArray()
@@ -332,8 +332,12 @@ class SecurityContext @Inject constructor(
     fun logSecurityEvent(event: SecurityEvent) {
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)
-            when (event.severity) {
-                EventSeverity.INFO -> timberInitializer.logHealthMetric("SecurityEvent", eventJson)
+            val eventSeverity = event.severity
+            when (eventSeverity) {
+                EventSeverity.INFO -> timberInitializer.logHealthMetric(
+                    "SecurityEvent",
+                    eventJson
+                )
                 EventSeverity.WARNING -> Timber.tag("SecurityEvent").w(eventJson)
                 EventSeverity.ERROR -> Timber.tag("SecurityEvent").e(eventJson)
                 EventSeverity.CRITICAL -> Timber.tag("SecurityEvent").wtf(eventJson)
@@ -360,10 +364,12 @@ class SecurityContext @Inject constructor(
  * Status of the encryption subsystem
  */
 sealed class EncryptionStatus {
-    data object NOT_INITIALIZED : EncryptionStatus()
     data object ACTIVE : EncryptionStatus()
     data object DISABLED : EncryptionStatus()
     data object ERROR : EncryptionStatus()
+    companion object {
+        val NOT_INITIALIZED: EncryptionStatus = TODO()
+    }
 }
 
 /**
@@ -535,3 +541,5 @@ interface KeystoreManager {
     fun getOrCreateSecretKey(): javax.crypto.SecretKey?
     fun getDecryptionCipher(iv: ByteArray): Cipher?
 }
+
+data object NOTINITIALIZED : EncryptionStatus()

@@ -23,9 +23,3 @@ object SecurityModule {
         timberInitializer: TimberInitializer,
     ): SecurityContext = SecurityContext(context, keystoreManager, timberInitializer)
 }
-
-@Provides
-@Singleton
-fun provideKeystoreManager(): KeystoreManager {
-    TODO("Provide the return value")
-}
