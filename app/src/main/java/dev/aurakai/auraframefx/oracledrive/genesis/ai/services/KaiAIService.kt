@@ -182,13 +182,14 @@ class KaiAIService @Inject constructor(
             ))
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error in processRequestFlow", e)
-            errorHandler.handleError(e, kaiagent as AgentType, "processRequestFlow")
+            errorHandler.handleError(e, AgentType.KAI, "processRequestFlow")
 
             emit(AgentResponse(
                 content = "Security analysis error: ${e.message}",
                 confidence = 0.0f,
                 error = e.message,
-                agent = AgentType.Kaiagent
+                agentName = "KAI",
+                agentType = AgentType.KAI
             ))
         }
     }
