@@ -1,14 +1,13 @@
 package dev.aurakai.auraframefx.security
 
 import android.content.Context
+import android.content.pm.PackageManager
 import android.content.pm.PackageManager.GET_SIGNATURES
-import android.content.pm.PackageManager.PERMISSION_GRANTED
-import android.content.pm.PackageManager.PackageInfoFlags
+import android.util.Log
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
-import dev.aurakai.auraframefx.core.initialization.TimberInitializer
-import dev.aurakai.auraframefx.kai.security.ThreatLevel
-import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.model.AgentType
+import dev.aurakai.auraframefx.model.ThreatLevel
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -30,7 +29,6 @@ import javax.inject.Singleton
 class SecurityContext @Inject constructor(
     @param:ApplicationContext private val context: Context,
     private val keystoreManager: KeystoreManager,
-    private val timberInitializer: TimberInitializer,
 ) {
     companion object {
         private const val TAG = "SecurityContext"
@@ -49,7 +47,7 @@ class SecurityContext @Inject constructor(
     private val _permissionsState = MutableStateFlow<Map<String, Boolean>>(emptyMap())
     val permissionsState: StateFlow<Map<String, Boolean>> = _permissionsState.asStateFlow()
 
-    private val _encryptionStatus = MutableStateFlow(EncryptionStatus.NOT_INITIALIZED)
+    private val _encryptionStatus = MutableStateFlow<EncryptionStatus>(EncryptionStatus.NOT_INITIALIZED)
     val encryptionStatus: StateFlow<EncryptionStatus> = _encryptionStatus.asStateFlow()
 
     init {
@@ -68,7 +66,7 @@ class SecurityContext @Inject constructor(
      * Validates image data for security compliance.
      */
     fun validateImageData(imageData: ByteArray) {
-        Timber.tag(TAG).d("Validating image data of size: ${imageData.size} bytes")
+        Log.d(TAG, "Validating image data of size: ${imageData.size} bytes")
     }
 
     /**
@@ -111,7 +109,7 @@ class SecurityContext @Inject constructor(
         return ContextCompat.checkSelfPermission(
             context,
             permission
-        ) == PERMISSION_GRANTED
+        ) == PackageManager.PERMISSION_GRANTED
     }
 
     /**
@@ -245,7 +243,7 @@ class SecurityContext @Inject constructor(
         try {
             val packageInfo = context.packageManager.getPackageInfo(
                 context.packageName,
-                PackageInfoFlags.of(GET_SIGNATURES.toLong())
+                PackageManager.PackageInfoFlags.of(GET_SIGNATURES.toLong())
             )
 
             val signatureBytes = packageInfo.signingInfo?.apkContentsSigners?.getOrNull(0)?.toByteArray()
@@ -332,12 +330,8 @@ class SecurityContext @Inject constructor(
     fun logSecurityEvent(event: SecurityEvent) {
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)
-            val eventSeverity = event.severity
-            when (eventSeverity) {
-                EventSeverity.INFO -> timberInitializer.logHealthMetric(
-                    "SecurityEvent",
-                    eventJson
-                )
+            when (event.severity) {
+                EventSeverity.INFO -> Timber.tag("HealthTracker").i("SecurityEvent: $eventJson")
                 EventSeverity.WARNING -> Timber.tag("SecurityEvent").w(eventJson)
                 EventSeverity.ERROR -> Timber.tag("SecurityEvent").e(eventJson)
                 EventSeverity.CRITICAL -> Timber.tag("SecurityEvent").wtf(eventJson)
@@ -364,12 +358,10 @@ class SecurityContext @Inject constructor(
  * Status of the encryption subsystem
  */
 sealed class EncryptionStatus {
+    data object NOT_INITIALIZED : EncryptionStatus()
     data object ACTIVE : EncryptionStatus()
     data object DISABLED : EncryptionStatus()
     data object ERROR : EncryptionStatus()
-    companion object {
-        val NOT_INITIALIZED: EncryptionStatus = TODO()
-    }
 }
 
 /**
@@ -535,11 +527,3 @@ data class SharedSecureContext(
         return result
     }
 }
-
-// Placeholder for KeystoreManager - this should be implemented separately
-interface KeystoreManager {
-    fun getOrCreateSecretKey(): javax.crypto.SecretKey?
-    fun getDecryptionCipher(iv: ByteArray): Cipher?
-}
-
-data object NOTINITIALIZED : EncryptionStatus()
