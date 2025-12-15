@@ -6,6 +6,7 @@ import android.content.pm.PackageManager.GET_SIGNATURES
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.initialization.TimberInitializer
+import dev.aurakai.auraframefx.core.initialization.TimberInitializer
 import dev.aurakai.auraframefx.kai.security.ThreatLevel
 import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.coroutines.CoroutineScope
