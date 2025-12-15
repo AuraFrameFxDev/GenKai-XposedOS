@@ -22,6 +22,10 @@ interface KaiAIService {
  */
 @Singleton
 class DefaultCascadeAIService @Inject constructor() : CascadeAIService {
+    context(confidence: Float) private fun AgentResponse(content: String): AgentResponse {
+        TODO("Not yet implemented")
+    }
+
     /**
      * Processes an AI request within the Cascade service and produces a corresponding AgentResponse.
      *
@@ -30,10 +34,11 @@ class DefaultCascadeAIService @Inject constructor() : CascadeAIService {
      * @return An AgentResponse whose content indicates the cascade-processed prompt and whose confidence is 0.85.
      */
     override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
-        return AgentResponse(
-            content = "Cascade processed: ${request.prompt}",
-            confidence = 0.85f, ,
-        )
+        return with(0.85f) {
+            AgentResponse(
+                "Cascade processed: ${request.prompt}",
+            )
+        }
     }
 }
 
