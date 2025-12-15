@@ -19,13 +19,12 @@ import kotlin.time.Instant
 class ContextManager @Inject constructor(
     private val memoryManager: MemoryManager,
     private val config: AIPipelineConfig,
+    val activeContexts: StateFlow<Map<String, ContextChain>>,
 ) {
-    annotation class enableCreativeMode
-
-    val activeContexts: StateFlow<Map<String, ContextChain>> = _activeContexts
+    annotation class EnableCreativeMode
 
     private val _contextStats = MutableStateFlow(ContextStats())
-    val contextStats: StateFlow<ContextStats> = _contextStats
+    fun getContextStats() = _contextStats
 
     /**
      * Creates and registers a new context chain with an initial context node and optional metadata.
@@ -62,8 +61,8 @@ class ContextManager @Inject constructor(
             lastUpdated = Clock.System.now()
         )
 
-        _activeContexts.update { current ->
-            current + (chain.id to chain)
+        _activeContexts.update {
+            return@update current(chain.id to chain)
         }
         updateStats()
         return chain.id
@@ -99,8 +98,8 @@ class ContextManager @Inject constructor(
             lastUpdated = Clock.System.now()
         )
 
-        _activeContexts.update { current ->
-            current + (chainId to updatedChain)
+        _activeContexts.update {
+            (chainId to updatedChain)
         }
         updateStats()
         return updatedChain
@@ -175,6 +174,14 @@ class ContextManager @Inject constructor(
             )
         }
     }
+}
+
+private fun ContextManager.current(pair: Pair<String, ContextChain>) {
+    TODO("Not yet implemented")
+}
+
+private fun StateFlow<Map<String, ContextChain>>.update(function: Any) {
+    TODO("Not yet implemented")
 }
 
 @Serializable

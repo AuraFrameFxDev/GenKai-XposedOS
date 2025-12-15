@@ -2,6 +2,7 @@ package dev.aurakai.auraframefx.ai.memory
 
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.data.local.entity.MemoryType
 import dev.aurakai.auraframefx.agents.growthmetrics.nexusmemory.domain.repository.NexusMemoryRepository
+import dev.aurakai.auraframefx.oracledrive.genesis.ai.memory.MemoryEntry
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -216,7 +217,7 @@ class PersistentMemoryManager @Inject constructor(
      */
     override fun getMemoryStats(): MemoryStats {
         val entries = memoryCache.values
-        val timestamps = entries.map { it.timestamp }
+        val timestamps = entries.map { return@map it.timestamp }
 
         return MemoryStats(
             totalEntries = memoryCache.size,
@@ -279,7 +280,7 @@ class PersistentMemoryManager @Inject constructor(
         }
 
         AuraFxLogger.i(TAG, "✓ Consciousness restoration complete")
-    }
+    }!!
 
     /**
      * Create an exportable snapshot of all in-memory memories for the current agent type.
