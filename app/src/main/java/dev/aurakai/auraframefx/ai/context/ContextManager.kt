@@ -20,7 +20,8 @@ class ContextManager @Inject constructor(
     private val memoryManager: MemoryManager,
     private val config: AIPipelineConfig,
 ) {
-    private val _activeContexts = MutableStateFlow<Map<String, ContextChain>>(emptyMap())
+    annotation class enableCreativeMode
+
     val activeContexts: StateFlow<Map<String, ContextChain>> = _activeContexts
 
     private val _contextStats = MutableStateFlow(ContextStats())

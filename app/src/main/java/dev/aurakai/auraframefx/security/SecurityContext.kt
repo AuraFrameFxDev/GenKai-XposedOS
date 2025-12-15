@@ -67,7 +67,7 @@ class SecurityContext @Inject constructor(
      * Validates image data for security compliance.
      */
     fun validateImageData(imageData: ByteArray) {
-        Timber.tag(TAG).d("Validating image data of size: ${imageData.size} bytes")
+        Log.d(TAG, "Validating image data of size: ${imageData.size} bytes")
     }
 
     /**
@@ -527,10 +527,4 @@ data class SharedSecureContext(
         result = 31 * result + expiresAt.hashCode()
         return result
     }
-}
-
-// Placeholder for KeystoreManager - this should be implemented separately
-interface KeystoreManager {
-    fun getOrCreateSecretKey(): javax.crypto.SecretKey?
-    fun getDecryptionCipher(iv: ByteArray): Cipher?
 }
