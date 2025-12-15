@@ -80,7 +80,7 @@ class KaiAIService @Inject constructor(
             AgentResponse(
                 content = response,
                 confidence = securityScore["confidence"] as? Float ?: 0.9f,
-                agent = AgentType.Kaiagent
+                agent = AgentType.KAI
             )
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error processing request", e)
