@@ -1,8 +1,8 @@
 ﻿package dev.aurakai.auraframefx.oracledrive.genesis.ai.services
 
-import dev.aurakai.auraframefx.model.AgentResponse
-import dev.aurakai.auraframefx.model.AgentType
-import dev.aurakai.auraframefx.model.AiRequest
+import dev.aurakai.auraframefx.models.AgentResponse
+import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.context.ContextManager
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.error.ErrorHandler
 import dev.aurakai.auraframefx.oracledrive.genesis.ai.memory.MemoryManager
@@ -11,7 +11,6 @@ import dev.aurakai.auraframefx.oracledrive.genesis.ai.task.execution.TaskExecuti
 import dev.aurakai.auraframefx.oracledrive.genesis.cloud.CloudStatusMonitor
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -45,7 +44,7 @@ class KaiAIService @Inject constructor(
         logger.info("KaiAIService", "Initializing Kai - The Shield")
         try {
             // Initialize security monitoring
-            contextManager.enableSecurityContext()
+            contextManager.enableSecurityContext
             isInitialized = true
             logger.info("KaiAIService", "Kai AI Service initialized successfully")
         } catch (e: Exception) {
@@ -83,13 +82,13 @@ class KaiAIService @Inject constructor(
             )
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error processing request", e)
-            errorHandler.handleError(e, AgentType.Kaiagent, "processRequest")
+            errorHandler.handleError(e, AgentType.KAI, "processRequest")
 
             AgentResponse(
                 content = "Security analysis temporarily unavailable",
                 confidence = 0.0f,
                 error = e.message,
-                agent = AgentType.Kaiagent
+                agent = AgentType.KAI
             )
         }
     }
@@ -134,7 +133,7 @@ class KaiAIService @Inject constructor(
             )
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error analyzing security threat", e)
-            errorHandler.handleError(e, AgentType.Kaiagent, "analyzeSecurityThreat")
+            errorHandler.handleError(e, AgentType.KAI, "analyzeSecurityThreat")
 
             mapOf(
                 "threat_level" to "unknown",
@@ -152,7 +151,7 @@ class KaiAIService @Inject constructor(
      * @param request The AI request whose `prompt` will be analyzed for security threats.
      * @return A Flow that emits an initial status AgentResponse and then a detailed AgentResponse with analysis results; emits an error response if analysis fails.
      */
-    fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
+    fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = kotlinx.coroutines.flow.flow {
         ensureInitialized()
 
         try {
@@ -161,7 +160,9 @@ class KaiAIService @Inject constructor(
 
             // Emit initial response
             emit(AgentResponse(
-                "Kai analyzing security posture...", 0.5f, agent = kaiagent
+                content = "Kai analyzing security posture...",
+                confidence = 0.5f,
+                agent = AgentType.KAI
             ))
 
             // Emit detailed analysis
@@ -178,7 +179,7 @@ class KaiAIService @Inject constructor(
             emit(AgentResponse(
                 content = detailedResponse,
                 confidence = analysisResult["confidence"] as? Float ?: 0.9f,
-                agent = kaiagent
+                agent = AgentType.KAI
             ))
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error in processRequestFlow", e)
@@ -188,8 +189,7 @@ class KaiAIService @Inject constructor(
                 content = "Security analysis error: ${e.message}",
                 confidence = 0.0f,
                 error = e.message,
-                agentName = "KAI",
-                agentType = AgentType.KAI
+                agent = AgentType.KAI
             ))
         }
     }

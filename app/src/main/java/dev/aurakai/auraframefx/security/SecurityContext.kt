@@ -6,8 +6,9 @@ import android.content.pm.PackageManager.GET_SIGNATURES
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.initialization.TimberInitializer
-import dev.aurakai.auraframefx.model.AgentType
-import dev.aurakai.auraframefx.model.ThreatLevel
+import dev.aurakai.auraframefx.core.initialization.TimberInitializer
+import dev.aurakai.auraframefx.kai.security.ThreatLevel
+import dev.aurakai.auraframefx.models.AgentType
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -332,7 +333,7 @@ class SecurityContext @Inject constructor(
         scope.launch {
             val eventJson = Json.encodeToString(SecurityEvent.serializer(), event)
             when (event.severity) {
-                EventSeverity.INFO -> Timber.tag("HealthTracker").i("SecurityEvent: $eventJson")
+                EventSeverity.INFO -> timberInitializer.logHealthMetric("SecurityEvent", eventJson)
                 EventSeverity.WARNING -> Timber.tag("SecurityEvent").w(eventJson)
                 EventSeverity.ERROR -> Timber.tag("SecurityEvent").e(eventJson)
                 EventSeverity.CRITICAL -> Timber.tag("SecurityEvent").wtf(eventJson)
@@ -527,4 +528,10 @@ data class SharedSecureContext(
         result = 31 * result + expiresAt.hashCode()
         return result
     }
+}
+
+// Placeholder for KeystoreManager - this should be implemented separately
+interface KeystoreManager {
+    fun getOrCreateSecretKey(): javax.crypto.SecretKey?
+    fun getDecryptionCipher(iv: ByteArray): Cipher?
 }

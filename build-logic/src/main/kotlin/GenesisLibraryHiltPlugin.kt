@@ -16,11 +16,12 @@ import org.gradle.kotlin.dsl.configure
  * - KSP annotation processing for Hilt
  *
  * Plugin Application Order:
- * 1. com.android.library (Kotlin is built-in with AGP 9.0+)
- * 2. org.jetbrains.kotlin.plugin.compose
- * 3. com.google.dagger.hilt.android (HILT - only in this variant)
- * 4. com.google.devtools.ksp (KSP - only in this variant)
- * 5. org.jetbrains.kotlin.plugin.serialization
+ * 1. org.jetbrains.kotlin.android (Required for Hilt even with built-in Kotlin)
+ * 2. com.android.library
+ * 3. org.jetbrains.kotlin.plugin.compose
+ * 4. com.google.dagger.hilt.android (HILT - only in this variant)
+ * 5. com.google.devtools.ksp (KSP - only in this variant)
+ * 6. org.jetbrains.kotlin.plugin.serialization
  *
  * Usage:
  * plugins {
