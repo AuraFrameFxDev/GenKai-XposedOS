@@ -46,7 +46,7 @@ abstract class BaseAgent(
     /**
      * Handle an incoming AI request synchronously and produce a default AgentResponse.
      */
-    override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
+    open suspend fun processRequest(request: AiRequest, context: String, agentType: AgentType): AgentResponse {
         Timber.d("%s processing request: %s (context=%s)", agentName, request.query, context)
         return AgentResponse.success(
             content = "BaseAgent response to '${request.query}' for agent $agentName with context '$context'",
@@ -76,7 +76,7 @@ abstract class BaseAgent(
      * Subclasses may override to provide incremental/streaming results.
      */
     override fun processRequestFlow(request: AiRequest): Flow<AgentResponse> = flow {
-        emit(processRequest(request, "DefaultContext_BaseAgentFlow"))
+        emit(processRequest(request, "DefaultContext_BaseAgentFlow",))
     }
 
     /**

@@ -384,7 +384,7 @@ class TaskExecutionManager @Inject constructor(
             type = execution.type,
             context = execution.data
         )
-        return auraAgent.processRequest(request)
+        return auraAgent.processRequest(request,)
     }
 
     /**

@@ -8,6 +8,7 @@ import dev.aurakai.auraframefx.core.OrchestratableAgent
 import dev.aurakai.auraframefx.kai.KaiAgent
 import dev.aurakai.auraframefx.models.AgentRequest
 import dev.aurakai.auraframefx.models.AgentResponse
+import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
 import dev.aurakai.auraframefx.models.agent_states.ActiveThreat
 import dev.aurakai.auraframefx.models.agent_states.ProcessingState
@@ -92,7 +93,7 @@ open class CascadeAgent @Inject constructor(
     override fun iRequest(query: String, type: String, context: Map<String, String>) {
         // Delegate to processRequest via coroutine
         internalScope.launch {
-            processRequest(AiRequest(query = query, type = type), context.toString())
+            processRequest(AiRequest(query = query, type = type), context.toString(),)
         }
     }
 
@@ -229,7 +230,7 @@ open class CascadeAgent @Inject constructor(
     /**
      * Public request entrypoint (suspend) - returns an AgentResponse.
      */
-    override suspend fun processRequest(request: AiRequest, context: String): AgentResponse {
+    override suspend fun processRequest(request: AiRequest, context: String, agentType: AgentType): AgentResponse {
         return try {
             val prompt = request.prompt
             val requestId = generateRequestId()
@@ -284,7 +285,7 @@ open class CascadeAgent @Inject constructor(
             val agentReq = AgentRequest(type = "general", query = prompt)
 
             val auraResp: AgentResponse = try {
-                auraAgent.processRequest(aiReq)
+                auraAgent.processRequest(aiReq,)
             } catch (e: Exception) {
                 Timber.w(e, "aura failed"); AgentResponse(content = "", confidence = 0.0f,)
             }
@@ -327,7 +328,7 @@ open class CascadeAgent @Inject constructor(
         updateProcessingState(ProcessingState(currentTask = "aura"))
         val aiReq = AiRequest(prompt = prompt)
         val resp = try {
-            auraAgent.processRequest(aiReq)
+            auraAgent.processRequest(aiReq,)
         } catch (e: Exception) {
             Timber.e(e, "aura route failed"); AgentResponse(content = "", confidence = 0.0f,)
         }

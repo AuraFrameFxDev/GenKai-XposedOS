@@ -44,7 +44,7 @@ object AgentModule {
             vertexAIClient = vertexAIClient,
             auraAIService = auraAIService,
             securityContext = securityContext,
-            contextManager = contextManager
+            contextManager = contextManager,
         )
     }
 
