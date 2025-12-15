@@ -230,7 +230,7 @@ class SecurityContext @Inject constructor(
 
         return SharedSecureContext(
             id = secureId,
-            originatingAgent = AgentType.Kaiagent,
+            originatingAgent = AgentType.KAI,
             targetAgent = agentType,
             encryptedContent = context.toByteArray(),
             timestamp = timestamp,
