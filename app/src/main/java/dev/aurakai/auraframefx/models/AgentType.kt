@@ -6,5 +6,6 @@ enum class AgentType {
     KAI,
     GENESIS,
     CASCADE,
-    SYSTEM
+    SYSTEM,
+    Kaiagent
 }

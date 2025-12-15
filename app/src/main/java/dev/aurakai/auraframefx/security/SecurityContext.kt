@@ -3,7 +3,6 @@ package dev.aurakai.auraframefx.security
 import android.content.Context
 import android.content.pm.PackageManager
 import android.content.pm.PackageManager.GET_SIGNATURES
-import android.util.Log
 import androidx.core.content.ContextCompat
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dev.aurakai.auraframefx.core.initialization.TimberInitializer
@@ -55,20 +54,6 @@ class SecurityContext @Inject constructor(
     init {
         Timber.tag(TAG).d("Security context initialized by KAI")
         updatePermissionsState()
-    }
-
-    /**
-     * Placeholder for content validation logic.
-     */
-    fun validateContent(content: String) {
-        // TODO: Implement real validation logic
-    }
-
-    /**
-     * Validates image data for security compliance.
-     */
-    fun validateImageData(imageData: ByteArray) {
-        Timber.tag(TAG).d("Validating image data of size: ${imageData.size} bytes")
     }
 
     /**
@@ -528,10 +513,4 @@ data class SharedSecureContext(
         result = 31 * result + expiresAt.hashCode()
         return result
     }
-}
-
-// Placeholder for KeystoreManager - this should be implemented separately
-interface KeystoreManager {
-    fun getOrCreateSecretKey(): javax.crypto.SecretKey?
-    fun getDecryptionCipher(iv: ByteArray): Cipher?
 }
