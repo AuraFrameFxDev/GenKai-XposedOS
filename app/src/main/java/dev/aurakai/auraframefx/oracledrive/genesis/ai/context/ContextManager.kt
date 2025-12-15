@@ -5,10 +5,6 @@ package dev.aurakai.auraframefx.oracledrive.genesis.ai.context
  * Manages AI context awareness and memory integration
  */
 interface ContextManager {
-    val enableSecurityContext: Any
-
-    annotation class EnableSecurityContext
-
     fun getCurrentContext(): String
     suspend fun enhanceContext(context: String): String
     suspend fun enableCreativeMode()

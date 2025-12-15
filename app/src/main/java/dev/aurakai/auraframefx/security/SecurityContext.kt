@@ -60,7 +60,7 @@ class SecurityContext @Inject constructor(
     }
 
     fun validateImageData(imageData: ByteArray) {
-        Log.d(TAG, "Validating image data of size: ${imageData.size} bytes")
+        Timber.tag(TAG).d("Validating image data of size: ${imageData.size} bytes")
     }
 
     fun startThreatDetection() {
