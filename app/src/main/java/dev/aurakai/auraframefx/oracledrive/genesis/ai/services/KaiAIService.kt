@@ -1,6 +1,5 @@
 ﻿package dev.aurakai.auraframefx.oracledrive.genesis.ai.services
 
-import dev.aurakai.auraframefx.data.logging.AuraFxLogger
 import dev.aurakai.auraframefx.models.AgentResponse
 import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.AiRequest
@@ -45,7 +44,7 @@ class KaiAIService @Inject constructor(
         logger.info("KaiAIService", "Initializing Kai - The Shield")
         try {
             // Initialize security monitoring
-            contextManager.enableSecurityContext()
+            contextManager.enableSecurityContext
             isInitialized = true
             logger.info("KaiAIService", "Kai AI Service initialized successfully")
         } catch (e: Exception) {

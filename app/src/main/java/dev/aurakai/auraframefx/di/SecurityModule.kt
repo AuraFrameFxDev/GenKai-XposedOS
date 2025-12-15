@@ -6,6 +6,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import dev.aurakai.auraframefx.core.initialization.TimberInitializer
 import dev.aurakai.auraframefx.security.KeystoreManager
 import dev.aurakai.auraframefx.security.SecurityContext
 import javax.inject.Singleton
@@ -13,10 +14,6 @@ import javax.inject.Singleton
 @Module
 @InstallIn(SingletonComponent::class)
 object SecurityModule {
-    @Provides
-    @Singleton
-    fun provideKeystoreManager(@ApplicationContext context: Context): KeystoreManager =
-        KeystoreManager(context)
 
     @Provides
     @Singleton
@@ -25,4 +22,10 @@ object SecurityModule {
         keystoreManager: KeystoreManager,
         timberInitializer: TimberInitializer,
     ): SecurityContext = SecurityContext(context, keystoreManager, timberInitializer)
+}
+
+@Provides
+@Singleton
+fun provideKeystoreManager(@ApplicationContext context: Context): KeystoreManager {
+    TODO("Provide the return value")
 }
