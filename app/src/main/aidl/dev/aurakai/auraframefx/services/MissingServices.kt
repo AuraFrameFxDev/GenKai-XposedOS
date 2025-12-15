@@ -15,6 +15,7 @@ interface CascadeAIService {
 interface KaiAIService {
     suspend fun processRequest(request: AiRequest, context: String): AgentResponse
     suspend fun analyzeSecurityThreat(threat: String): Map<String, Any>
+    fun AgentResponse(content: String, confidence: Float, p2: Any): AgentResponse
 }
 
 /**
@@ -73,5 +74,13 @@ class DefaultKaiAIService @Inject constructor() : KaiAIService {
             "confidence" to 0.8,
             "recommendations" to listOf("Monitor closely", "Apply security patches")
         )
+    }
+
+    override fun AgentResponse(
+        content: String,
+        confidence: Float,
+        p2: Any
+    ): AgentResponse {
+        TODO("Not yet implemented")
     }
 }
