@@ -10,7 +10,7 @@ class AgentImpl : Agent {
     /**
      * Returns the name of the agent.
      */
-    override fun getName(): String? {
+    override fun getName(): String {
         TODO("Not yet implemented")
     }
 

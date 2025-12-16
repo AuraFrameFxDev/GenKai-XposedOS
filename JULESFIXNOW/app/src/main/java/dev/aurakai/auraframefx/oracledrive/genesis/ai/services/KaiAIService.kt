@@ -162,9 +162,11 @@ class KaiAIService @Inject constructor(
             val analysisResult = analyzeSecurityThreat(request.prompt)
 
             // Emit initial response
-            emit(AgentResponse(
-                "Kai analyzing security posture...", 0.5f, agent = kaiagent
-            ))
+            emit(
+                AgentResponse(
+                    "Kai analyzing security posture...", 0.5f, agent = kaiagent
+                )
+            )
 
             // Emit detailed analysis
             val detailedResponse = buildString {
@@ -177,21 +179,25 @@ class KaiAIService @Inject constructor(
                 }
             }
 
-            emit(AgentResponse(
-                content = detailedResponse,
-                confidence = analysisResult["confidence"] as? Float ?: 0.9f,
-                agent = kaiagent
-            ))
+            emit(
+                AgentResponse(
+                    content = detailedResponse,
+                    confidence = analysisResult["confidence"] as? Float ?: 0.9f,
+                    agent = kaiagent
+                )
+            )
         } catch (e: Exception) {
             logger.error("KaiAIService", "Error in processRequestFlow", e)
             errorHandler.handleError(e, kaiagent as AgentType, "processRequestFlow")
 
-            emit(AgentResponse(
-                content = "Security analysis error: ${e.message}",
-                confidence = 0.0f,
-                error = e.message,
-                agent = AgentType.Kaiagent
-            ))
+            emit(
+                AgentResponse(
+                    content = "Security analysis error: ${e.message}",
+                    confidence = 0.0f,
+                    error = e.message,
+                    agent = AgentType.Kaiagent
+                )
+            )
         }
     }
 

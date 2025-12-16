@@ -72,7 +72,7 @@ abstract class BaseAgent(
         timestamp: Long,
         metadata: Map<String, Any>
     ): InteractionResponse {
-         return InteractionResponse(
+        return InteractionResponse(
             content = content,
             metadata = metadata.toKotlinJsonObject(),
             timestamp = timestamp
@@ -102,10 +102,10 @@ abstract class BaseAgent(
     )
 
     /**
- * Provides the agent's continuous memory storage; override to return a concrete memory object.
- *
- * @return The continuous memory object used by the agent, or `null` if the agent has no continuous memory.
- */
+     * Provides the agent's continuous memory storage; override to return a concrete memory object.
+     *
+     * @return The continuous memory object used by the agent, or `null` if the agent has no continuous memory.
+     */
     fun getContinuousMemory(): Any? = null
 
     /**
@@ -120,10 +120,10 @@ abstract class BaseAgent(
     )
 
     /**
- * Provides the agent's recorded learning history.
- *
- * @return A list of learning-history entries; empty by default. Override to supply real history.
- */
+     * Provides the agent's recorded learning history.
+     *
+     * @return A list of learning-history entries; empty by default. Override to supply real history.
+     */
     open fun getLearningHistory(): List<String> = emptyList()
 
     /**
