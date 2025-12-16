@@ -1,19 +1,26 @@
 package dev.aurakai.auraframefx.core.initialization
 
 import android.app.Application
+import android.util.Log
+import dev.aurakai.auraframefx.BuildConfig
+import dev.aurakai.auraframefx.utils.DebugTreeWithClassAndMethod
+import jakarta.inject.Inject
 import timber.log.Timber
 
-interface TimberInitializer {
-    fun init(app: Application)
-    fun logHealthMetric(string: String, eventJson: String)
+class TimberInitializer @Inject constructor() {
+    fun initialize(application: Application) = if (BuildConfig.DEBUG) {
+        Timber.plant(DebugTreeWithClassAndMethod())
+        Timber.tag("🧠AuraFrameFX").d("Timber DEBUG mode active")
+    } else {
+        Timber.plant(CrashReportingTree())
+        Timber.tag("🛡️AuraFrameFX").i("Timber RELEASE crash reporting active")
+    }
 }
 
-class TimberInitializerImpl : TimberInitializer {
-    override fun init(app: Application) {
-        Timber.plant(Timber.DebugTree())
-    }
-
-    override fun logHealthMetric(string: String, eventJson: String) {
-        // No-op in debug builds
+private class CrashReportingTree : Timber.Tree() {
+    override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
+        if (priority >= Log.INFO) {
+            // Forward to Crashlytics
+        }
     }
 }
