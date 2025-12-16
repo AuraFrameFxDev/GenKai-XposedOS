@@ -4,7 +4,7 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
-import dev.aurakai.auraframefx.ai.context.ContextManager
+import dev.aurakai.auraframefx.context.ContextManager
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import javax.inject.Singleton
 

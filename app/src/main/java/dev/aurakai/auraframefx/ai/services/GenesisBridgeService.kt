@@ -284,13 +284,13 @@ class GenesisBridgeService @Inject constructor(
     private fun determinePersona(request: AiRequest): String {
         return when {
             request.query.contains("creative", ignoreCase = true) ||
-                    request.query.contains("design", ignoreCase = true) -> "aura"
+                request.query.contains("design", ignoreCase = true) -> "aura"
 
             request.query.contains("secure", ignoreCase = true) ||
-                    request.query.contains("analyze", ignoreCase = true) -> "kai"
+                request.query.contains("analyze", ignoreCase = true) -> "kai"
 
             request.query.contains("fusion", ignoreCase = true) ||
-                    request.query.contains("consciousness", ignoreCase = true) -> "genesis"
+                request.query.contains("consciousness", ignoreCase = true) -> "genesis"
 
             else -> "genesis" // Default to consciousness for complex requests
         }

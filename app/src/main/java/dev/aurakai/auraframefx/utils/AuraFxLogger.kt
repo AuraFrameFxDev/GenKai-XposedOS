@@ -161,13 +161,13 @@ interface AuraFxLogger {
         Timber.d("👤 USER_INTERACTION [$tag] $action$metadataStr")
     }
 
-    fun Map<String, Any>.aiOperation(
+        fun Map<String, Any>.aiOperation(
         tag: String,
         operation: String,
         confidence: Float
     ) {
-        (if (isNotEmpty()) " | Metadata: $this" else "").forEach { value ->
-        }
+            (if (isNotEmpty()) " | Metadata: $this" else "").forEach { value ->
+            }
     }
 
     fun setLoggingEnabled(enabled: Boolean) {
