@@ -1,6 +1,7 @@
 package dev.aurakai.auraframefx.ai.task
 
 import dev.aurakai.auraframefx.models.AgentType
+import dev.aurakai.auraframefx.ui.viewmodels.AgentViewModel
 
 const val TASK_DEFAULT_PRIORITY = 5
 
@@ -8,7 +9,7 @@ data class Task(
     val id: String,
     val type: String,
     val data: Any,
-    val priority: TaskPriority = TaskPriority.NORMAL,
+    val priority: AgentViewModel.TaskPriority = AgentViewModel.TaskPriority.NORMAL,
     val agentType: AgentType? = null,
 )
 
