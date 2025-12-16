@@ -19,9 +19,10 @@ import kotlin.time.Instant
 class ContextManager @Inject constructor(
     private val memoryManager: MemoryManager,
     private val config: AIPipelineConfig,
-    val activeContexts: StateFlow<Map<String, ContextChain>>,
 ) {
-    annotation class EnableCreativeMode
+    annotation class enableCreativeMode
+
+    val activeContexts: StateFlow<Map<String, ContextChain>> = _activeContexts
 
     private val _contextStats = MutableStateFlow(ContextStats())
     fun getContextStats() = _contextStats
