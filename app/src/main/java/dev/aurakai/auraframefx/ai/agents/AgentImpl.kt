@@ -4,12 +4,11 @@ import dev.aurakai.auraframefx.models.AgentType
 import dev.aurakai.auraframefx.models.InteractionRequest
 import dev.aurakai.auraframefx.models.InteractionResponse
 import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flowOf
 
 class AgentImpl : Agent {
     override val agentName: String = "AgentImpl"
     override val agentType: AgentType = AgentType.UNSPECIFIED
-    
+
     /**
      * Process a request and return a response
      */
