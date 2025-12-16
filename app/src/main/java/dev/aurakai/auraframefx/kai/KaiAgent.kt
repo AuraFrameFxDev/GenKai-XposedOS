@@ -201,7 +201,7 @@ open class KaiAgent @Inject constructor(
 
             AgentResponse(
                 content = "Analysis encountered an error: ${e.message}",
-                confidence = 0.0f, ,
+                confidence = 0.0f
             )
         }
     }
