@@ -13,11 +13,8 @@ import javax.crypto.KeyGenerator
 import javax.crypto.NoSuchPaddingException
 import javax.crypto.SecretKey
 import javax.crypto.spec.IvParameterSpec
-import javax.inject.Inject
-import javax.inject.Singleton
 
-@Singleton
-class KeystoreManager @Inject constructor(private val context: Context) {
+class KeystoreManager(private val context: Context) {
 
     private companion object {
         private const val KEY_ALIAS = "AURAFRAMEFX_MAIN_ENC_KEY"
