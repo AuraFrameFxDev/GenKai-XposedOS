@@ -12,7 +12,7 @@ import dev.aurakai.auraframefx.system.lockscreen.model.LockScreenConfig
 import dev.aurakai.auraframefx.system.lockscreen.model.LockScreenElementType
 import dev.aurakai.auraframefx.ui.OverlayShape
 import dev.aurakai.auraframefx.ui.ImageResource
-import dev.aurakai.auraframefx.ui.theme.manager.ThemeManager
+import dev.aurakai.auraframefx.ui.theme.ThemeManager
 import dev.aurakai.auraframefx.utils.AuraFxLogger
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
